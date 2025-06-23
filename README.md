@@ -22,4 +22,4 @@ Composerをオートロードしてシーダーを認識させる
 - composer dump-autoload
 
 シーダーの実行
-- php artisan db:seed --class=FoldersTableSeeder
+- php artisan db:seed
