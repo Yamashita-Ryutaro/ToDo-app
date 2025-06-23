@@ -14,7 +14,9 @@
 
 コンテナ内ででdbにアクセスするコマンド
 - mysql -h db -P 3306 -u admin -p
+
 マイグレーションファイルの実行
 - php artisan migrate
+
 シーダーの実行
 - php artisan make:seeder FoldersTableSeeder
