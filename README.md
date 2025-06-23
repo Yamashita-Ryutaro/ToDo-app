@@ -23,3 +23,6 @@ Composerをオートロードしてシーダーを認識させる
 
 シーダーの実行
 - php artisan db:seed
+
+テーブルをリセットしてシーダーの実行
+- php artisan migrate:fresh --seed
