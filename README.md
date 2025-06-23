@@ -18,5 +18,8 @@
 マイグレーションファイルの実行
 - php artisan migrate
 
+Composerをオートロードしてシーダーを認識させる
+- composer dump-autoload
+
 シーダーの実行
-- php artisan make:seeder FoldersTableSeeder
+- php artisan db:seed --class=FoldersTableSeeder
