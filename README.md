@@ -1,6 +1,8 @@
 # ToDoアプリケーション
 
 - ララベルの練習で作成
+- この[サイト](https://zenn.dev/eguchi244_dev/books/laravel-tutorial-books)を参考にした。
+- コーディング規約は理系ナビもものを遵守するように変更。
 
 # メモ
 ドッカーのコンテナ内でこれを実行しないと、localhostがうまく開けなかった。
