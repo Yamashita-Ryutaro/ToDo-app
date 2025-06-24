@@ -18,6 +18,9 @@
 マイグレーションファイルの実行
 - php artisan migrate
 
+マイグレーションをリセットして再実行
+- php artisan migrate:fresh
+
 Composerをオートロードしてシーダーを認識させる
 - composer dump-autoload
 
