@@ -14,4 +14,4 @@ use App\Http\Controllers\Task\TaskController;
 |
 */
 
-Route::get("/folders/{id}/tasks", [TaskController::class,"index"])->name("tasks.index");
+Route::get("/folders/{id}/tasks", [TaskController::class,"showTaskTop"])->name("tasks.index");

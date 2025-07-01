@@ -3,30 +3,26 @@
 namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\Folder;
-use App\Models\Task\Task;
+use App\Services\Task\TaskService;
 
 class TaskController extends Controller
 {
+    protected $taskService;
+
+    public function __construct(TaskService $taskService)
+    {
+        $this->taskService = $taskService;
+    }
     /**
      * タスク一覧機能の表示
      * 
      * @param int $id
      * @return \Illuminate\View\View
      */
-    public function index(int $id)
+    public function showTaskTop(int $id)
     {
-        $folders = Folder::all();
+        $result = $this->taskService->showTaskTopPageData($id);
 
-        $folder = Folder::find($id);
-
-        $tasks = $tasks = $folder->tasks()->get();
-
-        return view('tasks/index', [
-            'folders' => $folders,
-            "folder_id" => $id,
-            'tasks' => $tasks,
-        ]);
+        return view('tasks/index', $result);
     }
 }
