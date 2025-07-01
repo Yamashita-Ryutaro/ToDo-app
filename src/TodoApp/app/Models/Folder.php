@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Task\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,4 +28,15 @@ class Folder extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    /*
+    * フォルダクラスとタスククラスを関連付けするメソッド
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class, 'id', 'folder_id');
+    }
+
 }
