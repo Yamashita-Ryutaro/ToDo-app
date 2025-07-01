@@ -2,9 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 /* TaskControllerクラスを名前空間でインポートする */
+use App\Http\Controllers\Task\TaskController;
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| task Routes
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -13,6 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get("/folders/{id}/tasks", [TaskController::class,"index"])->name("tasks.index");

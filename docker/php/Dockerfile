@@ -22,10 +22,3 @@ WORKDIR /var/www
 
 # Laravel Package install
 RUN composer global require "laravel/installer"
-
-
-# add authority
-RUN chown -R www-data:www-data /var/www/TodoApp/storage
-RUN chown -R www-data:www-data /var/www/TodoApp/bootstrap/cache
-RUN chmod -R 775 /var/www/TodoApp/storage
-RUN chmod -R 775 /var/www/TodoApp/bootstrap/cache

@@ -32,7 +32,7 @@ services:
     container_name: "nginx_test"
     # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
     ports:
-      - 80:80
+      - 3000:80
     # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
     volumes:
       - ./src:/var/www
@@ -56,8 +56,8 @@ services:
     ports:
       - 8080:80
     # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
-    volumes:
-      - ./phpmyadmin/sessions:/sessions
+    #volumes:
+    #  - ./phpmyadmin/sessions:/sessions
 
   node:
     image: node:14.18-alpine
