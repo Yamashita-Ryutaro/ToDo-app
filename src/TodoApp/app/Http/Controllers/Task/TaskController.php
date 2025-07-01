@@ -25,7 +25,7 @@ class TaskController extends Controller
 
         return view('tasks/index', [
             'folders' => $folders,
-            "folder_id" => $folder->$id,
+            "folder_id" => $id,
             'tasks' => $tasks,
         ]);
     }

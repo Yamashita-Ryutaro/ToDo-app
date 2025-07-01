@@ -18,9 +18,10 @@ return new class extends Migration
             $table->integer('folder_id')->unsigned();
             $table->string('title', 100);
             $table->date('due_date');
-            $table->integer('status')->default(1);
+            $table->unsignedInteger('status_id')->default(1);
             $table->timestamps();
             $table->foreign('folder_id')->references('id')->on('folders');
+            $table->foreign('status_id')->references('id')->on('task_statuses');
         });
     }
 

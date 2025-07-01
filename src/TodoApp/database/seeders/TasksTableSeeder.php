@@ -19,7 +19,7 @@ class TasksTableSeeder extends Seeder
             Task::create([
                 'folder_id' => 1,
                 'title' => "サンプルタスク {$num}",
-                'status' => $num,
+                'status_id' => $num,
                 'due_date' => Carbon::now()->addDay($num),
                 // created_at/updated_at はEloquentが自動でセット
             ]);

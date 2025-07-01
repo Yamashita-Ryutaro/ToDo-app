@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             FoldersTableSeeder::class,
+            TaskStatusesTableSeeder::class,
             TasksTableSeeder::class,
         ]);
     }
