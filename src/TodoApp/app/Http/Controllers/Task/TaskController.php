@@ -26,4 +26,16 @@ class TaskController extends Controller
 
         return view('tasks/index', $result);
     }
+
+    /**
+     *  【タスク作成ページの表示機能】
+     *  
+     *  GET /folders/{id}/tasks/create
+     *  @param int $id
+     *  @return \Illuminate\View\View
+     */
+    public function showCreateTaskForm(int $id)
+    {
+        return view('tasks/create', ['folder_id' => $id]);
+    }
 }
