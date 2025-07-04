@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Folder;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Folder\CreateFolder;
+use App\Http\Requests\Folder\EditFolder;
 use App\Services\Folder\FolderService;
 
 class FolderController extends Controller
@@ -56,6 +57,25 @@ class FolderController extends Controller
             return redirect()->route('tasks.index', [
                 'id' => $result,
             ]);
+        }
+    }
+
+    /**
+     *  【フォルダの編集機能】
+     *
+     *  POST /folders/{id}/edit
+     *  @param int $id
+     *  @param EditTask $request
+     *  @return \Illuminate\Http\RedirectResponse
+     */
+    public function editFolder(int $id, EditFolder $request)
+    {
+        $validated_data = $request->validated();
+        $result = $this->folderService->editFolder($id, $validated_data);
+        if ($result) {
+            return redirect()->route('tasks.index', ['id' => $id]);
+        } else {
+            return redirect()->back();
         }
     }
 }

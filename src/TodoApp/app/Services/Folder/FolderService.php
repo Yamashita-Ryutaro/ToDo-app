@@ -43,4 +43,29 @@ class FolderService
         }
         return $result;
     }
+
+    /**
+     * フォルダの編集
+     * 
+     * @param int $id
+     * @param array $validated_data
+     * @return bool $result
+     */
+    public function editFolder($id, $validated_data)
+    {
+        $result = false;
+        DB::beginTransaction();
+        try {
+            $folder = Folder::find($id);
+            $folder->update([
+                'title' => $validated_data['title']
+            ]);
+            DB::commit();
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('フォルダ編集: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return $result;
+    }
 }
