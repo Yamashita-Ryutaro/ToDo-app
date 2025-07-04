@@ -27,4 +27,15 @@ class TaskService
             'tasks' => $tasks,
         ];
     }
+
+    public function createTask($id, $validated_data)
+    {
+        $folder = Folder::find($id);
+        $folder->tasks()->create([
+            'title' => $validated_data['title'],
+            'due_date' => $validated_data['due_date'],
+        ]);
+
+        return true;
+    }
 }

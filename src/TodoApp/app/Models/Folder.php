@@ -36,7 +36,7 @@ class Folder extends Model
     */
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'id', 'folder_id');
+        return $this->hasMany(Task::class, 'folder_id', 'id');
     }
 
 }

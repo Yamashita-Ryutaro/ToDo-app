@@ -74,9 +74,9 @@
                             <tr>
                                 <td>{{ $task->title }}</td>
                                 <td>
-                                    <span class="label {{ $task->status_class }}">{{ $task->status_label }}</span>
+                                    <span class="label {{ $task->status_color_class }}">{{ $task->status }}</span>
                                 </td>
-                                <td>{{ $task->formatted_due_date }}</td>
+                                <td>{{ $task->due_date }}</td>
                                 <td><a href="#">編集</a></td>
                                 <td><a href="#">削除</a></td>
                             </tr>

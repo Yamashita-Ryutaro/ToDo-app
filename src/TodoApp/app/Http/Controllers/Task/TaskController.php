@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Task;
 
 use App\Http\Controllers\Controller;
 use App\Services\Task\TaskService;
+use App\Http\Requests\Task\CreateTask;
 
 class TaskController extends Controller
 {
@@ -23,7 +24,6 @@ class TaskController extends Controller
     public function showTaskTop(int $id)
     {
         $result = $this->taskService->showTaskTopPageData($id);
-
         return view('tasks/index', $result);
     }
 
@@ -37,5 +37,24 @@ class TaskController extends Controller
     public function showCreateTaskForm(int $id)
     {
         return view('tasks/create', ['folder_id' => $id]);
+    }
+
+    /**
+     *  【タスクの作成機能】
+     *
+     *  POST /folders/{id}/tasks/create
+     *  @param int $id
+     *  @param CreateTask $request
+     *  @return \Illuminate\Http\RedirectResponse
+     */
+    public function createTask(int $id, CreateTask $request)
+    {
+        $validated_data = $request->validated();
+
+        $result = $this->taskService->createTask($id, $validated_data);
+
+        return redirect()->route('tasks.index', [
+            'id' => $id
+        ]);
     }
 }
