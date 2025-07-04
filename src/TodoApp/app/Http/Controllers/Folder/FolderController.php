@@ -26,6 +26,20 @@ class FolderController extends Controller
     }
 
     /**
+     *  【フォルダ編集ページの表示機能】
+     *
+     *  GET /folders/{id}/edit
+     *  @param int $id
+     *  @return \Illuminate\View\View
+     */
+    public function showEditFolderForm(int $id)
+    {
+        $folder = $this->folderService->showEditFolderForm($id);
+
+        return view('folders/edit', $folder);
+    }
+
+    /**
      * 
      * @param CreateFolder $request
      * @return \Illuminate\Http\RedirectResponse

@@ -16,3 +16,5 @@ use App\Http\Controllers\Folder\FolderController;
 
 Route::get('/folders/create', [FolderController::class, "showCreateForm"])->name('folders.create');
 Route::post('/folders/create', [FolderController::class, "createNewFolder"]);
+Route::get('/folders/{id}/edit', [FolderController::class,"showEditFolderForm"])->name('folders.edit');
+Route::post('/folders/{id}/edit', [FolderController::class,"editFolder"]);
