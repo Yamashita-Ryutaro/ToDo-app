@@ -40,6 +40,7 @@ class FolderController extends Controller
     }
 
     /**
+     * フォルダの新規作成
      * 
      * @param CreateFolder $request
      * @return \Illuminate\Http\RedirectResponse

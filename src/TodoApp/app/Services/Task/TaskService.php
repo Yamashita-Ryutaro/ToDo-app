@@ -4,6 +4,8 @@ namespace App\Services\Task;
 
 use App\Models\Folder;
 use App\Models\Task\Task;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TaskService
 {
@@ -28,14 +30,29 @@ class TaskService
         ];
     }
 
+    /**
+     * 新規タスクの作成
+     * 
+     * @param int $id
+     * @param array $validated_data
+     * @return bool
+     */
     public function createTask($id, $validated_data)
     {
-        $folder = Folder::find($id);
-        $folder->tasks()->create([
-            'title' => $validated_data['title'],
-            'due_date' => $validated_data['due_date'],
-        ]);
-
-        return true;
+        $result = false;
+        DB::beginTransaction();
+        try {
+            $folder = Folder::find($id);
+            $folder->tasks()->create([
+                'title' => $validated_data['title'],
+                'due_date' => $validated_data['due_date'],
+            ]);
+            DB::commit();
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('新規タスク作成: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return $result;
     }
 }

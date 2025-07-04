@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Log;
 
 class FolderService
 {
+    /**
+     * フォルダ編集ページの表示
+     * 
+     * @param int $id
+     * @return array $folder
+     */
     public function showEditFolderForm($id)
     {
         $folder = Folder::find($id);

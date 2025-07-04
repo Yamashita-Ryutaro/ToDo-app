@@ -53,8 +53,10 @@ class TaskController extends Controller
 
         $result = $this->taskService->createTask($id, $validated_data);
 
-        return redirect()->route('tasks.index', [
-            'id' => $id
-        ]);
+        if ($result) {
+            return redirect()->route('tasks.index', ['id' => $id]);
+        } else {
+            return redirect()->back();
+        }
     }
 }
