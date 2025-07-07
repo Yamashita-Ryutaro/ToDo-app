@@ -88,7 +88,11 @@
                                         編集
                                     </a>
                                 </td>
-                                <td><a href="#">削除</a></td>
+                                <td>
+                                    <a href="{{ route('tasks.delete', ['id' => $task->folder_id, 'task_id' => $task->id]) }}">
+                                        削除
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

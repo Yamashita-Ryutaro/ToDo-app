@@ -48,6 +48,22 @@ class TaskService
     }
 
     /**
+     * タスク削除ページ表示
+     * 
+     * @param int $task_id
+     * @return array
+     */
+    public function showDeleteTaskFormDataById($task_id)
+    {
+        $task = Task::find($task_id);
+        $task_status = TaskStatus::all();
+        return [
+            'task' => $task,
+            'task_status' => $task_status,
+        ];
+    }
+
+    /**
      * 新規タスクの作成
      * 
      * @param int $id
@@ -95,6 +111,28 @@ class TaskService
             $result = true;
         } catch (\Exception $e) {
             Log::error('タスク編集: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return $result;
+    }
+
+    /**
+     * タスク削除機能
+     * 
+     * @param int $task_id
+     * @return bool
+     */
+    public function deleteTask($task_id)
+    {
+        $result = false;
+        DB::beginTransaction();
+        try {
+            $task = Task::find($task_id);
+            $task->delete();
+            DB::commit();
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('タスク削除: ' . $e->getMessage());
             DB::rollBack();
         }
         return $result;

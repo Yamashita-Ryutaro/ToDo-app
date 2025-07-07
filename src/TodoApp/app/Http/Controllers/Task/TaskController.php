@@ -56,6 +56,20 @@ class TaskController extends Controller
     }
 
     /**
+     *  【タスク削除ページの表示機能】
+     *
+     *  GET /folders/{id}/tasks/{task_id}/delete
+     *  @param int $id
+     *  @param int $task_id
+     *  @return \Illuminate\View\View
+     */
+    public function showDeleteTaskForm(int $id, int $task_id)
+    {
+        $task = $this->taskService->showDeleteTaskFormDataById($task_id);
+        return view('tasks/delete', $task);
+    }
+
+    /**
      *  【タスクの作成機能】
      *
      *  POST /folders/{id}/tasks/create
@@ -91,6 +105,25 @@ class TaskController extends Controller
         $validated_data = $request->validated();
 
         $result = $this->taskService->editTask($task_id, $validated_data);
+
+        if ($result) {
+            return redirect()->route('tasks.index', ['id' => $id,]);
+        } else {
+            return redirect()->back();
+        }
+    }
+
+    /**
+     *  【タスクの削除機能】
+     *
+     *  POST /folders/{id}/tasks/{task_id}/delete
+     *  @param int $id
+     *  @param int $task_id
+     *  @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteTask(int $id, int $task_id)
+    {
+        $result = $this->taskService->deleteTask($task_id);
 
         if ($result) {
             return redirect()->route('tasks.index', ['id' => $id,]);
