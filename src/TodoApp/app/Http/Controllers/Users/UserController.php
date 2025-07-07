@@ -10,11 +10,11 @@ class UserController extends Controller
     //
     public function showLoginPage()
     {
-
+        return view('user.login');
     }
 
     public function showRegisterPage()
     {
-        
+        return view('user.register');
     }
 }
