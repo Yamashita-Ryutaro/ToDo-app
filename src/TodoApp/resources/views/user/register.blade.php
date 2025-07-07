@@ -49,6 +49,9 @@
                     </form>
                 </div>
             </nav>
+            <div class="text-center">
+                <a href="{{  route('user.login') }}">ログインはこちらから</a>
+            </div>
         </div>
     </div>
 </div>

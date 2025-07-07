@@ -43,6 +43,7 @@
             </nav>
             <div class="text-center">
                 <a href="#">パスワードの変更はこちらから</a>
+                <a href="{{  route('user.register') }}">新規登録はこちらから</a>
             </div>
         </div>
     </div>
