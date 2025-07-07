@@ -5,6 +5,7 @@ namespace App\Services\Task;
 use App\Models\Folder;
 use App\Models\Task\Task;
 use App\Models\Task\TaskStatus;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -18,9 +19,15 @@ class TaskService
      */
     public function showTaskTopPageData(int $id)
     {
-        $folders = Folder::all();
+        $userId = Auth::id();
 
-        $folder = Folder::find($id);
+        // ログインユーザーのフォルダのみ取得
+        $folders = Folder::where('user_id', $userId)->get();
+
+        // 指定IDかつログインユーザーのフォルダのみ取得
+        $folder = Folder::where('id', $id)
+                        ->where('user_id', $userId)
+                        ->firstOrFail();
 
         $tasks = $folder->tasks()->get();
 
