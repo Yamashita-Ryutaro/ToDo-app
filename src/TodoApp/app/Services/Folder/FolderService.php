@@ -5,6 +5,7 @@ namespace App\Services\Folder;
 use App\Models\Folder;
 use App\Models\Task\Task;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class FolderService
@@ -46,8 +47,12 @@ class FolderService
         $result = false;
         DB::beginTransaction();
         try {
+            $user_id = Auth::id();
             $title = $validated_data['title'];
-            $folder = Folder::create(['title' => $title]);
+            $folder = Folder::create([
+                'title' => $title,
+                'user_id' => $user_id,
+            ]);
             $result = $folder->id;
             DB::commit();
         } catch (\Exception $e) {
@@ -86,11 +91,11 @@ class FolderService
      * フォルダの削除処理
      * 
      * @param int $id
-     * @return Folder $folder
+     * @return bool $result
      */
     public function deleteFolder($id)
     {
-        $folder = Folder::first();
+        $result = false;
         DB::beginTransaction();
         try {
             $folder = Folder::find($id);
@@ -98,12 +103,11 @@ class FolderService
             $folder->tasks()->delete();
             $folder->delete();
             DB::commit();
-            $folder = Folder::first();
+            $result = true;
         } catch (\Exception $e) {
             Log::error('フォルダ削除: ' . $e->getMessage());
-            $folder = Folder::first();
             DB::rollBack();
         }
-        return $folder;
+        return $result;
     }
 }

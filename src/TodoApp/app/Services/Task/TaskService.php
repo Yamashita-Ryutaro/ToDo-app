@@ -19,14 +19,14 @@ class TaskService
      */
     public function showTaskTopPageData(int $id)
     {
-        $userId = Auth::id();
+        $user_id = Auth::id();
 
         // ログインユーザーのフォルダのみ取得
-        $folders = Folder::where('user_id', $userId)->get();
+        $folders = Folder::where('user_id', $user_id)->get();
 
         // 指定IDかつログインユーザーのフォルダのみ取得
         $folder = Folder::where('id', $id)
-                        ->where('user_id', $userId)
+                        ->where('user_id', $user_id)
                         ->firstOrFail();
 
         $tasks = $folder->tasks()->get();

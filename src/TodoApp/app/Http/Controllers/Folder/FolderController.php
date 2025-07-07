@@ -103,8 +103,12 @@ class FolderController extends Controller
      */
     public function deleteFolder(int $id)
     {
-        $folder = $this->folderService->deleteFolder($id);
+        $result = $this->folderService->deleteFolder($id);
 
-        return redirect()->route('tasks.index', ['id' => $folder->$id]);
+        if ($result) {
+            return redirect()->route('home');
+        } else {
+            return redirect()->back();
+        }
     }
 }
