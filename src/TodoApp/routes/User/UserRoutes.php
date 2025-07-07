@@ -15,3 +15,4 @@ use App\Http\Controllers\Users\UserController;
 */
 Route::get("/login", [UserController::class,"showLoginPage"])->name("user.login");
 Route::get("/register", [UserController::class,"showRegisterPage"])->name("user.register");
+Route::post("/register", [UserController::class,"registerNewUser"]);
