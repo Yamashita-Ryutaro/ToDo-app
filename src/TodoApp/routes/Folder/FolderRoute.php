@@ -18,3 +18,5 @@ Route::get('/folders/create', [FolderController::class, "showCreateFolderForm"])
 Route::post('/folders/create', [FolderController::class, "createNewFolder"]);
 Route::get('/folders/{id}/edit', [FolderController::class,"showEditFolderForm"])->name('folders.edit');
 Route::post('/folders/{id}/edit', [FolderController::class,"editFolder"]);
+Route::get('/folders/{id}/delete', [FolderController::class,"showDeleteFolderForm"])->name('folders.delete');
+Route::post('/folders/{id}/delete', [FolderController::class,"deleteFolder"]);

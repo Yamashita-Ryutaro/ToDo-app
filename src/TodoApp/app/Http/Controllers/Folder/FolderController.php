@@ -41,6 +41,20 @@ class FolderController extends Controller
     }
 
     /**
+     *  【フォルダ削除ページの表示機能】
+     *  機能：フォルダIDをフォルダ編集ページに渡して表示する
+     *
+     *  GET /folders/{id}/delete
+     *  @param int $id
+     *  @return \Illuminate\View\View
+     */
+    public function showDeleteFolderForm(int $id)
+    {
+        $folder = $this->folderService->showDeleteFolderFormDataById($id);
+        return view('folders/delete', $folder);
+    }
+
+    /**
      * フォルダの新規作成
      * 
      * @param CreateFolder $request
@@ -77,5 +91,20 @@ class FolderController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+    /**
+     *  【フォルダの削除機能】
+     *  機能：フォルダが削除されたらDBから削除し、フォルダ一覧にリダイレクトする
+     *
+     *  POST /folders/{id}/delete
+     *  @param int $id
+     *  @return RedirectResponse
+     */
+    public function deleteFolder(int $id)
+    {
+        $folder = $this->folderService->deleteFolder($id);
+
+        return redirect()->route('tasks.index', ['id' => $folder->$id]);
     }
 }

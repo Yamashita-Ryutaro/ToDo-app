@@ -23,6 +23,19 @@ class FolderService
     }
 
     /**
+     * フォルダ削除ページの表示
+     * 
+     * @param int $id
+     * @return array $folder
+     */
+    public function showDeleteFolderFormDataById(int $id)
+    {
+        $folder = Folder::find($id);
+
+        return [ 'folder' => $folder ];
+    }
+
+    /**
      * 新規フォルダ作成処理
      * 
      * @param array $validated_data
@@ -67,5 +80,30 @@ class FolderService
             DB::rollBack();
         }
         return $result;
+    }
+
+    /**
+     * フォルダの削除処理
+     * 
+     * @param int $id
+     * @return Folder $folder
+     */
+    public function deleteFolder($id)
+    {
+        $folder = Folder::first();
+        DB::beginTransaction();
+        try {
+            $folder = Folder::find($id);
+
+            $folder->tasks()->delete();
+            $folder->delete();
+            DB::commit();
+            $folder = Folder::first();
+        } catch (\Exception $e) {
+            Log::error('フォルダ削除: ' . $e->getMessage());
+            $folder = Folder::first();
+            DB::rollBack();
+        }
+        return $folder;
     }
 }
