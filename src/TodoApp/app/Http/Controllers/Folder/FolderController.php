@@ -21,7 +21,7 @@ class FolderController extends Controller
      * 
      * @return \Illuminate\View\View
      */
-    public function showCreateForm()
+    public function showCreateFolderForm()
     {
         return view('folders/create');
     }
@@ -35,7 +35,7 @@ class FolderController extends Controller
      */
     public function showEditFolderForm(int $id)
     {
-        $folder = $this->folderService->showEditFolderForm($id);
+        $folder = $this->folderService->showEditFolderFormDataById($id);
 
         return view('folders/edit', $folder);
     }

@@ -40,6 +40,21 @@ class TaskController extends Controller
     }
 
     /**
+     *  【タスク編集ページの表示機能】
+     *  機能：タスクIDをフォルダ編集ページに渡して表示する
+     *  
+     *  GET /folders/{id}/tasks/{task_id}/edit
+     *  @param int $id
+     *  @param int $task_id
+     *  @return \Illuminate\View\View
+     */
+    public function showEditTaskForm(int $id, int $task_id)
+    {
+        $task = $this->taskService->showEditTaskFormDataById($task_id);
+        return view('tasks/edit', $task);
+    }
+
+    /**
      *  【タスクの作成機能】
      *
      *  POST /folders/{id}/tasks/create

@@ -4,6 +4,7 @@ namespace App\Services\Task;
 
 use App\Models\Folder;
 use App\Models\Task\Task;
+use App\Models\Task\TaskStatus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -27,6 +28,19 @@ class TaskService
             'folders' => $folders,
             'folder_id' => $id,
             'tasks' => $tasks,
+        ];
+    }
+
+    /**
+     * タスク編集ページ表示
+     */
+    public function showEditTaskFormDataById(int $task_id)
+    {
+        $task = Task::find($task_id);
+        $task_status = TaskStatus::all();
+        return [
+            'task' => $task,
+            'task_status' => $task_status,
         ];
     }
 

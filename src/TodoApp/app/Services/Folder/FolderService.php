@@ -15,7 +15,7 @@ class FolderService
      * @param int $id
      * @return array $folder
      */
-    public function showEditFolderForm($id)
+    public function showEditFolderFormDataById($id)
     {
         $folder = Folder::find($id);
 
