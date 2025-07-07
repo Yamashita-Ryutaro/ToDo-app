@@ -110,4 +110,15 @@ class FolderService
         }
         return $result;
     }
+
+    /**
+     * フォルダーモデルの検索
+     * 
+     * @param int $id
+     * @return Folder
+     */
+    public function getFolderById($id)
+    {
+        return Folder::findOrFail($id);
+    }
 }

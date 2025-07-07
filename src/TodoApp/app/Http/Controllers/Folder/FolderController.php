@@ -84,6 +84,9 @@ class FolderController extends Controller
      */
     public function editFolder(int $id, EditFolder $request)
     {
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('update', $folder);
+
         $validated_data = $request->validated();
         $result = $this->folderService->editFolder($id, $validated_data);
         if ($result) {
@@ -103,6 +106,8 @@ class FolderController extends Controller
      */
     public function deleteFolder(int $id)
     {
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('delete', $folder);
         $result = $this->folderService->deleteFolder($id);
 
         if ($result) {
