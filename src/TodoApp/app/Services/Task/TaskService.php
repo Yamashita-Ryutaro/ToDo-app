@@ -33,6 +33,9 @@ class TaskService
 
     /**
      * タスク編集ページ表示
+     * 
+     * @param int $task_id
+     * @return array
      */
     public function showEditTaskFormDataById(int $task_id)
     {
@@ -65,6 +68,33 @@ class TaskService
             $result = true;
         } catch (\Exception $e) {
             Log::error('新規タスク作成: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return $result;
+    }
+
+    /**
+     * タスクの編集
+     * 
+     * @param int $task_id
+     * @param array $validated_data
+     * @return bool
+     */
+    public function editTask($task_id, $validated_data)
+    {
+        $result = false;
+        DB::beginTransaction();
+        try {
+            $task = Task::find($task_id);
+            $task->update([
+                'title' => $validated_data['title'],
+                'status_id' => $validated_data['status'],
+                'due_date' => $validated_data['due_date'],
+            ]);
+            DB::commit();
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('タスク編集: ' . $e->getMessage());
             DB::rollBack();
         }
         return $result;

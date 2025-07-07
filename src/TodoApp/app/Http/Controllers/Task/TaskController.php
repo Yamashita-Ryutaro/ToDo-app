@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Task;
 use App\Http\Controllers\Controller;
 use App\Services\Task\TaskService;
 use App\Http\Requests\Task\CreateTask;
+use App\Http\Requests\Task\EditTask;
 
 class TaskController extends Controller
 {
@@ -70,6 +71,29 @@ class TaskController extends Controller
 
         if ($result) {
             return redirect()->route('tasks.index', ['id' => $id]);
+        } else {
+            return redirect()->back();
+        }
+    }
+
+    /**
+     *  【タスクの編集機能】
+     *  機能：タスクが編集されたらDBを更新処理をしてタスク一覧にリダイレクトする
+     *  
+     *  POST /folders/{id}/tasks/{task_id}/edit
+     *  @param int $id
+     *  @param int $task_id
+     *  @param EditTask $request
+     *  @return \Illuminate\Http\RedirectResponse
+     */
+    public function editTask(int $id, int $task_id, EditTask $request)
+    {
+        $validated_data = $request->validated();
+
+        $result = $this->taskService->editTask($task_id, $validated_data);
+
+        if ($result) {
+            return redirect()->route('tasks.index', ['id' => $id,]);
         } else {
             return redirect()->back();
         }
