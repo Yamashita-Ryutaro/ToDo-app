@@ -14,10 +14,12 @@ use App\Http\Controllers\Task\TaskController;
 |
 */
 
-Route::get("/folders/{id}/tasks", [TaskController::class,"showTaskTop"])->name("tasks.index");
-Route::get('/folders/{id}/tasks/create', [TaskController::class,"showCreateTaskForm"])->name('tasks.create');
-Route::post('/folders/{id}/tasks/create', [TaskController::class,"createTask"]);
-Route::get('/folders/{id}/tasks/{task_id}/edit', [TaskController::class,"showEditTaskForm"])->name('tasks.edit');
-Route::post('/folders/{id}/tasks/{task_id}/edit', [TaskController::class,"editTask"]);
-Route::get('/folders/{id}/tasks/{task_id}/delete', [TaskController::class,"showDeleteTaskForm"])->name('tasks.delete');
-Route::post('/folders/{id}/tasks/{task_id}/delete', [TaskController::class,"deleteTask"]);
+Route::middleware('auth')->group(function () {
+    Route::get("/folders/{id}/tasks", [TaskController::class,"showTaskTop"])->name("tasks.index");
+    Route::get('/folders/{id}/tasks/create', [TaskController::class,"showCreateTaskForm"])->name('tasks.create');
+    Route::post('/folders/{id}/tasks/create', [TaskController::class,"createTask"]);
+    Route::get('/folders/{id}/tasks/{task_id}/edit', [TaskController::class,"showEditTaskForm"])->name('tasks.edit');
+    Route::post('/folders/{id}/tasks/{task_id}/edit', [TaskController::class,"editTask"]);
+    Route::get('/folders/{id}/tasks/{task_id}/delete', [TaskController::class,"showDeleteTaskForm"])->name('tasks.delete');
+    Route::post('/folders/{id}/tasks/{task_id}/delete', [TaskController::class,"deleteTask"]);
+});
