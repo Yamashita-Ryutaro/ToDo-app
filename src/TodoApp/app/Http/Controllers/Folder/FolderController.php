@@ -35,8 +35,7 @@ class FolderController extends Controller
      */
     public function showEditFolderForm(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('view', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'view');
 
         $data = $this->folderService->showEditFolderFormDataById($folder);
 
@@ -53,8 +52,7 @@ class FolderController extends Controller
      */
     public function showDeleteFolderForm(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('view', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'view');
 
         $data = $this->folderService->showDeleteFolderFormDataById($folder);
         return view('folders/delete', $data);
@@ -90,8 +88,7 @@ class FolderController extends Controller
      */
     public function editFolder(int $folder_id, EditFolder $request)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('update', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'update');
 
         $validated_data = $request->validated();
         $result = $this->folderService->editFolder($folder, $validated_data);
@@ -112,8 +109,7 @@ class FolderController extends Controller
      */
     public function deleteFolder(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('delete', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'delete');
 
         $result = $this->folderService->deleteFolder($folder);
 
@@ -122,5 +118,19 @@ class FolderController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+    /**
+     * 認可チェック
+     * 
+     * @param int $folder_id
+     * @param string $ability
+     * @return Folder $folder
+     */
+    private function getAuthorizedFolder(int $folder_id, string $ability)
+    {
+        $folder = $this->folderService->getFolderById($folder_id);
+        $this->authorize($ability, $folder);
+        return $folder;
     }
 }
