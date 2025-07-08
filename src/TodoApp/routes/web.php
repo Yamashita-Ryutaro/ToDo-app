@@ -14,4 +14,4 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class,"showHomePage"])->name('home');
+Route::middleware('auth')->get('/', [HomeController::class,"showHomePage"])->name('home');
