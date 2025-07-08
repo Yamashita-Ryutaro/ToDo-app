@@ -7,6 +7,7 @@ use App\Services\Task\TaskService;
 use App\Http\Requests\Task\CreateTask;
 use App\Http\Requests\Task\EditTask;
 use App\Services\Folder\FolderService;
+use App\Models\Folder;
 
 class TaskController extends Controller
 {
@@ -27,8 +28,7 @@ class TaskController extends Controller
      */
     public function showTaskTop(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('view', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'view');
 
         $result = $this->taskService->showTaskTopPageData($folder_id);
         return view('tasks/index', $result);
@@ -43,8 +43,7 @@ class TaskController extends Controller
      */
     public function showCreateTaskForm(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('view', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'view');
 
         return view('tasks/create', ['folder_id' => $folder_id]);
     }
@@ -60,15 +59,9 @@ class TaskController extends Controller
      */
     public function showEditTaskForm(int $folder_id, int $task_id)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('view', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'view');
 
-        $task = $this->taskService->gettaskById($task_id);
-        $this->authorize('view', $task);
-
-        if (!$task->isInFolder($folder)) {
-            return redirect()->route('home');
-        }
+        $task = $this->getAuthorizedTaskInFolder($task_id, $folder, 'view');
 
         $data = $this->taskService->showEditTaskFormDataById($task);
         return view('tasks/edit', $data);
@@ -84,15 +77,9 @@ class TaskController extends Controller
      */
     public function showDeleteTaskForm(int $folder_id, int $task_id)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('view', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'view');
 
-        $task = $this->taskService->gettaskById($task_id);
-        $this->authorize('view', $task);
-
-        if (!$task->isInFolder($folder)) {
-            return redirect()->route('home');
-        }
+        $task = $this->getAuthorizedTaskInFolder($task_id, $folder, 'view');
 
         $data = $this->taskService->showDeleteTaskFormDataById($task);
         return view('tasks/delete', $data);
@@ -108,8 +95,7 @@ class TaskController extends Controller
      */
     public function createTask(int $folder_id, CreateTask $request)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('create', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'create');
 
         $validated_data = $request->validated();
 
@@ -134,15 +120,9 @@ class TaskController extends Controller
      */
     public function editTask(int $folder_id, int $task_id, EditTask $request)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('update', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'update');
 
-        $task = $this->taskService->gettaskById($task_id);
-        $this->authorize('update', $task);
-
-        if (!$task->isInFolder($folder)) {
-            return redirect()->route('home');
-        }
+        $task = $this->getAuthorizedTaskInFolder($task_id, $folder, 'update');
 
         $validated_data = $request->validated();
 
@@ -165,15 +145,9 @@ class TaskController extends Controller
      */
     public function deleteTask(int $folder_id, int $task_id)
     {
-        $folder = $this->folderService->getFolderById($folder_id);
-        $this->authorize('delete', $folder);
+        $folder = $this->getAuthorizedFolder($folder_id, 'delete');
 
-        $task = $this->taskService->gettaskById($task_id);
-        $this->authorize('delete', $task);
-
-        if (!$task->isInFolder($folder)) {
-            return redirect()->route('home');
-        }
+        $task = $this->getAuthorizedTaskInFolder($task_id, $folder, 'delete');
 
         $result = $this->taskService->deleteTask($task);
 
@@ -182,5 +156,38 @@ class TaskController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+    /**
+     * 認可チェック
+     * 
+     * @param int $folder_id
+     * @param string $ability
+     * @return Folder $folder
+     */
+    private function getAuthorizedFolder(int $folder_id, string $ability)
+    {
+        $folder = $this->folderService->getFolderById($folder_id);
+        $this->authorize($ability, $folder);
+        return $folder;
+    }
+
+    /**
+     * 認可チェック
+     * 
+     * @param int $task_id
+     * @param Folder $folder
+     * @param string $ability
+     * @return Task $task
+     */
+    private function getAuthorizedTaskInFolder(int $task_id, $folder, string $ability)
+    {
+        $task = $this->taskService->gettaskById($task_id);
+        $this->authorize($ability, $task);
+        if (!$task->isInFolder($folder)) {
+            // ここでabortやリダイレクトも可
+            abort(403, 'This task does not belong to the folder.');
+        }
+        return $task;
     }
 }
