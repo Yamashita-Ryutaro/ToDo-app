@@ -30,7 +30,7 @@ class HomeController extends Controller
         $folder = Folder::where('user_id', $user_id)->first();
 
         if ($folder) {
-            return redirect()->route('tasks.index', ['id' => $folder->id]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder->id]);
         } else {
             return view('home');
         }

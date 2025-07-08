@@ -29,13 +29,13 @@ class FolderController extends Controller
     /**
      *  【フォルダ編集ページの表示機能】
      *
-     *  GET /folders/{id}/edit
-     *  @param int $id
+     *  GET /folders/{folder_id}/edit
+     *  @param int $folder_id
      *  @return \Illuminate\View\View
      */
-    public function showEditFolderForm(int $id)
+    public function showEditFolderForm(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('view', $folder);
 
         $data = $this->folderService->showEditFolderFormDataById($folder);
@@ -47,13 +47,13 @@ class FolderController extends Controller
      *  【フォルダ削除ページの表示機能】
      *  機能：フォルダIDをフォルダ編集ページに渡して表示する
      *
-     *  GET /folders/{id}/delete
-     *  @param int $id
+     *  GET /folders/{folder_id}/delete
+     *  @param int $folder_id
      *  @return \Illuminate\View\View
      */
-    public function showDeleteFolderForm(int $id)
+    public function showDeleteFolderForm(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('view', $folder);
 
         $data = $this->folderService->showDeleteFolderFormDataById($folder);
@@ -84,19 +84,19 @@ class FolderController extends Controller
      *  【フォルダの編集機能】
      *
      *  POST /folders/{id}/edit
-     *  @param int $id
+     *  @param int $folder_id
      *  @param EditTask $request
      *  @return \Illuminate\Http\RedirectResponse
      */
-    public function editFolder(int $id, EditFolder $request)
+    public function editFolder(int $folder_id, EditFolder $request)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('update', $folder);
 
         $validated_data = $request->validated();
         $result = $this->folderService->editFolder($folder, $validated_data);
         if ($result) {
-            return redirect()->route('tasks.index', ['id' => $id]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder_id]);
         } else {
             return redirect()->back();
         }
@@ -106,13 +106,13 @@ class FolderController extends Controller
      *  【フォルダの削除機能】
      *  機能：フォルダが削除されたらDBから削除し、フォルダ一覧にリダイレクトする
      *
-     *  POST /folders/{id}/delete
-     *  @param int $id
+     *  POST /folders/{folder_id}/delete
+     *  @param int $folder_id
      *  @return RedirectResponse
      */
-    public function deleteFolder(int $id)
+    public function deleteFolder(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('delete', $folder);
 
         $result = $this->folderService->deleteFolder($folder);

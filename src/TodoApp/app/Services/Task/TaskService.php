@@ -14,10 +14,10 @@ class TaskService
     /**
      * タスク管理ページ表示
      * 
-     * @param int $id
+     * @param int $folder_id
      * @return array
      */
-    public function showTaskTopPageData(int $id)
+    public function showTaskTopPageData(int $folder_id)
     {
         $user_id = Auth::id();
 
@@ -25,7 +25,7 @@ class TaskService
         $folders = Folder::where('user_id', $user_id)->get();
 
         // 指定IDかつログインユーザーのフォルダのみ取得
-        $folder = Folder::where('id', $id)
+        $folder = Folder::where('id', $folder_id)
                         ->where('user_id', $user_id)
                         ->firstOrFail();
 
@@ -33,7 +33,7 @@ class TaskService
 
         return [
             'folders' => $folders,
-            'folder_id' => $id,
+            'folder_id' => $folder_id,
             'tasks' => $tasks,
         ];
     }

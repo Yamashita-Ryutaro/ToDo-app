@@ -22,45 +22,45 @@ class TaskController extends Controller
     /**
      * タスク一覧機能の表示
      * 
-     * @param int $id
+     * @param int $folder_id
      * @return \Illuminate\View\View
      */
-    public function showTaskTop(int $id)
+    public function showTaskTop(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('view', $folder);
 
-        $result = $this->taskService->showTaskTopPageData($id);
+        $result = $this->taskService->showTaskTopPageData($folder_id);
         return view('tasks/index', $result);
     }
 
     /**
      *  【タスク作成ページの表示機能】
      *  
-     *  GET /folders/{id}/tasks/create
-     *  @param int $id
+     *  GET /folders/{folder_id}/tasks/create
+     *  @param int $folder_id
      *  @return \Illuminate\View\View
      */
-    public function showCreateTaskForm(int $id)
+    public function showCreateTaskForm(int $folder_id)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('view', $folder);
 
-        return view('tasks/create', ['folder_id' => $id]);
+        return view('tasks/create', ['folder_id' => $folder_id]);
     }
 
     /**
      *  【タスク編集ページの表示機能】
      *  機能：タスクIDをフォルダ編集ページに渡して表示する
      *  
-     *  GET /folders/{id}/tasks/{task_id}/edit
-     *  @param int $id
+     *  GET /folders/{folder_id}/tasks/{task_id}/edit
+     *  @param int $folder_id
      *  @param int $task_id
      *  @return \Illuminate\View\View
      */
-    public function showEditTaskForm(int $id, int $task_id)
+    public function showEditTaskForm(int $folder_id, int $task_id)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('view', $folder);
 
         $task = $this->taskService->gettaskById($task_id);
@@ -77,14 +77,14 @@ class TaskController extends Controller
     /**
      *  【タスク削除ページの表示機能】
      *
-     *  GET /folders/{id}/tasks/{task_id}/delete
-     *  @param int $id
+     *  GET /folders/{folder_id}/tasks/{task_id}/delete
+     *  @param int $folder_id
      *  @param int $task_id
      *  @return \Illuminate\View\View
      */
-    public function showDeleteTaskForm(int $id, int $task_id)
+    public function showDeleteTaskForm(int $folder_id, int $task_id)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('view', $folder);
 
         $task = $this->taskService->gettaskById($task_id);
@@ -101,14 +101,14 @@ class TaskController extends Controller
     /**
      *  【タスクの作成機能】
      *
-     *  POST /folders/{id}/tasks/create
-     *  @param int $id
+     *  POST /folders/{folder_id}/tasks/create
+     *  @param int $folder_id
      *  @param CreateTask $request
      *  @return \Illuminate\Http\RedirectResponse
      */
-    public function createTask(int $id, CreateTask $request)
+    public function createTask(int $folder_id, CreateTask $request)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('create', $folder);
 
         $validated_data = $request->validated();
@@ -116,7 +116,7 @@ class TaskController extends Controller
         $result = $this->taskService->createTask($folder, $validated_data);
 
         if ($result) {
-            return redirect()->route('tasks.index', ['id' => $id]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder_id]);
         } else {
             return redirect()->back();
         }
@@ -126,15 +126,15 @@ class TaskController extends Controller
      *  【タスクの編集機能】
      *  機能：タスクが編集されたらDBを更新処理をしてタスク一覧にリダイレクトする
      *  
-     *  POST /folders/{id}/tasks/{task_id}/edit
-     *  @param int $id
+     *  POST /folders/{folder_id}/tasks/{task_id}/edit
+     *  @param int $folder_id
      *  @param int $task_id
      *  @param EditTask $request
      *  @return \Illuminate\Http\RedirectResponse
      */
-    public function editTask(int $id, int $task_id, EditTask $request)
+    public function editTask(int $folder_id, int $task_id, EditTask $request)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('update', $folder);
 
         $task = $this->taskService->gettaskById($task_id);
@@ -149,7 +149,7 @@ class TaskController extends Controller
         $result = $this->taskService->editTask($task, $validated_data);
 
         if ($result) {
-            return redirect()->route('tasks.index', ['id' => $id,]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder_id,]);
         } else {
             return redirect()->back();
         }
@@ -158,14 +158,14 @@ class TaskController extends Controller
     /**
      *  【タスクの削除機能】
      *
-     *  POST /folders/{id}/tasks/{task_id}/delete
-     *  @param int $id
+     *  POST /folders/{folder_id}/tasks/{task_id}/delete
+     *  @param int $folder_id
      *  @param int $task_id
      *  @return \Illuminate\Http\RedirectResponse
      */
-    public function deleteTask(int $id, int $task_id)
+    public function deleteTask(int $folder_id, int $task_id)
     {
-        $folder = $this->folderService->getFolderById($id);
+        $folder = $this->folderService->getFolderById($folder_id);
         $this->authorize('delete', $folder);
 
         $task = $this->taskService->gettaskById($task_id);
@@ -178,7 +178,7 @@ class TaskController extends Controller
         $result = $this->taskService->deleteTask($task);
 
         if ($result) {
-            return redirect()->route('tasks.index', ['id' => $id,]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder_id,]);
         } else {
             return redirect()->back();
         }

@@ -107,11 +107,11 @@ class FolderService
     /**
      * フォルダーモデルの検索
      * 
-     * @param int $id
+     * @param int $folder_id
      * @return Folder
      */
-    public function getFolderById($id)
+    public function getFolderById($folder_id)
     {
-        return Folder::findOrFail($id);
+        return Folder::findOrFail($folder_id);
     }
 }
