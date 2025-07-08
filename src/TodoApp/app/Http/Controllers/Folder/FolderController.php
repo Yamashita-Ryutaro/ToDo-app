@@ -75,7 +75,7 @@ class FolderController extends Controller
             return back()->with('errors', 'フォルダ作成に失敗');
         } else {
             return redirect()->route('tasks.index', [
-                'id' => $result,
+                'folder_id' => $result,
             ]);
         }
     }
