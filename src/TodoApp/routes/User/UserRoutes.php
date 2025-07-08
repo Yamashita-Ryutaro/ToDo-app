@@ -18,3 +18,5 @@ Route::post("/login", [UserController::class,"loginUser"]);
 Route::get("/register", [UserController::class,"showRegisterPage"])->name("user.register");
 Route::post("/register", [UserController::class,"registerNewUser"]);
 Route::post("/logout", [UserController::class,"logoutUser"])->name("user.logout");
+Route::get("/password/email", [UserController::class,"showPasswordEmailPage"])->name("password.email");
+Route::get("/password/reset", [UserController::class,"showPasswordUpdatePage"])->name("password.update");

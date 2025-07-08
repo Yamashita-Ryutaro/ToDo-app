@@ -38,6 +38,26 @@ class UserController extends Controller
     }
 
     /**
+     * パスワードリセットメールページの表示
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function showPasswordEmailPage()
+    {
+        return view('password.email');
+    }
+
+    /**
+     * パスワードリセットページの表示
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function showPasswordUpdatePage()
+    {
+        return view('password.reset');
+    }
+
+    /**
      * ユーザー登録の処理
      * 
      * @param RegisterRequest $request
