@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Task\Task;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,6 +29,17 @@ class Folder extends Model
     protected function serializeDate(\DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * ログインユーザーがこのフォルダの所有者か判定する
+     *
+     * @return bool
+     */
+    public function isOwnedByLoginUser(): bool
+    {
+        $user = Auth::user();
+        return $user && $this->user_id === $user->id;
     }
 
     /*

@@ -33,6 +33,14 @@ class Task extends Model
     }
 
     /**
+     * タスクがフォルダに属しているか
+     */
+    public function isInFolder(Folder $folder): bool
+    {
+        return $this->folder_id === $folder->id;
+    }
+
+    /**
      * 
      */
     public function getStatusAttribute()

@@ -66,6 +66,10 @@ class TaskController extends Controller
         $task = $this->taskService->gettaskById($task_id);
         $this->authorize('view', $task);
 
+        if (!$task->isInFolder($folder)) {
+            return redirect()->route('home');
+        }
+
         $data = $this->taskService->showEditTaskFormDataById($task);
         return view('tasks/edit', $data);
     }
@@ -85,6 +89,10 @@ class TaskController extends Controller
 
         $task = $this->taskService->gettaskById($task_id);
         $this->authorize('view', $task);
+
+        if (!$task->isInFolder($folder)) {
+            return redirect()->route('home');
+        }
 
         $data = $this->taskService->showDeleteTaskFormDataById($task);
         return view('tasks/delete', $data);
@@ -132,6 +140,10 @@ class TaskController extends Controller
         $task = $this->taskService->gettaskById($task_id);
         $this->authorize('update', $task);
 
+        if (!$task->isInFolder($folder)) {
+            return redirect()->route('home');
+        }
+
         $validated_data = $request->validated();
 
         $result = $this->taskService->editTask($task, $validated_data);
@@ -158,6 +170,10 @@ class TaskController extends Controller
 
         $task = $this->taskService->gettaskById($task_id);
         $this->authorize('delete', $task);
+
+        if (!$task->isInFolder($folder)) {
+            return redirect()->route('home');
+        }
 
         $result = $this->taskService->deleteTask($task);
 
