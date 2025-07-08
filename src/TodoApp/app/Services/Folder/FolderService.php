@@ -13,26 +13,22 @@ class FolderService
     /**
      * フォルダ編集ページの表示
      * 
-     * @param int $id
+     * @param Folder $folder
      * @return array $folder
      */
-    public function showEditFolderFormDataById($id)
+    public function showEditFolderFormDataById($folder)
     {
-        $folder = Folder::find($id);
-
         return [ 'folder' => $folder ];
     }
 
     /**
      * フォルダ削除ページの表示
      * 
-     * @param int $id
+     * @param Folder $folder
      * @return array $folder
      */
-    public function showDeleteFolderFormDataById(int $id)
+    public function showDeleteFolderFormDataById($folder)
     {
-        $folder = Folder::find($id);
-
         return [ 'folder' => $folder ];
     }
 
@@ -65,16 +61,15 @@ class FolderService
     /**
      * フォルダの編集
      * 
-     * @param int $id
+     * @param Folder $folder
      * @param array $validated_data
      * @return bool $result
      */
-    public function editFolder($id, $validated_data)
+    public function editFolder($folder, $validated_data)
     {
         $result = false;
         DB::beginTransaction();
         try {
-            $folder = Folder::find($id);
             $folder->update([
                 'title' => $validated_data['title']
             ]);
@@ -90,16 +85,14 @@ class FolderService
     /**
      * フォルダの削除処理
      * 
-     * @param int $id
+     * @param Folder $folder
      * @return bool $result
      */
-    public function deleteFolder($id)
+    public function deleteFolder($folder)
     {
         $result = false;
         DB::beginTransaction();
         try {
-            $folder = Folder::find($id);
-
             $folder->tasks()->delete();
             $folder->delete();
             DB::commit();

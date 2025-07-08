@@ -35,9 +35,12 @@ class FolderController extends Controller
      */
     public function showEditFolderForm(int $id)
     {
-        $folder = $this->folderService->showEditFolderFormDataById($id);
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('view', $folder);
 
-        return view('folders/edit', $folder);
+        $data = $this->folderService->showEditFolderFormDataById($folder);
+
+        return view('folders/edit', $data);
     }
 
     /**
@@ -50,8 +53,11 @@ class FolderController extends Controller
      */
     public function showDeleteFolderForm(int $id)
     {
-        $folder = $this->folderService->showDeleteFolderFormDataById($id);
-        return view('folders/delete', $folder);
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('view', $folder);
+
+        $data = $this->folderService->showDeleteFolderFormDataById($folder);
+        return view('folders/delete', $data);
     }
 
     /**
@@ -88,7 +94,7 @@ class FolderController extends Controller
         $this->authorize('update', $folder);
 
         $validated_data = $request->validated();
-        $result = $this->folderService->editFolder($id, $validated_data);
+        $result = $this->folderService->editFolder($folder, $validated_data);
         if ($result) {
             return redirect()->route('tasks.index', ['id' => $id]);
         } else {
@@ -108,7 +114,8 @@ class FolderController extends Controller
     {
         $folder = $this->folderService->getFolderById($id);
         $this->authorize('delete', $folder);
-        $result = $this->folderService->deleteFolder($id);
+
+        $result = $this->folderService->deleteFolder($folder);
 
         if ($result) {
             return redirect()->route('home');
