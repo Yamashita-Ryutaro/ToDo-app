@@ -2,6 +2,7 @@
 
 namespace App\Models\Task;
 
+use App\Models\Folder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -62,5 +63,13 @@ class Task extends Model
     public function taskStatus()
     {
         return $this->belongsTo(TaskStatus::class, 'status_id', 'id');
+    }
+
+    /**
+     * taskテーブルとfolderテーブルのリレーション
+     */
+    public function folder()
+    {
+        return $this->belongsTo(Folder::class, 'folder_id', 'id');
     }
 }

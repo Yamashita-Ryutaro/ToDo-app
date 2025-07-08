@@ -41,12 +41,11 @@ class TaskService
     /**
      * タスク編集ページ表示
      * 
-     * @param int $task_id
+     * @param Task $task
      * @return array
      */
-    public function showEditTaskFormDataById(int $task_id)
+    public function showEditTaskFormDataById($task)
     {
-        $task = Task::find($task_id);
         $task_status = TaskStatus::all();
         return [
             'task' => $task,
@@ -57,12 +56,11 @@ class TaskService
     /**
      * タスク削除ページ表示
      * 
-     * @param int $task_id
+     * @param Task $task
      * @return array
      */
-    public function showDeleteTaskFormDataById($task_id)
+    public function showDeleteTaskFormDataById($task)
     {
-        $task = Task::find($task_id);
         $task_status = TaskStatus::all();
         return [
             'task' => $task,
@@ -73,16 +71,15 @@ class TaskService
     /**
      * 新規タスクの作成
      * 
-     * @param int $id
+     * @param Folder $folder
      * @param array $validated_data
      * @return bool
      */
-    public function createTask($id, $validated_data)
+    public function createTask($folder, $validated_data)
     {
         $result = false;
         DB::beginTransaction();
         try {
-            $folder = Folder::find($id);
             $folder->tasks()->create([
                 'title' => $validated_data['title'],
                 'due_date' => $validated_data['due_date'],
@@ -99,16 +96,15 @@ class TaskService
     /**
      * タスクの編集
      * 
-     * @param int $task_id
+     * @param Task $task
      * @param array $validated_data
      * @return bool
      */
-    public function editTask($task_id, $validated_data)
+    public function editTask($task, $validated_data)
     {
         $result = false;
         DB::beginTransaction();
         try {
-            $task = Task::find($task_id);
             $task->update([
                 'title' => $validated_data['title'],
                 'status_id' => $validated_data['status'],
@@ -126,15 +122,14 @@ class TaskService
     /**
      * タスク削除機能
      * 
-     * @param int $task_id
+     * @param Task $task
      * @return bool
      */
-    public function deleteTask($task_id)
+    public function deleteTask($task)
     {
         $result = false;
         DB::beginTransaction();
         try {
-            $task = Task::find($task_id);
             $task->delete();
             DB::commit();
             $result = true;
@@ -143,5 +138,16 @@ class TaskService
             DB::rollBack();
         }
         return $result;
+    }
+
+    /**
+     * タスクモデルの取得
+     * 
+     * @param int $task_id
+     * @return Task $task
+     */
+    public function getTaskById($task_id)
+    {
+        return Task::findOrFail($task_id);
     }
 }

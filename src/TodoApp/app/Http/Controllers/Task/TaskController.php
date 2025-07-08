@@ -6,14 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Services\Task\TaskService;
 use App\Http\Requests\Task\CreateTask;
 use App\Http\Requests\Task\EditTask;
+use App\Services\Folder\FolderService;
 
 class TaskController extends Controller
 {
     protected $taskService;
+    protected $folderService;
 
-    public function __construct(TaskService $taskService)
+    public function __construct(TaskService $taskService, FolderService $folderService)
     {
         $this->taskService = $taskService;
+        $this->folderService = $folderService;
     }
     
     /**
@@ -24,6 +27,9 @@ class TaskController extends Controller
      */
     public function showTaskTop(int $id)
     {
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('view', $folder);
+
         $result = $this->taskService->showTaskTopPageData($id);
         return view('tasks/index', $result);
     }
@@ -37,6 +43,9 @@ class TaskController extends Controller
      */
     public function showCreateTaskForm(int $id)
     {
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('view', $folder);
+
         return view('tasks/create', ['folder_id' => $id]);
     }
 
@@ -51,8 +60,14 @@ class TaskController extends Controller
      */
     public function showEditTaskForm(int $id, int $task_id)
     {
-        $task = $this->taskService->showEditTaskFormDataById($task_id);
-        return view('tasks/edit', $task);
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('view', $folder);
+
+        $task = $this->taskService->gettaskById($task_id);
+        $this->authorize('view', $task);
+
+        $data = $this->taskService->showEditTaskFormDataById($task);
+        return view('tasks/edit', $data);
     }
 
     /**
@@ -65,8 +80,14 @@ class TaskController extends Controller
      */
     public function showDeleteTaskForm(int $id, int $task_id)
     {
-        $task = $this->taskService->showDeleteTaskFormDataById($task_id);
-        return view('tasks/delete', $task);
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('view', $folder);
+
+        $task = $this->taskService->gettaskById($task_id);
+        $this->authorize('view', $task);
+
+        $data = $this->taskService->showDeleteTaskFormDataById($task);
+        return view('tasks/delete', $data);
     }
 
     /**
@@ -79,9 +100,12 @@ class TaskController extends Controller
      */
     public function createTask(int $id, CreateTask $request)
     {
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('create', $folder);
+
         $validated_data = $request->validated();
 
-        $result = $this->taskService->createTask($id, $validated_data);
+        $result = $this->taskService->createTask($folder, $validated_data);
 
         if ($result) {
             return redirect()->route('tasks.index', ['id' => $id]);
@@ -102,9 +126,15 @@ class TaskController extends Controller
      */
     public function editTask(int $id, int $task_id, EditTask $request)
     {
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('update', $folder);
+
+        $task = $this->taskService->gettaskById($task_id);
+        $this->authorize('update', $task);
+
         $validated_data = $request->validated();
 
-        $result = $this->taskService->editTask($task_id, $validated_data);
+        $result = $this->taskService->editTask($task, $validated_data);
 
         if ($result) {
             return redirect()->route('tasks.index', ['id' => $id,]);
@@ -123,7 +153,13 @@ class TaskController extends Controller
      */
     public function deleteTask(int $id, int $task_id)
     {
-        $result = $this->taskService->deleteTask($task_id);
+        $folder = $this->folderService->getFolderById($id);
+        $this->authorize('delete', $folder);
+
+        $task = $this->taskService->gettaskById($task_id);
+        $this->authorize('delete', $task);
+
+        $result = $this->taskService->deleteTask($task);
 
         if ($result) {
             return redirect()->route('tasks.index', ['id' => $id,]);
