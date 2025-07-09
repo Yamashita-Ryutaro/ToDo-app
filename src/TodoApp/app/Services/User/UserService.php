@@ -3,6 +3,7 @@
 namespace App\Services\User;
 
 use App\Models\User;
+use App\Models\PasswordReset;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -107,6 +108,7 @@ class UserService
             $user->update([
                 'password' => Hash::make($validated_data['password']),
             ]);
+            PasswordReset::where('email', $validated_data['email'])->delete();
             DB::commit();
             $result = true;
         } catch (\Exception $e) {
