@@ -24,7 +24,7 @@ class UserService
         $result = false;
         DB::beginTransaction();
         try {
-            $user = User::create([
+            User::create([
                 'email' => $validated_data['email'],
                 'name' => $validated_data['name'],
                 'password' => Hash::make($validated_data['password']),
