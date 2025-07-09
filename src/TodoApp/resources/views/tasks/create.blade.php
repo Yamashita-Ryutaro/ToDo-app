@@ -25,15 +25,6 @@
             <nav class="panel panel-default">
                 <div class="panel-heading">タスクを追加する</div>
                 <div class="panel-body">
-                    @if($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach($errors->all() as $message)
-                                    <li>{{ $message }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     <form action="{{ route('tasks.create', ['folder_id' => $folder_id]) }}" method="POST">
                     @csrf
                         <div class="form-group">

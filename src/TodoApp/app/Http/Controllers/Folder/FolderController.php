@@ -72,9 +72,7 @@ class FolderController extends Controller
         if($result === false) {
             return back()->with('errors', 'フォルダ作成に失敗');
         } else {
-            return redirect()->route('tasks.index', [
-                'folder_id' => $result,
-            ]);
+            return redirect()->route('tasks.index', ['folder_id' => $result])->with('success', 'フォルダ作成に成功');
         }
     }
 
@@ -93,9 +91,9 @@ class FolderController extends Controller
         $validated_data = $request->validated();
         $result = $this->folderService->editFolder($folder, $validated_data);
         if ($result) {
-            return redirect()->route('tasks.index', ['folder_id' => $folder_id]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder_id])-with('success', 'フォルダの編集に成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'フォルダの編集に失敗');
         }
     }
 
@@ -114,9 +112,9 @@ class FolderController extends Controller
         $result = $this->folderService->deleteFolder($folder);
 
         if ($result) {
-            return redirect()->route('home');
+            return redirect()->route('home')->with('success', 'フォルダの削除に成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'フォルダの削除に失敗');
         }
     }
 

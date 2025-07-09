@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Http\Requests\User\RegisterRequest;
 use App\Services\User\UserService;
 use App\Http\Requests\User\LoginRequest;
@@ -73,9 +72,9 @@ class UserController extends Controller
         $result = $this->userService->registerNewUser($validated_data);
         
         if ($result) {
-            return redirect()->route('user.login');
+            return redirect()->route('user.login')->with('success', 'ユーザーの登録に成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'ユーザーの登録に失敗');
         }
     }
 
@@ -92,9 +91,9 @@ class UserController extends Controller
         $result = $this->userService->loginUser($validated_data);
         
         if ($result) {
-            return redirect()->route('home');
+            return redirect()->route('home')->with('success', 'ユーザーのログインに成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'ユーザーのログインに失敗');
         }
     }
 
@@ -107,9 +106,9 @@ class UserController extends Controller
     {
         $result = $this->userService->logoutUser();
         if ($result) {
-            return redirect()->route('user.login');
+            return redirect()->route('user.login')->with('success', 'ユーザーのログアウトに成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'ユーザーのログアウトに失敗');
         }
     }
 
@@ -125,9 +124,9 @@ class UserController extends Controller
         $result = $this->userService->sentPasswordEmail($validated_data);
 
         if ($result) {
-            return redirect()->route('user.login');
+            return redirect()->route('user.login')->with('success', 'パスワードリセットメールの送信に成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'パスワードリセットメールの送信に失敗');
         }
     }
 
@@ -143,9 +142,9 @@ class UserController extends Controller
         $result = $this->userService->resetPassword($validated_data);
 
         if ($result) {
-            return redirect()->route('user.login');
+            return redirect()->route('user.login')->with('success', 'パスワードリセットに成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'パスワードリセットに失敗');
         }
     }
 }

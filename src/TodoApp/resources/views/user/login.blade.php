@@ -16,15 +16,6 @@
             <nav class="panel panel-default">
                 <div class="panel-heading">ログイン</div>
                 <div class="panel-body">
-                    @if($errors->any())
-                        <div class="alert alert-danger">
-                        <ul>
-                            @foreach($errors->all() as $message)
-                                <li>{{ $message }}</li>
-                            @endforeach
-                        </ul>
-                        </div>
-                    @endif
                     <form action="{{ route('user.login') }}" method="POST">
                         @csrf
                         <div class="form-group">

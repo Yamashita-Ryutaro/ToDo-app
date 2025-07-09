@@ -16,15 +16,6 @@
         <nav class="panel panel-default">
             <div class="panel-heading">フォルダを削除する</div>
             <div class="panel-body">
-                @if($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach($errors->all() as $message)
-                                <li>{{ $message }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
                 <form action="{{ route('folders.delete', ['folder_id' => $folder->id]) }}" method="post">
                     @csrf
                     <div class="form-group">

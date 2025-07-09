@@ -102,9 +102,9 @@ class TaskController extends Controller
         $result = $this->taskService->createTask($folder, $validated_data);
 
         if ($result) {
-            return redirect()->route('tasks.index', ['folder_id' => $folder_id]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder_id])->with('success', 'タスクの作成に成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'タスクの作成に失敗');
         }
     }
 
@@ -129,9 +129,9 @@ class TaskController extends Controller
         $result = $this->taskService->editTask($task, $validated_data);
 
         if ($result) {
-            return redirect()->route('tasks.index', ['folder_id' => $folder_id,]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder_id,])->with('success', 'タスクの編集に成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'タスクの編集に失敗');
         }
     }
 
@@ -152,9 +152,9 @@ class TaskController extends Controller
         $result = $this->taskService->deleteTask($task);
 
         if ($result) {
-            return redirect()->route('tasks.index', ['folder_id' => $folder_id,]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder_id,])->with('success', 'タスクの削除に成功');
         } else {
-            return redirect()->back();
+            return redirect()->back()->with('errors', 'タスクの削除に失敗');
         }
     }
 
