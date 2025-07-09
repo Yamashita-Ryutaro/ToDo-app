@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('mst_task_statuses', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('folder_id')->unsigned();
-            $table->string('title', 100);
-            $table->date('due_date');
-            $table->unsignedInteger('status_id')->default(1);
+            $table->string('status', 10);
             $table->timestamps();
-            $table->foreign('folder_id')->references('id')->on('folders');
-            $table->foreign('status_id')->references('id')->on('mst_task_statuses');
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('mst_task_statuses');
     }
 };

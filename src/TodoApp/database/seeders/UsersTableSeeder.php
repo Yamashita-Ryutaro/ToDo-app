@@ -22,6 +22,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'test',
             'email' => 'dummy@sample.com',
             'password' => bcrypt('test1234'),
+            'admin_id' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
