@@ -46,7 +46,7 @@ class Task extends Model
     public function getStatusAttribute()
     {
         // リレーションから「name」カラム（または表示したい値）を返す
-        return optional($this->taskStatus)->status;
+        return optional($this->taskStatus)->display_name;
     }
 
     /**
