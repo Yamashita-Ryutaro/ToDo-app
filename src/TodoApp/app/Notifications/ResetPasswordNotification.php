@@ -17,9 +17,9 @@ class ResetPasswordNotification extends ResetPasswordBase
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        parent::__construct($token);
     }
 
     /**
@@ -46,7 +46,6 @@ class ResetPasswordNotification extends ResetPasswordBase
             ->line('パスワードリセットリクエストを受け付けました。')
             ->action('パスワードをリセットする', url(route('password.reset', [
                 'token' => $this->token,
-                'email' => $notifiable->getEmailForPasswordReset(),
             ], false)))
             ->line('このメールに心当たりがない場合は、このメールを無視してください。');
     }

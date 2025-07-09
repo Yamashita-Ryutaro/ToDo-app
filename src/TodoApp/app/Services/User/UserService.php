@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class UserService
 {
@@ -68,6 +69,26 @@ class UserService
             request()->session()->regenerateToken();
         } catch (\Exception $e) {
             Log::error('ログアウト: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return $result;
+    }
+
+    /**
+     * パスワードリセットメール
+     * 
+     * @param array $validated_data
+     * @return bool $result
+     */
+    public function sentPasswordEmail($validated_data)
+    {
+        $result = false;
+        try {
+            $email = $validated_data['email'];
+            Password::sendResetLink(['email' => $email]);
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('パスワードリセットメール: ' . $e->getMessage());
             DB::rollBack();
         }
         return $result;
