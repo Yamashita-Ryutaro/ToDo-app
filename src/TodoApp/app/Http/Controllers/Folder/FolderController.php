@@ -91,7 +91,7 @@ class FolderController extends Controller
         $validated_data = $request->validated();
         $result = $this->folderService->editFolder($folder, $validated_data);
         if ($result) {
-            return redirect()->route('tasks.index', ['folder_id' => $folder_id])-with('success', 'フォルダの編集に成功');
+            return redirect()->route('tasks.index', ['folder_id' => $folder_id])->with('success', 'フォルダの編集に成功');
         } else {
             return redirect()->back()->with('errors', 'フォルダの編集に失敗');
         }

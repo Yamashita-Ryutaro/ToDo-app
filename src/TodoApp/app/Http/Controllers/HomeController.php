@@ -20,19 +20,22 @@ class HomeController extends Controller
      *  ホームページを表示するコントローラー
      *  
      *  GET /
-     *  @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function showHomePage()
+    public function showHomePage(Request $request)
     {
         $user_id = Auth::id();
         
         // ログインユーザーのuser_idがFolderテーブルに存在するか判定
         $folder = Folder::where('user_id', $user_id)->first();
 
+        $message = session()->only(['success', 'error', 'warning', 'info']);
+
         if ($folder) {
-            return redirect()->route('tasks.index', ['folder_id' => $folder->id]);
+            return redirect()->route('tasks.index', ['folder_id' => $folder->id])->with($message);
         } else {
-            return view('home');
+            return view('home')->with($message);
         }
     }
 }
