@@ -16,7 +16,7 @@
             <nav class="panel panel-default">
                 <div class="panel-heading">パスワード再発行</div>
                 <div class="panel-body">
-                    <form action="{{ route('password.reset') }}" method="POST">
+                    <form action="{{ route('password.update') }}" method="POST">
                         @csrf
                         <input type="hidden" name="token" value="{{ $token }}" />
                         <div class="form-group">

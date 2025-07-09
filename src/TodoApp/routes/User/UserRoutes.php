@@ -21,4 +21,4 @@ Route::post("/logout", [UserController::class,"logoutUser"])->name("user.logout"
 Route::get("/password/email", [UserController::class,"showPasswordEmailPage"])->name("password.email");
 Route::post("/password/email", [UserController::class,"sentPasswordEmail"]);
 Route::get("/password/reset/{token}", [UserController::class,"showPasswordUpdatePage"])->name("password.reset");
-Route::post("/password/reset", [UserController::class,"updatePassword"])->name("password.reset");
+Route::post("/password/reset", [UserController::class,"updatePassword"])->name("password.update");
