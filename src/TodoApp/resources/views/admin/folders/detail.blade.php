@@ -11,6 +11,34 @@
 -->
 @section('content')
 <div class="container">
-
+    <div class="row">
+        <div class="col col-md-offset-3 col-md-6">
+            <nav class="panel panel-default">
+                <div class="panel-heading">フォルダ詳細</div>
+                <div class="panel-body">
+                    <p>ID: {{ $folder->id }}</p>
+                    <p>フォルダ名: {{ $folder->title }}</p>
+                    <p>ユーザー名:  
+                        <a href="{{ route('admin.user.detail', $folder->user_id) }}">
+                            {{ $folder->user_name }}
+                        </a>
+                    </p>
+                    @if(@isset($tasks))
+                        <p>タスク一覧:</p>
+                        <ul>
+                            @foreach($tasks as $task)
+                                <li>
+                                    <a href="{{ route('admin.task.detail', $task->id) }}">
+                                        {{ $task->title }}
+                                    </a>
+                                    <span class="badge {{ $task->status_color_class }}">{{ $task->status }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </nav>
+        </div>
+    </div>
 </div>
 @endsection

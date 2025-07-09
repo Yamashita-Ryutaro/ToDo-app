@@ -14,5 +14,5 @@ use App\Http\Controllers\Admin\Folder\AdminFolderController;
 */
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/folders', [AdminFolderController::class, 'showFolderIndexPage'])->name('admin.folder.index');
-    Route::get('/admin/folders/{id}', [AdminFolderController::class, 'showFolderDetailPage'])->name('admin.folder.detail');
+    Route::get('/admin/folders/{folder_id}', [AdminFolderController::class, 'showFolderDetailPage'])->name('admin.folder.detail');
 });

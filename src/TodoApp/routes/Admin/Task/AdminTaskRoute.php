@@ -14,5 +14,5 @@ use App\Http\Controllers\Admin\Task\AdminTaskController;
 */
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/tasks', [AdminTaskController::class, 'showTaskIndexPage'])->name('admin.task.index');
-    Route::get('/admin/tasks/{id}', [AdminTaskController::class, 'showTaskDetailPage'])->name('admin.task.detail');
+    Route::get('/admin/tasks/{task_id}', [AdminTaskController::class, 'showTaskDetailPage'])->name('admin.task.detail');
 });

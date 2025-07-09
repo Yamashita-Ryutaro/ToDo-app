@@ -14,5 +14,5 @@ use App\Http\Controllers\Admin\User\AdminUserController;
 */
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/users', [AdminUserController::class, 'showUserIndexPage'])->name('admin.user.index');
-    Route::get('/admin/users/{id}', [AdminUserController::class, 'showUserDetailPage'])->name('admin.user.detail');
+    Route::get('/admin/users/{user_id}', [AdminUserController::class, 'showUserDetailPage'])->name('admin.user.detail');
 });

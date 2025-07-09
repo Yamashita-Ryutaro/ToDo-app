@@ -11,6 +11,35 @@
 -->
 @section('content')
 <div class="container">
-
+    <div class="row">
+        <div class="col col-md-offset-3 col-md-6">
+            <nav class="panel panel-default">
+                <div class="panel-heading">タスク一覧</div>
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>タイトル</th>
+                                <th>期限</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tasks as $task)
+                                <tr>
+                                    <td>{{ $task->title }}</td>
+                                    <td>{{ $task->due_date }}</td>
+                                    <td class="badge {{ $task->status_color_class }}">{{ $task->status }}</td>
+                                    <td>
+                                        <a href="{{ route('admin.task.detail', $task->id) }}" class="btn btn-info">詳細</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </nav>
+        </div>
+    </div>
 </div>
 @endsection

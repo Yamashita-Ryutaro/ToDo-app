@@ -3,17 +3,39 @@
 namespace App\Http\Controllers\Admin\Task;
 
 use App\Http\Controllers\Controller;
+use App\Services\Admin\Task\AdminTaskService;
 use Illuminate\Http\Request;
 
 class AdminTaskController extends Controller
 {
-    public function showTaskIndexPage()
+    protected $adminTaskService;
+
+    public function __construct(AdminTaskService $adminTaskService)
     {
-        return view('admin.task.index');
+        $this->adminTaskService = $adminTaskService;
     }
 
-    public function showUserDetailPage()
+    /**
+     * タスク一覧ページを表示
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showTaskIndexPage()
     {
-        return view('admin.task.detail');
+        // タスク一覧ページのデータを取得
+        $tasks = $this->adminTaskService->showTaskIndexPageData();
+        return view('admin.tasks.index', $tasks);
+    }
+
+    /**
+     * タスク詳細ページを表示
+     *
+     * @param int $task_id
+     * @return \Illuminate\View\View
+     */
+    public function showTaskDetailPage($task_id)
+    {
+        $task = $this->adminTaskService->showTaskDetailPageData($task_id);
+        return view('admin.tasks.detail', $task);
     }
 }

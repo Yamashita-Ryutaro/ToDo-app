@@ -4,17 +4,28 @@ namespace App\Http\Controllers\Admin\User;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Services\Admin\User\AdminUserService;
 
 class AdminUserController extends Controller
 {
-    //
-    public function showUserIndexPage()
+    protected $adminUserService;
+
+    public function __construct(AdminUserService $adminUserService)
     {
-        return view('admin.user.index');
+        $this->adminUserService = $adminUserService;
     }
 
-    public function showUserDetailPage()
+    public function showUserIndexPage()
     {
-        return view('admin.user.detail');
+        // ユーザー一覧ページのデータを取得
+        $users = $this->adminUserService->showUserIndexPageData();
+        return view('admin.user.index', $users);
+    }
+
+    public function showUserDetailPage($user_id)
+    {
+        // ユーザー詳細ページのデータを取得
+        $user = $this->adminUserService->showUserDetailPageData($user_id);
+        return view('admin.user.detail', $user);
     }
 }
