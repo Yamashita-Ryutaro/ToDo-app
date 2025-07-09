@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\Registered;
 
 class UserService
 {
@@ -23,7 +24,7 @@ class UserService
         $result = false;
         DB::beginTransaction();
         try {
-            User::create([
+            $user = User::create([
                 'email' => $validated_data['email'],
                 'name' => $validated_data['name'],
                 'password' => Hash::make($validated_data['password']),
@@ -70,25 +71,6 @@ class UserService
             request()->session()->regenerateToken();
         } catch (\Exception $e) {
             Log::error('ログアウト: ' . $e->getMessage());
-        }
-        return $result;
-    }
-
-    /**
-     * パスワードリセットメール
-     * 
-     * @param array $validated_data
-     * @return bool $result
-     */
-    public function sentPasswordEmail($validated_data)
-    {
-        $result = false;
-        try {
-            $email = $validated_data['email'];
-            Password::sendResetLink(['email' => $email]);
-            $result = true;
-        } catch (\Exception $e) {
-            Log::error('パスワードリセットメール: ' . $e->getMessage());
         }
         return $result;
     }

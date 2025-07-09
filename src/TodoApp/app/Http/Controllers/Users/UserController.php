@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Users;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\RegisterRequest;
 use App\Services\User\UserService;
+use App\Services\Mail\MailUserService;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\ResetPasswordRequest;
 use App\Http\Requests\User\SentPasswordEmailRequest;
@@ -12,10 +13,12 @@ use App\Http\Requests\User\SentPasswordEmailRequest;
 class UserController extends Controller
 {
     protected $userService;
+    protected $mailUserService;
 
-    public function __construct(UserService $userService)
+    public function __construct(UserService $userService, MailUserService $mailUserService)
     {
         $this->userService = $userService;
+        $this->mailUserService = $mailUserService;
     }
 
     /**
@@ -121,7 +124,7 @@ class UserController extends Controller
     public function sentPasswordEmail(SentPasswordEmailRequest $request)
     {
         $validated_data = $request->validated();
-        $result = $this->userService->sentPasswordEmail($validated_data);
+        $result = $this->mailUserService->sentPasswordEmail($validated_data);
 
         if ($result) {
             return redirect()->route('user.login')->with('success', 'パスワードリセットメールの送信に成功');
