@@ -108,7 +108,7 @@ class UserController extends Controller
         if ($result) {
             return redirect()->route('user.login')->with('success', 'ユーザーのログアウトに成功');
         } else {
-            return redirect()->back()->with('errors', 'ユーザーのログアウトに失敗');
+            return redirect()->route('home')->with('errors', 'ユーザーのログアウトに失敗');
         }
     }
 
@@ -126,7 +126,7 @@ class UserController extends Controller
         if ($result) {
             return redirect()->route('user.login')->with('success', 'パスワードリセットメールの送信に成功');
         } else {
-            return redirect()->back()->with('errors', 'パスワードリセットメールの送信に失敗');
+            return redirect()->route('password.email')->with('errors', 'パスワードリセットメールの送信に失敗');
         }
     }
 

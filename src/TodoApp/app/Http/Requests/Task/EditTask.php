@@ -16,7 +16,7 @@ class EditTask extends CreateTask
     {
         $rule = parent::rules();
         return $rule + [
-            'status' => ['required', 'exists:task_statuses,id'],
+            'status' => ['required', 'exists:mst_task_statuses,id'],
         ];
     }
 

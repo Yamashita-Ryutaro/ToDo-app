@@ -4,7 +4,7 @@ namespace App\Services\Task;
 
 use App\Models\Folder;
 use App\Models\Task\Task;
-use App\Models\Task\TaskStatus;
+use App\Models\Task\MstTaskStatus;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -46,7 +46,7 @@ class TaskService
      */
     public function showEditTaskFormDataById($task)
     {
-        $task_status = TaskStatus::all();
+        $task_status = MstTaskStatus::all();
         return [
             'task' => $task,
             'task_status' => $task_status,
@@ -61,7 +61,7 @@ class TaskService
      */
     public function showDeleteTaskFormDataById($task)
     {
-        $task_status = TaskStatus::all();
+        $task_status = MstTaskStatus::all();
         return [
             'task' => $task,
             'task_status' => $task_status,

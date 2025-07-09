@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('task_statuses', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('status', 10);
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+            $table->bigInteger('admin_id')->unsigned()->default(2);
+            $table->foreign('admin_id')->references('id')->on('mst_admin');
+
         });
     }
 
@@ -27,6 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task_statuses');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('admin_id');
+        });
     }
 };

@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Task\TaskStatus;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Task\MstTaskStatus;
 use Illuminate\Database\Seeder;
 
-class TaskStatusesTableSeeder extends Seeder
+class MstTaskStatusesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,7 +16,7 @@ class TaskStatusesTableSeeder extends Seeder
     {
         $statuses = ['未着手', '着手中', '完了'];
         foreach ($statuses as $status){
-            TaskStatus::create([
+            MstTaskStatus::create([
                 'status' => $status,
                 // created_at/updated_atは自動でセットされる
             ]);
