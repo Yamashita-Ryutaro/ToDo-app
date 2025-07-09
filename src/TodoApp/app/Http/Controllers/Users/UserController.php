@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\User\RegisterRequest;
 use App\Services\User\UserService;
 use App\Http\Requests\User\LoginRequest;
+use App\Http\Requests\User\ResetPasswordRequest;
 use App\Http\Requests\User\SentPasswordEmailRequest;
 
 class UserController extends Controller
@@ -52,10 +53,9 @@ class UserController extends Controller
      * パスワードリセットページの表示
      * 
      * @param string $token
-     * @param Request $request
      * @return \Illuminate\View\View
      */
-    public function showPasswordUpdatePage($token, Request $request)
+    public function showPasswordUpdatePage($token)
     {
         return view('password.reset', ['token' => $token]);
     }
@@ -127,16 +127,25 @@ class UserController extends Controller
         if ($result) {
             return redirect()->route('user.login');
         } else {
-            return redirect()->route('password.email');
+            return redirect()->back();
         }
     }
 
     /**
      * パスワードリセット
      * 
+     * @param ResetPasswordRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function updatePassword(Request $request)
+    public function updatePassword(ResetPasswordRequest $request)
     {
+        $validated_data = $request->validated();
+        $result = $this->userService->resetPassword($validated_data);
 
+        if ($result) {
+            return redirect()->route('user.login');
+        } else {
+            return redirect()->back();
+        }
     }
 }

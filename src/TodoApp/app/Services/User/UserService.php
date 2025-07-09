@@ -69,7 +69,6 @@ class UserService
             request()->session()->regenerateToken();
         } catch (\Exception $e) {
             Log::error('ログアウト: ' . $e->getMessage());
-            DB::rollBack();
         }
         return $result;
     }
@@ -89,6 +88,29 @@ class UserService
             $result = true;
         } catch (\Exception $e) {
             Log::error('パスワードリセットメール: ' . $e->getMessage());
+        }
+        return $result;
+    }
+
+    /**
+     * パスワードリセット処理
+     * 
+     * @param array $validated_data
+     * @return bool $result
+     */
+    public function resetPassword($validated_data)
+    {
+        $result = false;
+        DB::beginTransaction();
+        try {
+            $user = User::where('email', $validated_data['email'])->first();
+            $user->update([
+                'password' => Hash::make($validated_data['password']),
+            ]);
+            DB::commit();
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('パスワードリセット: ' . $e->getMessage());
             DB::rollBack();
         }
         return $result;
