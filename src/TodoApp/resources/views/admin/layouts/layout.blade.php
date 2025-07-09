@@ -7,9 +7,10 @@
     <title>ToDo App</title>
     @yield('styles')
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/admin_sidebar.css">
 </head>
 <body>
-    <header>
+    <header class="header">
         <nav class="my-navbar">
             <a class="my-navbar-brand" href="/admin">ToDo App</a>
         </nav>
@@ -79,6 +80,7 @@
             @endif
         </div>
     @endif
+    @include('admin.layouts.sidebar')
     <main>
         @yield('content')
     </main>
