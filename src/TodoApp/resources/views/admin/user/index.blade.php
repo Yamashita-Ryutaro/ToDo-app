@@ -12,33 +12,31 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col col-md-offset-3 col-md-6">
-            <nav class="panel panel-default">
-                <div class="panel-heading">ユーザー一覧</div>
-                <div class="panel-body">
-                    <table class="table table-striped">
-                        <thead>
+        <nav class="panel panel-default">
+            <div class="panel-heading">ユーザー一覧</div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>名前</th>
+                            <th>メールアドレス</th>
+                            <th>アクション</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($users as $user)
                             <tr>
-                                <th>ID</th>
-                                <th>名前</th>
-                                <th>メールアドレス</th>
-                                <th>アクション</th>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td><a href="{{ route('admin.user.detail', ['user_id' => $user->id]) }}" class="btn btn-info">詳細</a></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($users as $user)
-                                <tr>
-                                    <td>{{ $user->id }}</td>
-                                    <td>{{ $user->name }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td><a href="{{ route('admin.user.detail', ['user_id' => $user->id]) }}" class="btn btn-info">詳細</a></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </nav>
-        </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </nav>
     </div>
 </div>
 @endsection

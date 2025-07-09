@@ -1,6 +1,6 @@
 
 .sidebar {
-    width: 220px;
+    width: 150px;
     height: 100vh;
     background: #2c3e50;
     color: #fff;
@@ -40,8 +40,7 @@ main {
     min-height: 100vh;
 }
 
-@media (max-width: 600px) {
-    .sidebar { width: 160px; }
-    main { margin-left: 160px; padding: 16px; }
-    .my-navbar { padding-left: 180px; }
+.panel.panel-default {
+    width: 70%;
+    margin: 0 auto; /* 中央寄せしたい場合 */
 }
