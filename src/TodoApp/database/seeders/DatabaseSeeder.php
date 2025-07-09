@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             MstAdminSeeder::class,
             MstTaskStatusesTableSeeder::class,
+            MstTablesTableSeeder::class,
             UsersTableSeeder::class,
             FoldersTableSeeder::class,
             TasksTableSeeder::class,
