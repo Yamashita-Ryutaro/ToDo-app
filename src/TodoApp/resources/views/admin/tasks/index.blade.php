@@ -29,7 +29,7 @@
                                 <tr>
                                     <td>{{ $task->title }}</td>
                                     <td>{{ $task->due_date }}</td>
-                                    <td class="badge {{ $task->status_color_class }}">{{ $task->status }}</td>
+                                    <td><span class="badge {{ $task->status_color_class }}">{{ $task->status }}</span></td>
                                     <td>
                                         <a href="{{ route('admin.task.detail', $task->id) }}" class="btn btn-info">詳細</a>
                                     </td>
