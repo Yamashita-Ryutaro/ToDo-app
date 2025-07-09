@@ -74,7 +74,7 @@ class UserController extends Controller
         if ($result) {
             return redirect()->route('user.login')->with('success', 'ユーザーの登録に成功');
         } else {
-            return redirect()->back()->with('errors', 'ユーザーの登録に失敗');
+            return redirect()->back()->with('error', 'ユーザーの登録に失敗');
         }
     }
 
@@ -93,7 +93,7 @@ class UserController extends Controller
         if ($result) {
             return redirect()->route('home')->with('success', 'ユーザーのログインに成功');
         } else {
-            return redirect()->back()->with('errors', 'ユーザーのログインに失敗');
+            return redirect()->back()->with('error', 'ユーザーのログインに失敗');
         }
     }
 
@@ -108,7 +108,7 @@ class UserController extends Controller
         if ($result) {
             return redirect()->route('user.login')->with('success', 'ユーザーのログアウトに成功');
         } else {
-            return redirect()->route('home')->with('errors', 'ユーザーのログアウトに失敗');
+            return redirect()->route('home')->with('error', 'ユーザーのログアウトに失敗');
         }
     }
 
@@ -126,7 +126,7 @@ class UserController extends Controller
         if ($result) {
             return redirect()->route('user.login')->with('success', 'パスワードリセットメールの送信に成功');
         } else {
-            return redirect()->route('password.email')->with('errors', 'パスワードリセットメールの送信に失敗');
+            return redirect()->route('password.email')->with('error', 'パスワードリセットメールの送信に失敗');
         }
     }
 
@@ -144,7 +144,7 @@ class UserController extends Controller
         if ($result) {
             return redirect()->route('user.login')->with('success', 'パスワードリセットに成功');
         } else {
-            return redirect()->back()->with('errors', 'パスワードリセットに失敗');
+            return redirect()->back()->with('error', 'パスワードリセットに失敗');
         }
     }
 }
