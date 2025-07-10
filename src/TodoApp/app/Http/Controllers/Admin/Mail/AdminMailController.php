@@ -26,6 +26,12 @@ class AdminMailController extends Controller
         return view('admin.mail.index', $mails);
     }
 
+    /**
+     * メール詳細ページを表示
+     *
+     * @param int $system_mail_id
+     * @return \Illuminate\View\View
+     */
     public function showMailDetailPage($system_mail_id)
     {
         // メール詳細ページのデータを取得
