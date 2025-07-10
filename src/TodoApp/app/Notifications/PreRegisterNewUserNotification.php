@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Mail\SystemMail;
@@ -11,15 +10,11 @@ use App\Models\Mail\SystemMail;
 class PreRegisterNewUserNotification extends Notification
 {
     use Queueable;
-
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    protected $token;
+        
+    public function __construct($token)
     {
-        //
+        $this->token = $token;
     }
 
     /**
@@ -42,10 +37,9 @@ class PreRegisterNewUserNotification extends Notification
     public function toMail($notifiable)
     {
         $mail = SystemMail::where('system_mail_id', 2)->first();
-        $url = route('password.reset', [
-            'token' => $this->token,
+        $url = route('user.register.complete', [
+            'user_token' => $this->token,
         ]);
-
 
         // 差し込みたい値の連想配列
         $replacements = [

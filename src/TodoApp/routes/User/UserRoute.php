@@ -17,6 +17,7 @@ Route::get("/login", [UserController::class,"showLoginPage"])->name("user.login"
 Route::post("/login", [UserController::class,"loginUser"]);
 Route::get("/register", [UserController::class,"showRegisterPage"])->name("user.register");
 Route::post("/register", [UserController::class,"preRegisterNewUser"]);
+Route::get("/register/{user_token}", [UserController::class,"showRegisterCompletePage"])->name("user.register.complete");
 Route::post("/logout", [UserController::class,"logoutUser"])->name("user.logout");
 Route::get("/password/email", [UserController::class,"showPasswordEmailPage"])->name("password.email");
 Route::post("/password/email", [UserController::class,"sentPasswordEmail"]);
