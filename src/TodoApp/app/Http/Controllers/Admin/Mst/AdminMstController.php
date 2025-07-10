@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Mst;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UpdateAdminMstRequest;
 use Illuminate\Http\Request;
 use App\Services\Admin\Mst\AdminMstService;
 
@@ -36,5 +37,24 @@ class AdminMstController extends Controller
     {
         $table = $this->adminMstService->showMstDetailPageData($table_name);
         return view('admin.mst.detail', $table);
+    }
+
+    /**
+     * マスタテーブル詳細を更新
+     * 
+     * @param Request $request
+     * @param string $table_name
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateMstDetail(UpdateAdminMstRequest $request, $table_name)
+    {
+        $validated_data = $request->validated();
+        $result = $this->adminMstService->updateMstDetail($validated_data, $table_name);
+
+        if ($result['result']) {
+            return redirect()->route('admin.mst.detail', $table_name)->with('success', '更新しました');
+        } else {
+            return redirect()->route('admin.mst.detail', $table_name)->with('error', $result['message'] ?? '更新に失敗しました');
+        }
     }
 }

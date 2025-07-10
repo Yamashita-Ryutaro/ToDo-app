@@ -3,6 +3,7 @@
 namespace App\Services\Admin\Mst;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use App\Models\Admin\MstTables;
 use App\Models\Admin\MstAdmin;
 use App\Models\Task\MstTaskStatus;
@@ -41,6 +42,39 @@ class AdminMstService
     }
 
     /**
+     * マスタテーブル詳細を更新
+     *
+     * @param array $validated_data
+     * @param string $table_name
+     * @return void
+     */
+    public function updateMstDetail($validated_data, $table_name)
+    {
+        $result = false;
+        DB::beginTransaction();
+        try {
+            $model = $this->getTableModel($table_name);
+
+            foreach ($validated_data['display_names'] as $id => $display_name) {
+                $row = $model->find($id);
+                if ($row) {
+                    $row->display_name = $display_name;
+                    $row->save();
+                }
+            }
+            DB::commit();
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('マスタテーブル更新: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return [
+            'result' => $result,
+        ];
+    }
+
+
+    /**
      * 指定されたテーブルのデータを取得
      *
      * @param string $table_name
@@ -64,5 +98,26 @@ class AdminMstService
         }
 
         return $contents;
+    }
+
+    /**
+     * 指定されたテーブルのモデルを取得
+     * 
+     * @param string $table_name
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    private function getTableModel($table_name)
+    {
+        switch ($table_name) {
+            case 'mst_admin':
+                return new MstAdmin();
+            case 'mst_task_statuses':
+                return new MstTaskStatus();
+            case 'mst_system_mails':
+                return new MstSystemMail();
+            default:
+                Log::error("Unsupported table name: {$table_name}");
+                return null;
+        }
     }
 }

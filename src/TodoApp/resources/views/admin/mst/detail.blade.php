@@ -19,11 +19,23 @@
                 @if (@isset($contents))
                     <p>表示名一覧:</p>
                     <ul>
-                        @foreach($contents as $content)
-                            <li>
-                                {{ $content->display_name }}
-                            </li>
-                        @endforeach
+                        <form action="{{ route('admin.mst.update', ['table_name' => $table->table_name]) }}" method="post">
+                            @csrf
+                            @method('PUT')
+                            @foreach($contents as $i => $content)
+                                <li class="form-group">
+                                    <input
+                                        @if (!$table->is_active) disabled @endif
+                                        type="text"
+                                        name="display_names[{{ $content->id }}]"
+                                        value="{{ old('display_names.' . $content->id, $content->display_name) }}"
+                                        class="form-control"
+                                        style="display:inline-block; width: auto;"
+                                    >
+                                </li>
+                            @endforeach
+                            <button @if (!$table->is_active) disabled @endif type="submit" class="btn btn-primary">保存</button>
+                        </form>
                     </ul>
                 @endif
             </div>

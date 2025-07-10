@@ -15,4 +15,5 @@ use App\Http\Controllers\Admin\Mst\AdminMstController;
 Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/mst', [AdminMstController::class, 'showMstIndexPage'])->name('admin.mst.index');
     Route::get('/admin/mst/{table_name}', [AdminMstController::class, 'showMstDetailPage'])->name('admin.mst.detail');
+    Route::put('/admin/mst/{table_name}', [AdminMstController::class, 'updateMstDetail'])->name('admin.mst.update');
 });
