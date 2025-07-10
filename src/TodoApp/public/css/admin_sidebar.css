@@ -36,11 +36,15 @@
 }
 /* メインコンテンツ */
 main {
-    padding-top: 106px;  /* ヘッダーの高さ分だけ下へ */
+    padding-top: 96px;  /* ヘッダーの高さ分だけ下へ */
     min-height: 100vh;
 }
 
 .panel.panel-default {
     width: 70%;
     margin: 0 auto; /* 中央寄せしたい場合 */
+}
+
+.alert {
+    margin-left: 152px;
 }
