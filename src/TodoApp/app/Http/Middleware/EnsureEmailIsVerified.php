@@ -24,9 +24,9 @@ class EnsureEmailIsVerified
             ! $request->user()->hasVerifiedEmail())) {
             return $request->expectsJson()
                     ? abort(403, 'Your email address is not verified.')
-                    : Redirect::guest(URL::route($redirectToRoute ?: 'user.login'));
+                    : Redirect::guest(URL::route($redirectToRoute ?: 'user.login'))
+                        ->with('error', '本登録が完了していません。メールの確認を行ってください。');
         }
-
         return $next($request);
     }
 }

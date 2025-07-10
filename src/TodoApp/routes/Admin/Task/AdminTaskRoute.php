@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\Task\AdminTaskController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/tasks', [AdminTaskController::class, 'showTaskIndexPage'])->name('admin.task.index');
     Route::get('/admin/tasks/{task_id}', [AdminTaskController::class, 'showTaskDetailPage'])->name('admin.task.detail');
 });
