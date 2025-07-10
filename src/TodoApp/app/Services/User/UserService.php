@@ -14,12 +14,12 @@ use Illuminate\Auth\Events\Registered;
 class UserService
 {
     /**
-     * ユーザー登録
+     * ユーザー仮登録
      * 
      * @param array $validated_data
      * @return bool
      */
-    public function registerNewUser($validated_data)
+    public function preRegisterNewUser($validated_data)
     {
         $result = false;
         DB::beginTransaction();
@@ -37,6 +37,24 @@ class UserService
         }
         return $result;
     }
+
+    /**
+     * ユーザー本登録
+     */
+    public function registerNewUser($validated_data)
+    {
+        $result = false;
+        DB::beginTransaction();
+        try {
+            DB::commit();
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('ユーザー登録: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return $result;        
+    }
+
 
     /**
      * ユーザーログイン

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\User\RegisterRequest;
 use App\Services\User\UserService;
 use App\Services\Mail\MailUserService;
@@ -63,12 +64,38 @@ class UserController extends Controller
     }
 
     /**
-     * ユーザー登録の処理
+     * ユーザー登録の仮登録処理
      * 
      * @param RegisterRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function registerNewUser(RegisterRequest $request)
+    public function preRegisterNewUser(RegisterRequest $request)
+    {
+        $validated_data = $request->validated();
+
+        // ユーザーの仮登録処理        
+        $result = $this->userService->preRegisterNewUser($validated_data);
+
+        if (!$result) {
+            return redirect()->back()->with('error', 'ユーザーの仮登録に失敗');
+        }
+        // 仮登録メールを送信
+        //$result = $this->mailUserService->sendPreRegistrationEmail($validated_data);
+        
+        if ($result) {
+            return redirect()->route('user.login')->with('success', '仮登録メールの送信に成功');
+        } else {
+            return redirect()->back()->with('error', '仮登録メールの送信に失敗');
+        }
+    }
+
+    /**
+     * ユーザー本登録の処理
+     * 
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function registerNewUser(Request $request)
     {
         $validated_data = $request->validated();
         

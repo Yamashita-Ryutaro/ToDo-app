@@ -18,5 +18,8 @@ class MstSystemMailsTableSeeder extends Seeder
         MstSystemMail::create([
             'display_name' => 'パスワードリセット',       
         ]);
+        MstSystemMail::create([
+            'display_name' => '仮登録メール',       
+        ]);
     }
 }

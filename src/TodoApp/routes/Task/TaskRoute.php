@@ -14,7 +14,7 @@ use App\Http\Controllers\Task\TaskController;
 |
 */
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get("/folders/{folder_id}/tasks", [TaskController::class,"showTaskTop"])->name("tasks.index");
     Route::get('/folders/{folder_id}/tasks/create', [TaskController::class,"showCreateTaskForm"])->name('tasks.create');
     Route::post('/folders/{folder_id}/tasks/create', [TaskController::class,"createTask"]);
