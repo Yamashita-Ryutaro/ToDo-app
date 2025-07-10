@@ -26,6 +26,7 @@ services:
     # ボリュームを設定する（ホスト側ディレクトリ:コンテナ側ボリュームの場所）
     volumes:
       - ./src:/var/www
+      - vendor-data:/var/www/TodoApp/vendor
 
   nginx:
     image: nginx:latest
@@ -82,3 +83,4 @@ volumes:
   db_data_test:
   db_my.cnf_test:
   db_sql_test:
+  vendor-data:
