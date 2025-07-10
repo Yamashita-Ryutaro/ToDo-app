@@ -52,6 +52,8 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/Admin/Mail/AdminMailRoute.php'));
             Route::middleware('web')
                 ->group(base_path('routes/Admin/Mst/AdminMstRoute.php'));
+            Route::middleware('web')
+                ->group(base_path('routes/Admin/Notification/AdminNotificationRoute.php'));
         });
     }
 
