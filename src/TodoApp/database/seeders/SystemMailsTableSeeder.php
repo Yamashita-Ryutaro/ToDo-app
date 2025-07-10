@@ -17,7 +17,7 @@ class SystemMailsTableSeeder extends Seeder
         //
         SystemMail::create([
             'subject' => 'パスワードリセットのご案内',
-            'url_key' => null,
+            'url_key' => '##PASSWORD_RESET##',
             'action_text' => 'パスワードをリセット',
             'system_mail_id' => 1,
             'body' => '以下のリンクをクリックしてパスワードをリセットしてください。',

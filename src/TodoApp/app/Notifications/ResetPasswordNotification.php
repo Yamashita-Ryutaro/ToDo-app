@@ -46,9 +46,19 @@ class ResetPasswordNotification extends ResetPasswordBase
         $url = route('password.reset', [
             'token' => $this->token,
         ]);
+
+
+        // 差し込みたい値の連想配列
+        $replacements = [
+            '{'.$mail->url_key.'}' => $url, // たとえば $url = route('password.reset', ['token' => $token]);
+        ];
+
+        // bodyの置換
+        $body = strtr($mail->body, $replacements);
+
         return (new MailMessage)
             ->subject($mail->subject)
-            ->line($mail->body)
+            ->line($body)
             ->action($mail->action_text,  $url);
     }
 
