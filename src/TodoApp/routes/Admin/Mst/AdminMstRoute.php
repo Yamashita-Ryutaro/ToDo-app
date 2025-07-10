@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\Mst\AdminMstController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/mst', [AdminMstController::class, 'showMstIndexPage'])->name('admin.mst.index');
     Route::get('/admin/mst/{table_name}', [AdminMstController::class, 'showMstDetailPage'])->name('admin.mst.detail');
 });

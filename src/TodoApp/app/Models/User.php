@@ -2,8 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Admin\MstAdmin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,8 +10,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Folder;
 use App\Notifications\ResetPasswordNotification;
+use App\Notifications\PreRegisterNewUserNotification;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -28,6 +28,8 @@ class User extends Authenticatable
         'email',
         'password',
         'admin_id',
+        'user_token',
+        'email_verified_at',
     ];
 
     /**
@@ -54,6 +56,12 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($token));
     }
 
+
+    public function sendPreRegisterNewUserNotification($token)
+    {
+        $this->notify(new PreRegisterNewUserNotification($token));
+    }
+
     public function getAdminAttribute()
     {
         return optional($this->mstAdmin)->display_name;
@@ -71,6 +79,6 @@ class User extends Authenticatable
 
     public function mstAdmin()
     {
-        return $this->belongsTo(MstAdmin::class, 'id', 'admin_id');
+        return $this->belongsTo(MstAdmin::class, 'admin_id', 'id');
     }
 }

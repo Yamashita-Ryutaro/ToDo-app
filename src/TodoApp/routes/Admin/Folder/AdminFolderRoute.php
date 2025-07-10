@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\Folder\AdminFolderController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/folders', [AdminFolderController::class, 'showFolderIndexPage'])->name('admin.folder.index');
     Route::get('/admin/folders/{folder_id}', [AdminFolderController::class, 'showFolderDetailPage'])->name('admin.folder.detail');
 });

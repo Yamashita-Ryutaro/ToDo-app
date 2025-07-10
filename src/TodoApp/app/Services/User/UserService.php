@@ -9,25 +9,107 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
-use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Str;
 
 class UserService
 {
     /**
-     * ユーザー登録
+     * ユーザー仮登録
      * 
      * @param array $validated_data
-     * @return bool
+     * @return array [result, message]
      */
-    public function registerNewUser($validated_data)
+    public function preRegisterNewUser($validated_data)
     {
         $result = false;
+        $message = '';
         DB::beginTransaction();
         try {
-            User::create([
-                'email' => $validated_data['email'],
-                'name' => $validated_data['name'],
-                'password' => Hash::make($validated_data['password']),
+            // 既に本登録済みユーザーがいたら弾く
+            $alreadyRegistered = User::where('email', $validated_data['email'])
+                ->whereNotNull('email_verified_at')
+                ->exists();
+
+            if ($alreadyRegistered) {
+                $message = '既に本登録済みのメールアドレスです。';
+                return [
+                    'result' => false,
+                    'message' => $message,
+                ];
+            }
+
+            // 既存の未本登録ユーザーを検索
+            $user = User::where('email', $validated_data['email'])
+                ->whereNull('email_verified_at') // 本登録完了判定
+                ->first();
+
+            $token = Str::random(60);
+
+            if ($user) {
+                // 仮登録中の場合は情報を上書き
+                $user->update([
+                    'name' => $validated_data['name'],
+                    'password' => Hash::make($validated_data['password']),
+                    'user_token' => $token,
+                ]);
+            } else {
+                // 新規ユーザー登録
+                $user = User::create([
+                    'email' => $validated_data['email'],
+                    'name' => $validated_data['name'],
+                    'password' => Hash::make($validated_data['password']),
+                    'user_token' => $token,
+                ]);
+            }
+
+            // 仮登録メールを送信
+            $user->sendPreRegisterNewUserNotification($token);
+            DB::commit();
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('ユーザー登録: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return [
+            'result' => $result,
+            'message' => $message,
+        ];
+    }
+
+    /**
+     * ユーザー本登録
+     * 
+     * @param string $user_token
+     * @return array [result, message]
+     */
+    public function registerNewUser($user_token)
+    {
+        $result = false;
+        $message = '';
+        DB::beginTransaction();
+        try {
+            $user = User::where('user_token', $user_token)->first();
+
+            // ユーザーが見つからない場合
+            if (!$user) {
+                $message = '無効な登録トークンです。';
+                return [
+                    'result' => false,
+                    'message' => $message,
+                ];
+            }
+
+            // すでに本登録済みの場合は処理をスキップ
+            if ($user->email_verified_at) {
+                $message = 'このユーザーはすでに本登録済みです。';
+                return [
+                    'result' => false,
+                    'message' => $message,
+                ];
+            }
+
+            $user->update([
+                'email_verified_at' => now(), // 仮登録から本登録へ
             ]);
             DB::commit();
             $result = true;
@@ -35,8 +117,12 @@ class UserService
             Log::error('ユーザー登録: ' . $e->getMessage());
             DB::rollBack();
         }
-        return $result;
+        return [
+            'result' => $result,
+            'message' => $message,
+        ];        
     }
+
 
     /**
      * ユーザーログイン
@@ -71,6 +157,25 @@ class UserService
             request()->session()->regenerateToken();
         } catch (\Exception $e) {
             Log::error('ログアウト: ' . $e->getMessage());
+        }
+        return $result;
+    }
+
+    /**
+     * パスワードリセットメール
+     * 
+     * @param array $validated_data
+     * @return bool $result
+     */
+    public function sentPasswordEmail($validated_data)
+    {
+        $result = false;
+        try {
+            $email = $validated_data['email'];
+            Password::sendResetLink(['email' => $email]);
+            $result = true;
+        } catch (\Exception $e) {
+            Log::error('パスワードリセットメール: ' . $e->getMessage());
         }
         return $result;
     }

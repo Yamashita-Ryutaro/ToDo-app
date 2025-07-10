@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\User\AdminUserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/users', [AdminUserController::class, 'showUserIndexPage'])->name('admin.user.index');
     Route::get('/admin/users/{user_id}', [AdminUserController::class, 'showUserDetailPage'])->name('admin.user.detail');
 });

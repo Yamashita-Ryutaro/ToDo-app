@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\User\RegisterRequest;
 use App\Services\User\UserService;
-use App\Services\Mail\MailUserService;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\ResetPasswordRequest;
 use App\Http\Requests\User\SentPasswordEmailRequest;
@@ -13,16 +13,14 @@ use App\Http\Requests\User\SentPasswordEmailRequest;
 class UserController extends Controller
 {
     protected $userService;
-    protected $mailUserService;
 
-    public function __construct(UserService $userService, MailUserService $mailUserService)
+    public function __construct(UserService $userService)
     {
         $this->userService = $userService;
-        $this->mailUserService = $mailUserService;
     }
 
     /**
-     * ユーザー登録ページの表示
+     * ユーザー仮登録ページの表示
      * 
      * @return \Illuminate\View\View
      */
@@ -32,12 +30,32 @@ class UserController extends Controller
     }
 
     /**
+     * ユーザー登録完了ページの表示
+     * 
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function showRegisterCompletePage($user_token)
+    {
+        $result = $this->userService->registerNewUser($user_token);
+
+        if ($result['result']) {
+            return redirect()->route('user.login')->with('success', 'ユーザーの登録に成功');
+        } else {
+            return redirect()->back()->with('error', $result['message'] ?? 'ユーザーの登録に失敗');
+        }
+    }
+
+    /**
      * ログインページの表示
      * 
      * @return \Illuminate\View\View
      */
     public function showLoginPage()
     {
+        // 既にログインしている場合はホームへリダイレクト
+        if (auth()->check()) {
+            return redirect()->route('home')->with('info', 'ログイン済みです');
+        }
         return view('user.login');
     }
 
@@ -63,21 +81,22 @@ class UserController extends Controller
     }
 
     /**
-     * ユーザー登録の処理
+     * ユーザー登録の仮登録処理
      * 
      * @param RegisterRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function registerNewUser(RegisterRequest $request)
+    public function preRegisterNewUser(RegisterRequest $request)
     {
         $validated_data = $request->validated();
-        
-        $result = $this->userService->registerNewUser($validated_data);
-        
-        if ($result) {
-            return redirect()->route('user.login')->with('success', 'ユーザーの登録に成功');
+
+        // ユーザーの仮登録処理        
+        $result = $this->userService->preRegisterNewUser($validated_data);
+
+        if ($result['result']) {
+            return redirect()->route('user.login')->with('success', '仮登録メールの送信に成功');
         } else {
-            return redirect()->back()->with('error', 'ユーザーの登録に失敗');
+            return redirect()->back()->with('error', $result['message'] ?? '仮登録メールの送信に失敗');
         }
     }
 
@@ -124,7 +143,7 @@ class UserController extends Controller
     public function sentPasswordEmail(SentPasswordEmailRequest $request)
     {
         $validated_data = $request->validated();
-        $result = $this->mailUserService->sentPasswordEmail($validated_data);
+        $result = $this->userService->sentPasswordEmail($validated_data);
 
         if ($result) {
             return redirect()->route('user.login')->with('success', 'パスワードリセットメールの送信に成功');

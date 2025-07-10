@@ -13,7 +13,7 @@
 <div class="container">
     <div class="row">
         <nav class="panel panel-default">
-            <div class="panel-heading">メール一覧</div>
+            <div class="panel-heading">システムメール一覧</div>
             <div class="panel-body">
                 <table class="table table-striped">
                     <thead>

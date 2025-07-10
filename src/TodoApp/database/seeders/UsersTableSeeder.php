@@ -25,6 +25,7 @@ class UsersTableSeeder extends Seeder
             'admin_id' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
+            'email_verified_at' => Carbon::now(),
         ]);
     }
 }

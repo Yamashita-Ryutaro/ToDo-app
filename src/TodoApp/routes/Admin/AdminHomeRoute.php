@@ -12,6 +12,6 @@ use App\Http\Controllers\Admin\AdminHomeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin', [AdminHomeController::class, 'showTopPage'])->name('admin.home');
 });

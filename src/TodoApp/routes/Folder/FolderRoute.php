@@ -14,7 +14,7 @@ use App\Http\Controllers\Folder\FolderController;
 |
 */
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/folders/create', [FolderController::class, "showCreateFolderForm"])->name('folders.create');
     Route::post('/folders/create', [FolderController::class, "createNewFolder"]);
     Route::get('/folders/{folder_id}/edit', [FolderController::class,"showEditFolderForm"])->name('folders.edit');
