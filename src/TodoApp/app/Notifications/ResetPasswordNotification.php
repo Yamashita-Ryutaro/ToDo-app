@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordBase;
+use App\Models\Mail\SystemMail;
 
 class ResetPasswordNotification extends ResetPasswordBase
 {
@@ -41,13 +42,14 @@ class ResetPasswordNotification extends ResetPasswordBase
      */
     public function toMail($notifiable)
     {
+        $mail = SystemMail::where('system_mail_id', 1)->first();
+        $url = route('password.reset', [
+            'token' => $this->token,
+        ]);
         return (new MailMessage)
-            ->subject('パスワードリセットのご案内')
-            ->line('パスワードリセットリクエストを受け付けました。')
-            ->action('パスワードをリセットする', url(route('password.reset', [
-                'token' => $this->token,
-            ], false)))
-            ->line('このメールに心当たりがない場合は、このメールを無視してください。');
+            ->subject($mail->subject)
+            ->line($mail->body)
+            ->action($mail->action_text,  $url);
     }
 
     /**

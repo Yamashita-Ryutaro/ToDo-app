@@ -14,5 +14,5 @@ use App\Http\Controllers\Admin\Mail\AdminMailController;
 */
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/mail', [AdminMailController::class, 'showMailIndexPage'])->name('admin.mail.index');
-    Route::get('/admin/mail/{id}', [AdminMailController::class, 'showMailDetailPage'])->name('admin.mail.detail');
+    Route::get('/admin/mail/{system_mail_id}', [AdminMailController::class, 'showMailDetailPage'])->name('admin.mail.detail');
 });

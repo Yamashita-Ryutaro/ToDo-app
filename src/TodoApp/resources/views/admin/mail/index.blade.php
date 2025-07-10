@@ -11,6 +11,28 @@
 -->
 @section('content')
 <div class="container">
-
+    <div class="row">
+        <nav class="panel panel-default">
+            <div class="panel-heading">メール一覧</div>
+            <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>名前</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($mails as $mail)
+                            <tr>
+                                <td>{{ $mail->display_name }}</td>
+                                <td><a href="{{ route('admin.mail.detail', ['system_mail_id' => $mail->id]) }}" class="btn btn-info">詳細</a></td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </nav>
+    </div>
 </div>
 @endsection

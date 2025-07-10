@@ -3,10 +3,10 @@
 namespace App\Services\Admin\Mst;
 
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Password;
 use App\Models\Admin\MstTables;
 use App\Models\Admin\MstAdmin;
 use App\Models\Task\MstTaskStatus;
+use App\Models\Mail\MstSystemMail;
 
 class AdminMstService
 {
@@ -54,6 +54,9 @@ class AdminMstService
                 break;
             case 'mst_task_statuses':
                 $contents = MstTaskStatus::all();
+                break;
+            case 'mst_system_mails':
+                $contents = MstSystemMail::all();
                 break;
             default:
                 Log::error("Unsupported table name: {$table_name}");

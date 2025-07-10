@@ -26,5 +26,11 @@ class MstTablesTableSeeder extends Seeder
             'description' => 'アプリケーションの管理者情報を管理するマスターテーブル',
             'is_active' => false,
         ]);
+        MstTables::create([
+            'table_name' => 'mst_system_mails',
+            'display_name' => 'システムメールマスタ',
+            'description' => 'アプリケーションのシステムメール情報を管理するマスターテーブル',
+            'is_active' => false,
+        ]);
     }
 }
