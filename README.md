@@ -5,6 +5,9 @@
 - コーディング規約は理系ナビもものを遵守するように変更。
 
 # メモ
+- /var/www/TodoApp/vendor# でcomposer installを実行すること。
+
+
 ドッカーのコンテナ内でこれを実行しないと、localhostがうまく開けなかった。
 - chown -R www-data:www-data /var/www/TodoApp/storage
 - chown -R www-data:www-data /var/www/TodoApp/bootstrap/cache
