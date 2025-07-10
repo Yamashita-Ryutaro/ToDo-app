@@ -35,4 +35,28 @@ class AdminMailService
             'mail' => $mail,
         ];
     }
+
+    /**
+     * メールの更新処理
+     *
+     * @param array $validated_data
+     * @param int $system_mail_id
+     * @return array
+     */
+    public function updateMail($validated_data, $system_mail_id)
+    {
+        $mail = SystemMail::find($system_mail_id);
+        if (!$mail) {
+            return [
+                'result' => false,
+                'message' => 'メールが見つかりません',
+            ];
+        }
+
+        // メールの更新処理を実行
+        $mail->update($validated_data);
+        return [
+            'result' => true,
+        ];
+    }
 }
