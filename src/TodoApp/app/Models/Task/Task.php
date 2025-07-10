@@ -71,13 +71,12 @@ class Task extends Model
 
     public function getStatusColorClassAttribute()
     {
-        // ステータス名やidで分岐
-        switch ($this->status) {
-            case '未着手':
+        switch ($this->status_id) {
+            case 1: // 未着手
                 return 'label-danger'; // 赤
-            case '着手中':
+            case 2: // 着手中
                 return 'label-warning'; // 黄色
-            case '完了':
+            case 3: // 完了
                 return 'label-success'; // 緑
             default:
                 return 'label-default'; // グレー
