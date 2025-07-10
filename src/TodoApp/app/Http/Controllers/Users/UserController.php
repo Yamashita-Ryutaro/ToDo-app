@@ -52,6 +52,10 @@ class UserController extends Controller
      */
     public function showLoginPage()
     {
+        // 既にログインしている場合はホームへリダイレクト
+        if (auth()->check()) {
+            return redirect()->route('home')->with('info', 'ログイン済みです');
+        }
         return view('user.login');
     }
 
