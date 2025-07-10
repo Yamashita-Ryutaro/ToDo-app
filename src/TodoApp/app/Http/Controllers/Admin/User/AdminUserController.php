@@ -15,6 +15,11 @@ class AdminUserController extends Controller
         $this->adminUserService = $adminUserService;
     }
 
+    /**
+     * ユーザー一覧ページを表示
+     *
+     * @return \Illuminate\View\View
+     */
     public function showUserIndexPage()
     {
         // ユーザー一覧ページのデータを取得
@@ -22,6 +27,12 @@ class AdminUserController extends Controller
         return view('admin.user.index', $users);
     }
 
+    /**
+     * ユーザー詳細ページを表示
+     *
+     * @param int $user_id
+     * @return \Illuminate\View\View
+     */
     public function showUserDetailPage($user_id)
     {
         // ユーザー詳細ページのデータを取得
