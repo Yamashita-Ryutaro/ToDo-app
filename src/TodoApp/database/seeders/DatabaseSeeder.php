@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Admin\MstAdmin;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,10 +17,13 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             MstAdminSeeder::class,
+            MstSystemMailsTableSeeder::class,
             MstTaskStatusesTableSeeder::class,
+            MstTablesTableSeeder::class,
             UsersTableSeeder::class,
             FoldersTableSeeder::class,
             TasksTableSeeder::class,
+            SystemMailsTableSeeder::class,
         ]);
     }
 }

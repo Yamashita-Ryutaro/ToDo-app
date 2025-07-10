@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mst_task_statuses', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('display_name', 10);
+        Schema::create('mst_system_mails', function (Blueprint $table) {
+            $table->id();
+            $table->string('display_name');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mst_task_statuses');
+        Schema::dropIfExists('mst_system_mails');
     }
 };

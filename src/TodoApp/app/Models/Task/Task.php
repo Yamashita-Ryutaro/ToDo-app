@@ -46,7 +46,27 @@ class Task extends Model
     public function getStatusAttribute()
     {
         // リレーションから「name」カラム（または表示したい値）を返す
-        return optional($this->taskStatus)->status;
+        return optional($this->taskStatus)->display_name;
+    }
+
+    /**
+     * タスクのフォルダ名を取得
+     *
+     * @return string|null
+     */
+    public function getFolderTitleAttribute()
+    {
+        return optional($this->folder)->title;
+    }
+
+    /**
+     * タスクのフォルダのユーザー名を取得
+     *
+     * @return string|null
+     */
+    public function getFolderUserNameAttribute()
+    {
+        return optional($this->folder->user)->name;
     }
 
     public function getStatusColorClassAttribute()

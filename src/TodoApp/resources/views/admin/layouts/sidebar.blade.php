@@ -1,0 +1,9 @@
+<div class="sidebar">
+    <ul class="sidebar-menu">
+        <li><a href="{{ route('admin.user.index') }}">ユーザー一覧</a></li>
+        <li><a href="{{ route('admin.folder.index') }}">フォルダ一覧</a></li>
+        <li><a href="{{ route('admin.task.index') }}">タスク一覧</a></li>
+        <li><a href="{{ route('admin.mail.index') }}">メール</a></li>
+        <li><a href="{{ route('admin.mst.index') }}">マスタ管理</a></li>
+    </ul>
+</div>

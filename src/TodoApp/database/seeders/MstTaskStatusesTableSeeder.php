@@ -17,7 +17,7 @@ class MstTaskStatusesTableSeeder extends Seeder
         $statuses = ['未着手', '着手中', '完了'];
         foreach ($statuses as $status){
             MstTaskStatus::create([
-                'status' => $status,
+                'display_name' => $status,
                 // created_at/updated_atは自動でセットされる
             ]);
         }

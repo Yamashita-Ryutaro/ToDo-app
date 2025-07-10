@@ -42,6 +42,16 @@ class Folder extends Model
         return $user && $this->user_id === $user->id;
     }
 
+    /**
+     * フォルダのユーザー名を取得
+     *
+     * @return string|null
+     */
+    public function getUserNameAttribute()
+    {
+        return optional($this->user)->name;
+    }
+
     /*
     * フォルダクラスとタスククラスを関連付けするメソッド
     *
