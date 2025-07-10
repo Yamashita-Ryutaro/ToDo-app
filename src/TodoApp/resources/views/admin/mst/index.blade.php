@@ -21,6 +21,7 @@
                             <th>名前</th>
                             <th>説明</th>
                             <th>テーブル名</th>
+                            <th>編集</th>
                             <th>アクション</th>
                         </tr>
                     </thead>
@@ -30,6 +31,7 @@
                                 <td>{{ $table->display_name }}</td>
                                 <td>{{ $table->description }}</td>
                                 <td>{{ $table->table_name }}</td>
+                                <td>{{ $table->is_active ? '可能' : '不可' }}</td>
                                 <td><a href="{{ route('admin.mst.detail', ['table_name' => $table->table_name]) }}" class="btn btn-info">詳細</a></td>
                             </tr>
                         @endforeach

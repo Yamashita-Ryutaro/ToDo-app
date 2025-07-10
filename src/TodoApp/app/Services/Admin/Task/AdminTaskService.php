@@ -9,7 +9,7 @@ class AdminTaskService
     /**
      * タスク一覧ページのデータを取得
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return array
      */
     public function showTaskIndexPageData()
     {
@@ -25,15 +25,14 @@ class AdminTaskService
      * タスク詳細ページのデータを取得
      *
      * @param int $task_id
-     * @return \App\Models\Task|null
+     * @return array
      */
     public function showTaskDetailPageData($task_id)
     {
-        $task = Task::find($task_id);
-        $folder = $task->folder;
+        $task = Task::with('folder')->find($task_id);
         return [
             'task' => $task,
-            'folder' => $folder,
+            'folder' => $task->folder,
         ];
     }   
 }

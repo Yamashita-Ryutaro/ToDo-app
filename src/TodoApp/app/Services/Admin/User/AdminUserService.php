@@ -9,7 +9,7 @@ class AdminUserService
     /**
      * ユーザー一覧ページのデータを取得
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return array
      */
     public function showUserIndexPageData()
     {
@@ -24,15 +24,15 @@ class AdminUserService
      * ユーザー詳細ページのデータを取得
      *
      * @param int $user_id
-     * @return \App\Models\User|null
+     * @return array
      */
     public function showUserDetailPageData($user_id)
     {
-        $user = User::find($user_id);
-        $folders = $user->folders;
+        $user = User::with('folders')->find($user_id);
+
         return [
             'user' => $user,
-            'folders' => $folders,
+            'folders' => $user->folders,
         ];
     }   
 }
