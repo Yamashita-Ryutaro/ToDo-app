@@ -16,11 +16,19 @@
             <div class="panel-heading">お知らせ詳細</div>
             <div class="panel-body">
                 <p>ID: {{ $notification->id }}</p>
-                <p>お知らせ名: {{ $notification->mstNotification->display_name }}</p>
                 <form action="{{ route('admin.notification.update', $notification->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
+                        <label>お知らせ名</label>
+                        <select name="notification_id" id="notification_id" class="form-control">
+                            @foreach ($mstNotifications as $mstNotification)
+                                <option value="{{ $mstNotification->id }}"
+                                    {{ $notification->notification_id == $mstNotification->id ? 'selected' : '' }}>
+                                    {{ $mstNotification->display_name }}
+                                </option>
+                            @endforeach
+                        </select>
                         <label for="subject">件名</label>
                         <input type="text" class="form-control" id="subject" name="subject" value="{{ old('subject', $notification->subject) }}" required>
                     </div>

@@ -20,8 +20,10 @@ class AdminNotificationService
     public function showNotificationDetailPageData($id)
     {
         $notification = Notification::with('mstNotification')->find($id);
+        $mstNotifications = MstNotification::all();
         return [
             'notification' => $notification,
+            'mstNotifications' => $mstNotifications,
         ];
     }
 

@@ -28,6 +28,7 @@ class UpdateAdminNotificationRequest extends FormRequest
             'body' => 'required|string',
             'url_key' => 'nullable|string|max:255',
             'action_text' => 'nullable|string|max:255',
+            'notification_id' => 'required|exists:mst_notifications,id',
         ];
     }
 }
