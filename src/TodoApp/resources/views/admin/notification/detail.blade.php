@@ -10,48 +10,46 @@
 *   用途：フォルダを追加するページのHTMLを表示する
 -->
 @section('content')
-<div class="container">
-    <div class="row">
-        <nav class="panel panel-default">
-            <div class="panel-heading">お知らせ詳細</div>
-            <div class="panel-body">
-                <p>ID: {{ $notification->id }}</p>
-                <form action="{{ route('admin.notification.update', $notification->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="form-group">
-                        <label>お知らせ名</label>
-                        <select name="notification_id" id="notification_id" class="form-control">
-                            @foreach ($mstNotifications as $mstNotification)
-                                <option value="{{ $mstNotification->id }}"
-                                    {{ $notification->notification_id == $mstNotification->id ? 'selected' : '' }}>
-                                    {{ $mstNotification->display_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <label for="subject">件名</label>
-                        <input type="text" class="form-control" id="subject" name="subject" value="{{ old('subject', $notification->subject) }}" required>
-                    </div>
+<div class="main-content">
+    <nav class="panel panel-default">
+        <div class="panel-heading">お知らせ詳細</div>
+        <div class="panel-body">
+            <p>ID: {{ $notification->id }}</p>
+            <form action="{{ route('admin.notification.update', $notification->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label>お知らせ名</label>
+                    <select name="notification_id" id="notification_id" class="form-control">
+                        @foreach ($mstNotifications as $mstNotification)
+                            <option value="{{ $mstNotification->id }}"
+                                {{ $notification->notification_id == $mstNotification->id ? 'selected' : '' }}>
+                                {{ $mstNotification->display_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <label for="subject">件名</label>
+                    <input type="text" class="form-control" id="subject" name="subject" value="{{ old('subject', $notification->subject) }}" required>
+                </div>
 
-                    <div class="form-group">
-                        <label for="body">内容</label>
-                        <textarea class="form-control" id="body" name="body" rows="5" required>{{ old('body', $notification->body) }}</textarea>
-                    </div>
+                <div class="form-group">
+                    <label for="body">内容</label>
+                    <textarea class="form-control" id="body" name="body" rows="5" required>{{ old('body', $notification->body) }}</textarea>
+                </div>
 
-                    <div class="form-group">
-                        <label for="action_text">ボタン名</label>
-                        <input type="text" class="form-control" id="action_text" name="action_text" value="{{ old('action_text', $notification->action_text) }}">
-                    </div>
+                <div class="form-group">
+                    <label for="action_text">ボタン名</label>
+                    <input type="text" class="form-control" id="action_text" name="action_text" value="{{ old('action_text', $notification->action_text) }}">
+                </div>
 
-                    <div class="form-group">
-                        <label for="url_key">URLキー</label>
-                        <input type="text" class="form-control" id="url_key" name="url_key" value="{{ old('url_key', $notification->url_key) }}">
-                    </div>
+                <div class="form-group">
+                    <label for="url_key">URLキー</label>
+                    <input type="text" class="form-control" id="url_key" name="url_key" value="{{ old('url_key', $notification->url_key) }}">
+                </div>
 
-                    <button type="submit" class="btn btn-primary">更新する</button>
-                </form>
-            </div>
-        </nav>
-    </div>
+                <button type="submit" class="btn btn-primary">更新する</button>
+            </form>
+        </div>
+    </nav>
 </div>
 @endsection
