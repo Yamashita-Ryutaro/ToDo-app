@@ -47,7 +47,17 @@
                     <input type="text" class="form-control" id="url_key" name="url_key" value="{{ old('url_key', $notification->url_key) }}">
                 </div>
 
-                <button type="submit" class="btn btn-primary">更新する</button>
+                 <!-- ボタンをflexで左右に配置 -->
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">更新する</button>
+                    <!-- 送信ボタンを別フォームでPOSTしたい場合はJSで送信 -->
+                    <button type="button" class="btn btn-success"
+                        onclick="document.getElementById('sendForm').submit();">送信</button>
+                </div>
+            </form>
+            <!-- hiddenでPOSTする送信用フォーム -->
+            <form id="sendForm" action="{{ route('admin.notification.sent', $notification->id) }}" method="POST" style="display:none;">
+                @csrf
             </form>
         </div>
     </nav>
