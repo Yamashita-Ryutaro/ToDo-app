@@ -5,6 +5,7 @@
 }
 
 .sidebar {
+    min-height: calc(100vh - 6rem);
     width: 15vw;
     background: #2c3e50;
     color: #fff;
