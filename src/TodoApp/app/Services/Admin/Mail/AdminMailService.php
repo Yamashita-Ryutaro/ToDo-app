@@ -47,7 +47,10 @@ class AdminMailService
      */
     public function updateMail($validated_data, $system_mail_id)
     {
-        $result = false;
+        $result = [
+            'result' => false,
+            'message' => null,
+        ];
         DB::beginTransaction();
         try {
             $mail = SystemMail::find($system_mail_id);
@@ -61,13 +64,14 @@ class AdminMailService
             // メールの更新処理を実行
             $mail->update($validated_data);
             DB::commit();
-            $result = true;
+            $result['result'] = true;
         } catch (\Exception $e) {
             Log::error('システムメール更新: ' . $e->getMessage());
             DB::rollBack();
         }
         return [
-            'result' => $result,
+            'result' => $result['result'],
+            'message' => $result['message'],
         ];
     }
 }

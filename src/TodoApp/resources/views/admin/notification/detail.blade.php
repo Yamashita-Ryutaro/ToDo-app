@@ -15,6 +15,33 @@
         <nav class="panel panel-default">
             <div class="panel-heading">お知らせ詳細</div>
             <div class="panel-body">
+                <p>ID: {{ $notification->id }}</p>
+                <p>お知らせ名: {{ $notification->mstNotification->display_name }}</p>
+                <form action="{{ route('admin.notification.update', $notification->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="form-group">
+                        <label for="subject">件名</label>
+                        <input type="text" class="form-control" id="subject" name="subject" value="{{ old('subject', $notification->subject) }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="body">内容</label>
+                        <textarea class="form-control" id="body" name="body" rows="5" required>{{ old('body', $notification->body) }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="action_text">ボタン名</label>
+                        <input type="text" class="form-control" id="action_text" name="action_text" value="{{ old('action_text', $notification->action_text) }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="url_key">URLキー</label>
+                        <input type="text" class="form-control" id="url_key" name="url_key" value="{{ old('url_key', $notification->url_key) }}">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">更新する</button>
+                </form>
             </div>
         </nav>
     </div>

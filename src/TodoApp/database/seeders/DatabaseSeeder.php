@@ -20,10 +20,12 @@ class DatabaseSeeder extends Seeder
             MstSystemMailsTableSeeder::class,
             MstTaskStatusesTableSeeder::class,
             MstTablesTableSeeder::class,
+            MstNotificationsTableSeeder::class,
             UsersTableSeeder::class,
             FoldersTableSeeder::class,
             TasksTableSeeder::class,
             SystemMailsTableSeeder::class,
+            NotificationsTableSeeder::class,
         ]);
     }
 }

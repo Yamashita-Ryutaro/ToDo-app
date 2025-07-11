@@ -15,6 +15,24 @@
         <nav class="panel panel-default">
             <div class="panel-heading">お知らせ一覧</div>
             <div class="panel-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>タイトル</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($notifications as $notification)
+                            <tr>
+                                <td>{{ $notification->mstNotification->display_name }}</td>
+                                <td>
+                                    <a href="{{ route('admin.notification.detail', $notification->id) }}" class="btn btn-info">詳細</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </nav>
     </div>
