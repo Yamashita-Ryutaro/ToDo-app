@@ -19,6 +19,7 @@
                     <thead>
                         <tr>
                             <th>タイトル</th>
+                            <th>件名</th>
                             <th>操作</th>
                         </tr>
                     </thead>
@@ -26,6 +27,7 @@
                         @foreach ($notifications as $notification)
                             <tr>
                                 <td>{{ $notification->mstNotification->display_name }}</td>
+                                <td>{{ $notification->subject }}</td>
                                 <td>
                                     <a href="{{ route('admin.notification.detail', $notification->id) }}" class="btn btn-info">詳細</a>
                                 </td>
