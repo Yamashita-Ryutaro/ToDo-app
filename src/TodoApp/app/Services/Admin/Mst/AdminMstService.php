@@ -8,6 +8,7 @@ use App\Models\Admin\MstTables;
 use App\Models\Admin\MstAdmin;
 use App\Models\Task\MstTaskStatus;
 use App\Models\Mail\MstSystemMail;
+use App\Models\Notification\MstNotification;
 
 class AdminMstService
 {
@@ -92,6 +93,10 @@ class AdminMstService
             case 'mst_system_mails':
                 $contents = MstSystemMail::all();
                 break;
+            case 'mst_notifications':
+                // Assuming there's a model for notifications
+                $contents = MstNotification::all();
+                break;
             default:
                 Log::error("Unsupported table name: {$table_name}");
                 return null;
@@ -115,6 +120,8 @@ class AdminMstService
                 return new MstTaskStatus();
             case 'mst_system_mails':
                 return new MstSystemMail();
+            case 'mst_notifications':
+                return new MstNotification();
             default:
                 Log::error("Unsupported table name: {$table_name}");
                 return null;
