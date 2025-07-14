@@ -25,6 +25,10 @@
             <form id="sendForm" action="{{ route('admin.notification.sent', $notification->id) }}" method="POST" style="display:none;">
                 @csrf
             </form>
+            <form id="deleteForm" action="{{ route('admin.notification.delete', $notification->id) }}" method="POST" style="display:none;">
+                @csrf
+                @method('DELETE')
+            </form>
         </div>
     </nav>
 </div>

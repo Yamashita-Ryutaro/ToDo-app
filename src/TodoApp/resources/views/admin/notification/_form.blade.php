@@ -47,7 +47,11 @@
             <button type="submit" class="btn btn-primary">更新する</button>
             <!-- 送信ボタンを別フォームでPOSTしたい場合はJSで送信 -->
             <button type="button" class="btn btn-success"
-                onclick="document.getElementById('sendForm').submit();">送信</button>
+                onclick="document.getElementById('sendForm').submit();">送信
+            </button>
+            <button type="button" class="btn btn-danger"
+                onclick="if(confirm('本当に削除しますか？')) { document.getElementById('deleteForm').submit(); }">削除 
+            </button>
         </div>
     @else
         <button type="submit" class="btn btn-primary">作成する</button>

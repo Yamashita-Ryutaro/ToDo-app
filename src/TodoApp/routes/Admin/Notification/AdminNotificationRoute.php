@@ -18,5 +18,6 @@ Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::post('/admin/notification/create', [AdminNotificationController::class, 'createNotification'])->name('admin.notification.create');
     Route::get('/admin/notification/{id}', [AdminNotificationController::class, 'showNotificationDetailPage'])->name('admin.notification.detail');
     Route::put('/admin/notification/{id}', [AdminNotificationController::class, 'updateNotification'])->name('admin.notification.update');
+    Route::delete('/admin/notification/{id}', [AdminNotificationController::class, 'deleteNotification'])->name('admin.notification.delete');
     Route::post('/admin/notification/{id}', [AdminNotificationController::class, 'sentNotification'])->name('admin.notification.sent');
 });

@@ -115,6 +115,32 @@ class AdminNotificationService
     }
 
     /**
+     * 通知の削除
+     *
+     * @param int $id
+     * @return array
+     */
+    public function deleteNotification($id)
+    {
+        $result = [
+            'result' => false,
+            'message' => null,
+        ];
+        try {
+            DB::beginTransaction();
+            $notification = Notification::find($id);
+            $notification->delete();
+            DB::commit();
+            $result['result'] = true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('通知削除: ' . $e->getMessage());
+            $result['message'] = '通知の削除に失敗しました';
+        }
+        return $result;
+    }
+
+    /**
      * 通知の送信
      *
      * @param int $id
