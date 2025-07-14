@@ -34,6 +34,14 @@
                             <label for="password-confirm">パスワード（確認）</label>
                             <input type="password" class="form-control" id="password-confirm" name="password_confirmation">
                         </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="hidden" name="is_get_notification" value="0"> <!-- チェックされていない場合は0 -->
+                                <input type="checkbox" name="is_get_notification" value="1"
+                                    {{ old('is_get_notification', '0') == '1' ? 'checked' : '' }}>
+                                お知らせを受け取る
+                            </label>
+                        </div>
                         <div class="text-right">
                             <button type="submit" class="btn btn-primary">送信</button>
                         </div>

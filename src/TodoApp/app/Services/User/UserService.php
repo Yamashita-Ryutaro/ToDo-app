@@ -61,12 +61,13 @@ class UserService
                     'email' => $validated_data['email'],
                     'name' => $validated_data['name'],
                     'password' => Hash::make($validated_data['password']),
+                    'is_get_notification' => $validated_data['is_get_notification'] ?? false, // チェックボックスの値を保存
                     'user_token' => $token,
                 ]);
             }
 
             // 仮登録のメールを送信
-            Mail::to($validated_data['email'])->send(new PreRegisterMail(2, $token));
+            Mail::to($validated_data['email'])->send(new PreRegisterMail($token));
             DB::commit();
             $result = true;
         } catch (\Exception $e) {
