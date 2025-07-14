@@ -1,0 +1,9 @@
+.my-navbar {
+    align-items: center;
+    background: #333;
+    display: flex;
+    height: 6rem;
+    justify-content: space-between;
+    padding: 0 2%;
+    margin-bottom: 3rem;
+}

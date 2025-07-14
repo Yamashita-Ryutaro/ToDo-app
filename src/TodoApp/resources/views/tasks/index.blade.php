@@ -10,10 +10,7 @@
 *   用途：javascriptライブラリー「flatpickr」のスタイルシートを指定
 -->
 @section('styles')
-    <!-- 「flatpickr」の デフォルトスタイルシートをインポート -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <!-- 「flatpickr」の ブルーテーマの追加スタイルシートをインポート -->
-    <link rel="stylesheet" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+  @include('share.flatpickr.styles')
 @endsection
 
 <!--
@@ -71,8 +68,6 @@
                             <th>タイトル</th>
                             <th>状態</th>
                             <th>期限</th>
-                            <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>

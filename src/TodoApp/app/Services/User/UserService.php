@@ -2,6 +2,7 @@
 
 namespace App\Services\User;
 
+use App\Mail\SystemMails\PasswordResetMail;
 use App\Models\User;
 use App\Models\PasswordReset;
 use Illuminate\Support\Facades\Hash;
@@ -9,7 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Mail\SystemMails\PreRegisterMail;
 
 class UserService
 {
@@ -58,12 +61,13 @@ class UserService
                     'email' => $validated_data['email'],
                     'name' => $validated_data['name'],
                     'password' => Hash::make($validated_data['password']),
+                    'is_get_notification' => $validated_data['is_get_notification'] ?? false, // チェックボックスの値を保存
                     'user_token' => $token,
                 ]);
             }
 
-            // 仮登録メールを送信
-            $user->sendPreRegisterNewUserNotification($token);
+            // 仮登録のメールを送信
+            Mail::to($validated_data['email'])->send(new PreRegisterMail($token));
             DB::commit();
             $result = true;
         } catch (\Exception $e) {
@@ -170,11 +174,17 @@ class UserService
     public function sentPasswordEmail($validated_data)
     {
         $result = false;
+        DB::beginTransaction();
         try {
             $email = $validated_data['email'];
-            Password::sendResetLink(['email' => $email]);
+            PasswordReset::where('email', $email)->delete(); // 古いトークンを削除
+            $token = Password::createToken(User::where('email', $email)->first());
+            // 仮登録のメールを送信
+            Mail::to($validated_data['email'])->send(new PasswordResetMail($token));
+            DB::commit();
             $result = true;
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('パスワードリセットメール: ' . $e->getMessage());
         }
         return $result;

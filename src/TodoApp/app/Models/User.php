@@ -9,8 +9,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Folder;
-use App\Notifications\ResetPasswordNotification;
-use App\Notifications\PreRegisterNewUserNotification;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -26,6 +24,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'email',
+        'is_get_notification',
         'password',
         'admin_id',
         'user_token',
@@ -50,17 +49,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function sendPasswordResetNotification($token)
-    {
-        $this->notify(new ResetPasswordNotification($token));
-    }
-
-
-    public function sendPreRegisterNewUserNotification($token)
-    {
-        $this->notify(new PreRegisterNewUserNotification($token));
-    }
 
     public function getAdminAttribute()
     {

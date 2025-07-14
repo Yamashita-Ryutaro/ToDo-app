@@ -15,4 +15,5 @@ use App\Http\Controllers\Admin\Mail\AdminMailController;
 Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/mail', [AdminMailController::class, 'showMailIndexPage'])->name('admin.mail.index');
     Route::get('/admin/mail/{system_mail_id}', [AdminMailController::class, 'showMailDetailPage'])->name('admin.mail.detail');
+    Route::put('/admin/mail/{system_mail_id}', [AdminMailController::class, 'updateMail'])->name('admin.mail.update');
 });
