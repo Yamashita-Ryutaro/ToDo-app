@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Task\Task;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,6 +16,7 @@ class Folder extends Model
 
     protected $fillable = [
         'title',
+        'user_id',
     ];
 
     /**
@@ -29,6 +31,37 @@ class Folder extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
+    /**
+     * ログインユーザーがこのフォルダの所有者か判定する
+     *
+     * @return bool
+     */
+    public function isOwnedByLoginUser(): bool
+    {
+        $user = Auth::user();
+        return $user && $this->user_id === $user->id;
+    }
+
+    /**
+     * フォルダのユーザー名を取得
+     *
+     * @return string|null
+     */
+    public function getUserNameAttribute()
+    {
+        return optional($this->user)->name;
+    }
+
+    /**
+     * フォルダのタスク数を取得
+     * 
+     * @return int
+     */
+    public function getTaskCountAttribute()
+    {
+        return $this->tasks()->count();
+    }
+
     /*
     * フォルダクラスとタスククラスを関連付けするメソッド
     *
@@ -36,7 +69,16 @@ class Folder extends Model
     */
     public function tasks()
     {
-        return $this->hasMany(Task::class, 'id', 'folder_id');
+        return $this->hasMany(Task::class, 'folder_id', 'id');
     }
+
+    /**
+     * フォルダテーブルとユーザーテーブルのリレーション
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
 
 }

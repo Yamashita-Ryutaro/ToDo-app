@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,9 +16,16 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            MstAdminSeeder::class,
+            MstSystemMailsTableSeeder::class,
+            MstTaskStatusesTableSeeder::class,
+            MstTablesTableSeeder::class,
+            MstNotificationsTableSeeder::class,
+            UsersTableSeeder::class,
             FoldersTableSeeder::class,
-            TaskStatusesTableSeeder::class,
             TasksTableSeeder::class,
+            SystemMailsTableSeeder::class,
+            NotificationsTableSeeder::class,
         ]);
     }
 }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedInteger('status_id')->default(1);
             $table->timestamps();
             $table->foreign('folder_id')->references('id')->on('folders');
-            $table->foreign('status_id')->references('id')->on('task_statuses');
+            $table->foreign('status_id')->references('id')->on('mst_task_statuses');
         });
     }
 

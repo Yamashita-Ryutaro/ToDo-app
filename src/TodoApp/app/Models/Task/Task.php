@@ -2,6 +2,7 @@
 
 namespace App\Models\Task;
 
+use App\Models\Folder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,23 +33,50 @@ class Task extends Model
     }
 
     /**
+     * タスクがフォルダに属しているか
+     */
+    public function isInFolder(Folder $folder): bool
+    {
+        return $this->folder_id === $folder->id;
+    }
+
+    /**
      * 
      */
     public function getStatusAttribute()
     {
         // リレーションから「name」カラム（または表示したい値）を返す
-        return optional($this->taskStatus)->status;
+        return optional($this->taskStatus)->display_name;
+    }
+
+    /**
+     * タスクのフォルダ名を取得
+     *
+     * @return string|null
+     */
+    public function getFolderTitleAttribute()
+    {
+        return optional($this->folder)->title;
+    }
+
+    /**
+     * タスクのフォルダのユーザー名を取得
+     *
+     * @return string|null
+     */
+    public function getFolderUserNameAttribute()
+    {
+        return optional($this->folder->user)->name;
     }
 
     public function getStatusColorClassAttribute()
     {
-        // ステータス名やidで分岐
-        switch ($this->status) {
-            case '未着手':
+        switch ($this->status_id) {
+            case 1: // 未着手
                 return 'label-danger'; // 赤
-            case '着手中':
+            case 2: // 着手中
                 return 'label-warning'; // 黄色
-            case '完了':
+            case 3: // 完了
                 return 'label-success'; // 緑
             default:
                 return 'label-default'; // グレー
@@ -61,6 +89,14 @@ class Task extends Model
      */
     public function taskStatus()
     {
-        return $this->belongsTo(TaskStatus::class, 'status_id', 'id');
+        return $this->belongsTo(MstTaskStatus::class, 'status_id', 'id');
+    }
+
+    /**
+     * taskテーブルとfolderテーブルのリレーション
+     */
+    public function folder()
+    {
+        return $this->belongsTo(Folder::class, 'folder_id', 'id');
     }
 }
