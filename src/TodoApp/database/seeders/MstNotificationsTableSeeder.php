@@ -16,7 +16,7 @@ class MstNotificationsTableSeeder extends Seeder
     public function run()
     {
         MstNotification::create([
-            'display_name' => 'Sample Notification',
+            'display_name' => '重要なお知らせ',
         ]);
     }
 }

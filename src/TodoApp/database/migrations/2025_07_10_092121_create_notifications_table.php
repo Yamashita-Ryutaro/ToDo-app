@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('subject');
             $table->text('body');
+            $table->string('date_key')->nullable();
             $table->string('url_key')->nullable();
-            $table->string('action_text')->nullable();
+            $table->date('date')->nullable();
+            $table->string('url')->nullable();
             $table->bigInteger('notification_id')->unsigned();
             $table->foreign('notification_id')->references('id')->on('mst_notifications');
             $table->timestamps();

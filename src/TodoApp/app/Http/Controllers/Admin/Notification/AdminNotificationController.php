@@ -16,23 +16,47 @@ class AdminNotificationController extends Controller
         $this->notificationService = $notificationService;
     }
 
+    /**
+     * 通知一覧ページを表示
+     * 
+     * @return \Illuminate\View\View
+     */
     public function showNotificationIndexPage()
     {
         $notifications = $this->notificationService->showNotificationIndexPageData();
         return view('admin.notification.index', $notifications);
     }
 
+    /**
+     * 通知詳細ページを表示
+     * 
+     * @param int $id
+     * @return \Illuminate\View\View
+     */
     public function showNotificationDetailPage($id)
     {
         $notification = $this->notificationService->showNotificationDetailPageData($id);
         return view('admin.notification.detail', $notification);
     }
 
+    /**
+     * 通知の作成
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function createNotification(Request $request)
     {
         // Logic to create a new notification
     }
 
+    /**
+     * 通知の更新
+     * 
+     * @param \App\Http\Requests\Admin\UpdateAdminNotificationRequest $request
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateNotification(UpdateAdminNotificationRequest $request, $id)
     {
         $validated_data = $request->validated();
@@ -44,8 +68,19 @@ class AdminNotificationController extends Controller
         return redirect()->back()->with('error', $result['message'] ?? '通知の更新に失敗しました');
     }
 
-    public function sentNotification(Request $request, $id)
+    /**
+     * 通知の送信
+     * 
+     * @param int $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function sentNotification($id)
     {
-        // Logic to send the notification
+        $result = $this->notificationService->sentNotification($id);
+
+        if ($result['result']) {
+            return redirect()->back()->with('success', '通知の送信に成功しました');
+        }
+        return redirect()->back()->with('error', $result['message'] ?? '通知の送信に失敗しました');
     }
 }

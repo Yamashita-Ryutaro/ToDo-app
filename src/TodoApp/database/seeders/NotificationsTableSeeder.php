@@ -16,10 +16,12 @@ class NotificationsTableSeeder extends Seeder
     public function run()
     {
         Notification::create([
-            'subject' => 'Sample Notification',
-            'body' => 'This is a sample notification body.',
-            'url_key' => 'sample-notification',
-            'action_text' => 'View Notification',
+            'subject' => 'メンテナンスのお知らせ',
+            'body' => '{##DATE##}にシステムメンテナンスを行います。{##URL##}を確認してください。',
+            'url_key' => '##URL##',
+            'url' => 'home',
+            'date_key' => '##DATE##',
+            'date' => now()->addDays(3),
             'notification_id' => 1,
         ]);
     }
