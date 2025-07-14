@@ -74,6 +74,38 @@ class AdminMstService
         ];
     }
 
+    /**
+     * 通知機能のマスタテーブル詳細を更新
+     *
+     * @param array $validated_data
+     * @return array
+     */
+    public function updateNotificationMstDetail($validated_data)
+    {
+        $result = [
+            'result' => false,
+            'message' => null,
+        ];
+        try {
+            DB::beginTransaction();
+            $ids = array_keys($validated_data['display_names']);
+            $notifications = MstNotification::whereIn('id', $ids)->get();
+
+            foreach ($notifications as $row) {
+                $row->display_name = $validated_data['display_names'][$row->id];
+                $row->is_mandatory = $validated_data['is_mandatory'][$row->id] ?? false;
+                $row->save();
+            }
+            DB::commit();
+            $result['result'] = true;
+        } catch (\Exception $e) {
+            Log::error('通知マスタテーブル更新: ' . $e->getMessage());
+            DB::rollBack();
+            $result['message'] = '通知マスタテーブルの更新に失敗しました';
+        }
+        return $result;
+    }
+
 
     /**
      * 指定されたテーブルのデータを取得
