@@ -23,3 +23,8 @@ Route::get("/password/email", [UserController::class,"showPasswordEmailPage"])->
 Route::post("/password/email", [UserController::class,"sentPasswordEmail"]);
 Route::get("/password/reset/{token}", [UserController::class,"showPasswordUpdatePage"])->name("password.reset");
 Route::post("/password/reset", [UserController::class,"updatePassword"])->name("password.update");
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get("/user/profile", [UserController::class,"showProfilePage"])->name("user.profile");
+    Route::post("/user/profile", [UserController::class,"updateProfile"]);
+});

@@ -9,6 +9,7 @@ use App\Services\User\UserService;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\ResetPasswordRequest;
 use App\Http\Requests\User\SentPasswordEmailRequest;
+use App\Http\Requests\User\UpdateProfileRequest;
 
 class UserController extends Controller
 {
@@ -78,6 +79,17 @@ class UserController extends Controller
     public function showPasswordUpdatePage($token)
     {
         return view('password.reset', ['token' => $token]);
+    }
+
+    /**
+     * ユーザープロフィールページの表示
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function showProfilePage()
+    {
+        $user = auth()->user();
+        return view('user.profile', $user);
     }
 
     /**
@@ -168,5 +180,17 @@ class UserController extends Controller
         } else {
             return redirect()->back()->with('error', 'パスワードリセットに失敗');
         }
+    }
+
+    /**
+     * ユーザープロフィール更新
+     * 
+     * @param UpdateProfileRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateProfile(UpdateProfileRequest $request)
+    {
+        $validated_data = $request->validated();
+        dd($validated_data);
     }
 }

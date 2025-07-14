@@ -115,6 +115,7 @@ class UserService
             $user->update([
                 'email_verified_at' => now(), // 仮登録から本登録へ
             ]);
+            $user->user_token = null; // トークンをクリア
             DB::commit();
             $result = true;
         } catch (\Exception $e) {
