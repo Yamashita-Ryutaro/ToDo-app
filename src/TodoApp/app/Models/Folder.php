@@ -52,6 +52,16 @@ class Folder extends Model
         return optional($this->user)->name;
     }
 
+    /**
+     * フォルダのタスク数を取得
+     * 
+     * @return int
+     */
+    public function getTaskCountAttribute()
+    {
+        return $this->tasks()->count();
+    }
+
     /*
     * フォルダクラスとタスククラスを関連付けするメソッド
     *

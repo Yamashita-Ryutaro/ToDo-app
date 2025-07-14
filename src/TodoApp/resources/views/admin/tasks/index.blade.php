@@ -18,6 +18,8 @@
                 <thead>
                     <tr>
                         <th>タイトル</th>
+                        <th>フォルダ名</th>
+                        <th>ユーザー名</th>
                         <th>期限</th>
                         <th>操作</th>
                     </tr>
@@ -26,6 +28,8 @@
                     @foreach ($tasks as $task)
                         <tr>
                             <td>{{ $task->title }}</td>
+                            <td>{{ $task->folder_title }}</td>
+                            <td>{{ $task->folder_user_name }}</td>
                             <td>{{ $task->due_date }}</td>
                             <td><span class="badge {{ $task->status_color_class }}">{{ $task->status }}</span></td>
                             <td>

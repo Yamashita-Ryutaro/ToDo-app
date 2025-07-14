@@ -18,6 +18,7 @@
                 <thead>
                     <tr>
                         <th>タイトル</th>
+                        <th>タスク数</th>
                         <th>ユーザー名</th>
                         <th>操作</th>
                     </tr>
@@ -26,6 +27,7 @@
                     @foreach ($folders as $folder)
                         <tr>
                             <td>{{ $folder->title }}</td>
+                            <td>{{ $folder->task_count }}</td>
                             <td>{{ $folder->user_name }}</td>
                             <td>
                                 <a href="{{ route('admin.folder.detail', $folder->id) }}" class="btn btn-info">詳細</a>

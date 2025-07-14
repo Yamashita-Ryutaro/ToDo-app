@@ -68,8 +68,6 @@
                             <th>タイトル</th>
                             <th>状態</th>
                             <th>期限</th>
-                            <th></th>
-                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
