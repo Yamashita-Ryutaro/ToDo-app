@@ -31,12 +31,12 @@ class AdminNotificationController extends Controller
     /**
      * 通知詳細ページを表示
      * 
-     * @param int $id
+     * @param int $notification_id
      * @return \Illuminate\View\View
      */
-    public function showNotificationDetailPage($id)
+    public function showNotificationDetailPage($notification_id)
     {
-        $notification = $this->notificationService->showNotificationDetailPageData($id);
+        $notification = $this->notificationService->showNotificationDetailPageData($notification_id);
         return view('admin.notification.detail', $notification);
     }
 
@@ -73,13 +73,13 @@ class AdminNotificationController extends Controller
      * 通知の更新
      * 
      * @param \App\Http\Requests\Admin\UpdateAdminNotificationRequest $request
-     * @param int $id
+     * @param int $notification_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateNotification(UpdateAdminNotificationRequest $request, $id)
+    public function updateNotification(UpdateAdminNotificationRequest $request, $notification_id)
     {
         $validated_data = $request->validated();
-        $result = $this->notificationService->updateNotification($validated_data, $id);
+        $result = $this->notificationService->updateNotification($validated_data, $notification_id);
 
         if ($result['result']) {
             return redirect()->back()->with('success', '通知の更新に成功しました');
@@ -90,12 +90,12 @@ class AdminNotificationController extends Controller
     /**
      * 通知の削除
      * 
-     * @param int $id
+     * @param int $notification_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function deleteNotification($id)
+    public function deleteNotification($notification_id)
     {
-        $result = $this->notificationService->deleteNotification($id);
+        $result = $this->notificationService->deleteNotification($notification_id);
         if ($result['result']) {
             return redirect()->route('admin.notification.index')->with('success', '通知の削除に成功しました');
         }
@@ -105,12 +105,12 @@ class AdminNotificationController extends Controller
     /**
      * 通知の送信
      * 
-     * @param int $id
+     * @param int $notification_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function sentNotification($id)
+    public function sentNotification($notification_id)
     {
-        $result = $this->notificationService->sentNotification($id);
+        $result = $this->notificationService->sentNotification($notification_id);
 
         if ($result['result']) {
             return redirect()->back()->with('success', '通知の送信に成功しました');

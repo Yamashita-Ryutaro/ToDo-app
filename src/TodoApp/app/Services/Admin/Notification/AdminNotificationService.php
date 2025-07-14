@@ -28,12 +28,12 @@ class AdminNotificationService
     /**
      * 通知詳細ページのデータを取得
      *
-     * @param int $id
+     * @param int $notification_id
      * @return array
      */
-    public function showNotificationDetailPageData($id)
+    public function showNotificationDetailPageData($notification_id)
     {
-        $notification = Notification::with('mstNotification')->find($id);
+        $notification = Notification::with('mstNotification')->find($notification_id);
         $mstNotifications = MstNotification::all();
         return [
             'notification' => $notification,
@@ -88,10 +88,10 @@ class AdminNotificationService
      * 通知の更新
      *
      * @param array $validated_data
-     * @param int $id
+     * @param int $notification_id
      * @return array
      */
-    public function updateNotification($validated_data, $id)
+    public function updateNotification($validated_data, $notification_id)
     {
         $result = [
             'result' => false,
@@ -100,7 +100,7 @@ class AdminNotificationService
         try {
             DB::beginTransaction();
 
-            $notification = Notification::find($id);
+            $notification = Notification::find($notification_id);
 
             $notification->update($validated_data);
 
@@ -117,10 +117,10 @@ class AdminNotificationService
     /**
      * 通知の削除
      *
-     * @param int $id
+     * @param int $notification_id
      * @return array
      */
-    public function deleteNotification($id)
+    public function deleteNotification($notification_id)
     {
         $result = [
             'result' => false,
@@ -128,7 +128,7 @@ class AdminNotificationService
         ];
         try {
             DB::beginTransaction();
-            $notification = Notification::find($id);
+            $notification = Notification::find($notification_id);
             $notification->delete();
             DB::commit();
             $result['result'] = true;
@@ -143,21 +143,25 @@ class AdminNotificationService
     /**
      * 通知の送信
      *
-     * @param int $id
+     * @param int $notification_id
      * @return array
      */
-    public function sentNotification($id)
+    public function sentNotification($notification_id)
     {
         $result = [
             'result' => false,
             'message' => null,
         ];
 
-        $user = User::all();
-        $emails = $user->pluck('email')->toArray();
-        Mail::to($emails)->send(new NotificationMail($id));
-
-        // ここでは通知の送信処理を実装します。
+        try {
+            $user = User::all();
+            $emails = $user->pluck('email')->toArray();
+            Mail::to($emails)->send(new NotificationMail($notification_id));
+            $result['result'] = true;
+        } catch (\Exception $e) {
+            Log::error('通知送信: ' . $e->getMessage());
+            $result['message'] = '通知の送信に失敗しました';
+        }
 
         return $result;
     }

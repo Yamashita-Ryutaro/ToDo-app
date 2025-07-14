@@ -16,8 +16,8 @@ Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/notification', [AdminNotificationController::class, 'showNotificationIndexPage'])->name('admin.notification.index');
     Route::get('/admin/notification/create', [AdminNotificationController::class, 'showNotificationCreatePage'])->name('admin.notification.create.page');
     Route::post('/admin/notification/create', [AdminNotificationController::class, 'createNotification'])->name('admin.notification.create');
-    Route::get('/admin/notification/{id}', [AdminNotificationController::class, 'showNotificationDetailPage'])->name('admin.notification.detail');
-    Route::put('/admin/notification/{id}', [AdminNotificationController::class, 'updateNotification'])->name('admin.notification.update');
-    Route::delete('/admin/notification/{id}', [AdminNotificationController::class, 'deleteNotification'])->name('admin.notification.delete');
-    Route::post('/admin/notification/{id}', [AdminNotificationController::class, 'sentNotification'])->name('admin.notification.sent');
+    Route::get('/admin/notification/{notification_id}', [AdminNotificationController::class, 'showNotificationDetailPage'])->name('admin.notification.detail');
+    Route::put('/admin/notification/{notification_id}', [AdminNotificationController::class, 'updateNotification'])->name('admin.notification.update');
+    Route::delete('/admin/notification/{notification_id}', [AdminNotificationController::class, 'deleteNotification'])->name('admin.notification.delete');
+    Route::post('/admin/notification/{notification_id}', [AdminNotificationController::class, 'sentNotification'])->name('admin.notification.sent');
 });
