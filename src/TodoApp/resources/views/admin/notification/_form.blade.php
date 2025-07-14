@@ -5,16 +5,27 @@
     @endif
     <div class="form-group">
         <label>お知らせ名</label>
-        <select name="notification_id" id="notification_id" class="form-control">
+        <select name="notification_id" id="notification_id" class="form-control mb-2">
             @foreach ($mstNotifications as $mstNotification)
                 <option value="{{ $mstNotification->id }}"
+                    data-is-mandatory-users="{{ $mstNotification->is_mandatory ? 1 : 0 }}"
                     {{ $notification->notification_id == $mstNotification->id ? 'selected' : '' }}>
                     {{ $mstNotification->display_name }}
                 </option>
             @endforeach
         </select>
+    </div>
+
+    <label for="is_mandatory">全体通知</label>
+    <div class="form-group" id="is-mandatory-display">
+        <!-- ここに切り替えたい表示内容を入れる -->
+        <span class="badge badge-info">全体通知対象です</span>
+    </div>
+
+    <div class="form-group">
         <label for="subject">件名</label>
-        <input type="text" class="form-control" id="subject" name="subject" value="{{ old('subject', $notification->subject) }}" required>
+        <input type="text" class="form-control" id="subject" name="subject"
+            value="{{ old('subject', $notification->subject) }}" required>
     </div>
 
     <div class="form-group">
@@ -57,3 +68,26 @@
         <button type="submit" class="btn btn-primary">作成する</button>
     @endif
 </form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const select = document.getElementById('notification_id');
+    const display = document.getElementById('is-mandatory-display');
+
+    function updateDisplay() {
+        const selectedOption = select.selectedOptions[0];
+        const isMandatory = selectedOption.getAttribute('data-is-mandatory-users');
+
+        if (isMandatory == "1") {
+            display.innerHTML = '<span class="badge badge-info">全体通知対象です</span>';
+        } else {
+            display.innerHTML = '<span class="badge badge-secondary">一部ユーザーのみ対象です</span>';
+        }
+    }
+
+    select.addEventListener('change', updateDisplay);
+
+    // 初期表示
+    updateDisplay();
+});
+</script>

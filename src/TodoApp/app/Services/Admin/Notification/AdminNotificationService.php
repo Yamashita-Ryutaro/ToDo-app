@@ -175,17 +175,14 @@ class AdminNotificationService
     private function getUserNotificationTarget($notification_id)
     {
         $notification = Notification::find($notification_id);
-        $receive_notification_id = $notification->mstNotification->id;
-        switch ($receive_notification_id) {
-            case 1:
-                // 全ユーザーに通知
-                return User::all();
-            case 2:
-                // 特定のユーザーに通知
-                return User::where('receive_notification_id', $receive_notification_id)->get();
-            default:
-                // デフォルトは全ユーザー
-                return User::all();
+        $mstNotification = $notification->mstNotification;
+
+        // 重要・メンテナンスは全ユーザー
+        if ($mstNotification->is_mandatory) {
+            return User::all();
+        } else {
+            // それ以外は通知ONのユーザーだけ
+            return User::where('is_get_notification', true)->get();
         }
     }
 }

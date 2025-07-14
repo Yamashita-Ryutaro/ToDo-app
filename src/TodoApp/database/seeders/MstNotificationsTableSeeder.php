@@ -17,12 +17,15 @@ class MstNotificationsTableSeeder extends Seeder
     {
         MstNotification::create([
             'display_name' => '重要なお知らせ',
+            'is_mandatory' => true,
         ]);
         MstNotification::create([
             'display_name' => 'メンテナンス',
+            'is_mandatory' => true,
         ]);
         MstNotification::create([
             'display_name' => '新機能リリース',
+            'is_mandatory' => false,
         ]);
     }
 }

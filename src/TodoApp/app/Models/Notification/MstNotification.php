@@ -11,6 +11,7 @@ class MstNotification extends Model
     protected $table = 'mst_notifications';
     protected $fillable = [
         'display_name',
+        'is_mandatory',
     ];
 
     public function notifications()
