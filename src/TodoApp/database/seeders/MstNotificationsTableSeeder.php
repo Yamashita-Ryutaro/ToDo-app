@@ -19,7 +19,7 @@ class MstNotificationsTableSeeder extends Seeder
             'display_name' => '重要なお知らせ',
         ]);
         MstNotification::create([
-            'display_name' => '定期メンテナンス',
+            'display_name' => 'メンテナンス',
         ]);
         MstNotification::create([
             'display_name' => '新機能リリース',

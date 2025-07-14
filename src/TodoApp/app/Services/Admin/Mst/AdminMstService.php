@@ -101,7 +101,6 @@ class AdminMstService
                 Log::error("Unsupported table name: {$table_name}");
                 return null;
         }
-
         return $contents;
     }
 

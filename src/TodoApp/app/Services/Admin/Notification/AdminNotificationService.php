@@ -154,7 +154,7 @@ class AdminNotificationService
         ];
 
         try {
-            $user = User::all();
+            $user = $this->getUserNotificationTarget($notification_id);
             $emails = $user->pluck('email')->toArray();
             Mail::to($emails)->send(new NotificationMail($notification_id));
             $result['result'] = true;
@@ -164,5 +164,28 @@ class AdminNotificationService
         }
 
         return $result;
+    }
+    
+    /**
+     * ユーザーの通知対象を取得
+     * 
+     * @param int $notification_id
+     * @return User $user
+     */
+    private function getUserNotificationTarget($notification_id)
+    {
+        $notification = Notification::find($notification_id);
+        $receive_notification_id = $notification->mstNotification->id;
+        switch ($receive_notification_id) {
+            case 1:
+                // 全ユーザーに通知
+                return User::all();
+            case 2:
+                // 特定のユーザーに通知
+                return User::where('receive_notification_id', $receive_notification_id)->get();
+            default:
+                // デフォルトは全ユーザー
+                return User::all();
+        }
     }
 }
