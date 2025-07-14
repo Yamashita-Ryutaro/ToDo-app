@@ -42,6 +42,49 @@ class AdminNotificationService
     }
 
     /**
+     * 通知作成ページのデータを取得
+     *
+     * @return array
+     */
+    public function showNotificationCreatePageData()
+    {
+        $notification = new Notification();
+        $mstNotifications = MstNotification::all();
+        return [
+            'notification' => $notification,
+            'mstNotifications' => $mstNotifications,
+        ];
+    }
+
+    /**
+     * 通知の作成
+     *
+     * @param array $validated_data
+     * @return array
+     */
+    public function createNotification($validated_data)
+    {
+        $result = [
+            'result' => false,
+            'message' => null,
+        ];
+        try {
+            DB::beginTransaction();
+            $notification = new Notification();
+            $notification->create(
+                $validated_data,
+            );
+            DB::commit();
+            $result['result'] = true;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('通知作成: ' . $e->getMessage());
+            $result['message'] = '通知の作成に失敗しました';
+        }
+        return $result;
+    }
+
+    /**
      * 通知の更新
      *
      * @param array $validated_data

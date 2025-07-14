@@ -16,13 +16,40 @@ class NotificationsTableSeeder extends Seeder
     public function run()
     {
         Notification::create([
+            'subject' => 'サービス終了のお知らせ',
+            'body' => '{##DATE##}をもってサービスを終了します。{##URL##}を確認してください。',
+            'url_key' => '##URL##',
+            'url' => 'home',
+            'date_key' => '##DATE##',
+            'date' => now()->addDays(3),
+            'notification_id' => 1,
+        ]);
+        Notification::create([
+            'subject' => '緊急メンテナンスのお知らせ',
+            'body' => '{##DATE##}に緊急メンテナンスを行います。{##URL##}を確認してください。',
+            'url_key' => '##URL##',
+            'url' => 'home',
+            'date_key' => '##DATE##',
+            'date' => now()->addDays(3),
+            'notification_id' => 1,
+        ]);
+        Notification::create([
             'subject' => 'メンテナンスのお知らせ',
             'body' => '{##DATE##}にシステムメンテナンスを行います。{##URL##}を確認してください。',
             'url_key' => '##URL##',
             'url' => 'home',
             'date_key' => '##DATE##',
             'date' => now()->addDays(3),
-            'notification_id' => 1,
+            'notification_id' => 2,
+        ]);
+        Notification::create([
+            'subject' => '新機能リリースのお知らせ',
+            'body' => '{##DATE##}に新機能をリリースしました。{##URL##}を確認してください。',
+            'url_key' => '##URL##',
+            'url' => 'home',
+            'date_key' => '##DATE##',
+            'date' => now()->addDays(3),
+            'notification_id' => 3,
         ]);
     }
 }

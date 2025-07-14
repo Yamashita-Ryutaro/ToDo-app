@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\Admin\Notification\AdminNotificationService;
 use App\Http\Requests\Admin\UpdateAdminNotificationRequest;
+use App\Http\Requests\Admin\CreateAdminNotificationRequest;
 
 class AdminNotificationController extends Controller
 {
@@ -40,14 +41,32 @@ class AdminNotificationController extends Controller
     }
 
     /**
+     * 通知作成ページを表示
+     * 
+     * @return \Illuminate\View\View
+     */
+    public function showNotificationCreatePage()
+    {
+        $notification = $this->notificationService->showNotificationCreatePageData();
+        return view('admin.notification.create', $notification);
+    }
+
+    /**
      * 通知の作成
      * 
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function createNotification(Request $request)
+    public function createNotification(CreateAdminNotificationRequest $request)
     {
-        // Logic to create a new notification
+        $validated_data = $request->validated();
+        $result = $this->notificationService->createNotification($validated_data);
+
+        if ($result['result']) {
+            return redirect()->back()->with('success', '通知の作成に成功しました');
+        }
+        return redirect()->back()->with('error', $result['message'] ?? '通知の作成に失敗しました');
+
     }
 
     /**

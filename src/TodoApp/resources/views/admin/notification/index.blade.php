@@ -14,6 +14,9 @@
     <nav class="panel panel-default">
         <div class="panel-heading">お知らせ一覧</div>
         <div class="panel-body">
+            <div class="mb-3 text-right">
+                <a href="{{ route('admin.notification.create') }}" class="btn btn-primary">作成</a>
+            </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
