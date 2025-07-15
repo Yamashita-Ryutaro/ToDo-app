@@ -36,5 +36,12 @@ class SystemMailsTableSeeder extends Seeder
             'system_mail_id' => 3,
             'body' => '以下のリンクをクリックしてメールアドレスを再設定してください。',
         ]);
+        SystemMail::create([
+            'subject' => '今日のToDoリスト',
+            'url_key' => '##TODAY_TODO##',
+            'action_text' => '今日のタスクを確認',
+            'system_mail_id' => 4,
+            'body' => '以下のリンクから今日のタスクを確認してください。',
+        ]);
     }
 }

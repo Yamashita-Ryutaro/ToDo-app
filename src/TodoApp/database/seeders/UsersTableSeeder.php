@@ -21,6 +21,8 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'test',
             'email' => 'dummy@sample.com',
+            'is_get_notification' => true,
+            'notification_hour' => Carbon::now()->hour,
             'password' => bcrypt('test1234'),
             'admin_id' => 1,
             'created_at' => Carbon::now(),

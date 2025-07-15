@@ -24,5 +24,8 @@ class MstSystemMailsTableSeeder extends Seeder
         MstSystemMail::create([
             'display_name' => 'メール変更',       
         ]);
+        MstSystemMail::create([
+            'display_name' => '今日のToDoリスト',       
+        ]);
     }
 }
