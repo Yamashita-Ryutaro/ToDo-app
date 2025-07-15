@@ -16,8 +16,7 @@ services:
     command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     # 名前付きボリュームを設定する（名前付きボリューム:コンテナ側ボリュームの場所）
     volumes:
-      - db_data_test:/var/lib/mysql
-      - db_my.cnf_test:/etc/mysql/conf.d/my.cnf
+      - ./phpMyAdmin/my.cnf:/etc/mysql/conf.d/my.cnf
       - db_sql_test:/docker-entrypoint-initdb.d
 
   php:
@@ -77,6 +76,14 @@ services:
     # ポートフォワードの指定（ホスト側ポート：コンテナ側ポート）
     ports:
       - 8025:8025
+
+  # cronジョブを実行するためのサービス
+  scheduler:
+    image: laravel_scheduler:latest
+    build: ./docker/scheduler
+    container_name: "laravel_scheduler"
+    volumes:
+      - ./src:/var/www
 
 # サービスレベルで名前付きボリュームを命名する
 volumes:

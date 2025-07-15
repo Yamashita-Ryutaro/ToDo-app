@@ -24,5 +24,17 @@ class TasksTableSeeder extends Seeder
                 // created_at/updated_at はEloquentが自動でセット
             ]);
         }
+        Task::create([
+            'folder_id' => 4,
+            'title' => "サンプルタスク",
+            'status_id' => 1,
+            'due_date' => Carbon::now(),
+        ]);
+        Task::create([
+            'folder_id' => 4,
+            'title' => "サンプルタスク2",
+            'status_id' => 1,
+            'due_date' => Carbon::now(),
+        ]);
     }
 }

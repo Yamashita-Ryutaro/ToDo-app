@@ -33,6 +33,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'test2',
             'email' => 'dummy2@sample.com',
             'is_get_notification' => false,
+            'notification_hour' => Carbon::now()->hour,
             'password' => bcrypt('test1234'),
             'admin_id' => 2,
             'created_at' => Carbon::now(),

@@ -39,7 +39,11 @@ class SendTodayTodoMail extends Command
             })->get();
 
         foreach ($users as $user) {
-            Mail::to($user->email)->send(new TodayTodoMail());
+            // 本日のタスク一覧を取得
+            $tasks = $user->folders->flatMap(function ($folder) use ($today) {
+                return $folder->tasks->where('due_date', $today);
+            });
+            Mail::to($user->email)->send(new TodayTodoMail($tasks));
         }
 
         $this->info('今日のタスクメール送信完了');

@@ -24,5 +24,12 @@ class FoldersTableSeeder extends Seeder
                 // created_at/updated_atは自動でセットされる
             ]);
         }
+        foreach ($titles as $title){
+            Folder::create([
+                'title' => $title,
+                'user_id' => 2,
+                // created_at/updated_atは自動でセットされる
+            ]);
+        }
     }
 }
