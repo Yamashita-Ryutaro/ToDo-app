@@ -6,6 +6,7 @@
 
 # メモ
 - /var/www/TodoApp/vendor# でcomposer installを実行すること。
+- crontabの改行コードは LFにする
 
 
 ドッカーのコンテナ内でこれを実行しないと、localhostがうまく開けなかった。
