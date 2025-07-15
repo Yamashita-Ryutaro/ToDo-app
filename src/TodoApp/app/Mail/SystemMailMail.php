@@ -25,7 +25,7 @@ class SystemMailMail extends Mailable
      *
      * @return void
      */
-    public function __construct($system_mail_id)
+    public function __construct($system_mail_id, $url = null)
     {
         $mail = SystemMail::find($system_mail_id);
 
@@ -33,7 +33,7 @@ class SystemMailMail extends Mailable
         $this->action_text = $mail->action_text;
         $this->url_key = $mail->url_key;
         $this->subject = $mail->subject;
-        $this->url = null;
+        $this->url = $url;
     }
 
     /**

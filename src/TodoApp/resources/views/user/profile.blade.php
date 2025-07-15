@@ -21,28 +21,29 @@
 @section('content')
     <div class="container">
         <div class="row">
-        <div class="col col-md-offset-3 col-md-6">
-            <nav class="panel panel-default">
-                <div class="panel-heading">ユーザープロフィール</div>
-                <div class="panel-body">
-                    <form action="{{ route('user.profile') }}" method="POST">
-                        @csrf
-                        <div class="form-group">
-                            <label for="name">名前</label>
-                            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', Auth::user()->name) }}" required>
-                            <label for="email">メールアドレス</label>
-                            <input type="email" class="form-control" id="email" name="email" value="{{ old('email', Auth::user()->email) }}" required>
-                            <label for="is_get_notification">通知設定</label>
-                            <select class="form-control" id="is_get_notification" name="is_get_notification">
-                                <option value="1" {{ old('is_get_notification', Auth::user()->is_get_notification) ? 'selected' : '' }}>有効</option>
-                                <option value="0" {{ !old('is_get_notification', Auth::user()->is_get_notification) ? 'selected' : '' }}>無効</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">更新</button>
-                    </form>
-                </div>
-            </nav>
-        </div>
+            <div class="col col-md-offset-3 col-md-6">
+                <nav class="panel panel-default">
+                    <div class="panel-heading">ユーザープロフィール</div>
+                    <div class="panel-body">
+                        <form action="{{ route('user.profile') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">名前</label>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', Auth::user()->name) }}" required>
+                                <label for="email">メールアドレス</label>
+                                <p class="small text-muted">※メールアドレス変更時は確認メールが送信されます。</p>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ old('email', Auth::user()->email) }}" required>
+                                <label for="is_get_notification">通知設定</label>
+                                <select class="form-control" id="is_get_notification" name="is_get_notification">
+                                    <option value="1" {{ old('is_get_notification', Auth::user()->is_get_notification) ? 'selected' : '' }}>有効</option>
+                                    <option value="0" {{ !old('is_get_notification', Auth::user()->is_get_notification) ? 'selected' : '' }}>無効</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">更新</button>
+                        </form>
+                    </div>
+                </nav>
+            </div>
         </div>
     </div>
 @endsection

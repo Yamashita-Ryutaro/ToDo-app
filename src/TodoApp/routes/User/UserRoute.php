@@ -28,3 +28,4 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get("/user/profile", [UserController::class,"showProfilePage"])->name("user.profile");
     Route::post("/user/profile", [UserController::class,"updateProfile"]);
 });
+Route::get("/user/profile/{user_token}", [UserController::class,"showProfileCompletePage"])->name("user.profile.complete");

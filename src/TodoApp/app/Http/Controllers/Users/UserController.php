@@ -33,6 +33,7 @@ class UserController extends Controller
     /**
      * ユーザー登録完了ページの表示
      * 
+     * @param string $user_token
      * @return \Illuminate\Http\RedirectResponse
      */
     public function showRegisterCompletePage($user_token)
@@ -43,6 +44,23 @@ class UserController extends Controller
             return redirect()->route('user.login')->with('success', 'ユーザーの登録に成功');
         } else {
             return redirect()->back()->with('error', $result['message'] ?? 'ユーザーの登録に失敗');
+        }
+    }
+
+    /**
+     * メールアドレス変更完了ページの表示
+     * 
+     * @param string $user_token
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function showProfileCompletePage($user_token)
+    {
+        $result = $this->userService->updateEmail($user_token);
+
+        if ($result['result']) {
+            return redirect()->route('user.profile')->with('success', 'プロフィールの変更に成功');
+        } else {
+            return redirect()->route('user.profile')->with('error', $result['message'] ?? 'プロフィールの変更に失敗');
         }
     }
 
@@ -191,6 +209,17 @@ class UserController extends Controller
     public function updateProfile(UpdateProfileRequest $request)
     {
         $validated_data = $request->validated();
-        dd($validated_data);
+
+        $user = auth()->user();
+        $result = $this->userService->updateProfile($user, $validated_data);
+
+        if ($result['result']) {
+            if ($result['message']) {
+                return redirect()->back()->with('warning', $result['message']);
+            }
+            return redirect()->route('user.profile')->with('success', 'プロフィール更新に成功');
+        } else {
+            return redirect()->back()->with('error', $result['messeage'] ?? 'プロフィール更新に失敗');
+        }
     }
 }

@@ -24,7 +24,7 @@ class UpdateProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|string|email|max:255|exists:users,email',
+            'email' => 'required|string|email|max:255',
             'name' => 'required|string|max:255',
             'is_get_notification' => 'boolean',
         ];
