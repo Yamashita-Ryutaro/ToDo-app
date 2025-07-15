@@ -17,6 +17,7 @@
             <p>ID: {{ $user->id }}</p>
             <p>名前: {{ $user->name }}</p>
             <p>メールアドレス: {{ $user->email }}</p>
+            <p>おしらせ :{{ $user->is_get_notification ? '受け取る' : '受け取らない' }}</p>
             @if (@isset($folders))
                 <p>フォルダ一覧:</p>
                 <ul>
