@@ -26,7 +26,6 @@ class UpdateAdminMailRequest extends FormRequest
         return [
             'subject' => 'required|string|max:255',
             'body' => 'required|string',
-            'url_key' => 'nullable|string|max:255',
             'action_text' => 'nullable|string|max:255',
         ];
     }

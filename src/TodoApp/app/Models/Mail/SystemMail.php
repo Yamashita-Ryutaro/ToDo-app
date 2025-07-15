@@ -12,7 +12,6 @@ class SystemMail extends Model
     protected $fillable = [
         'subject',
         'body',
-        'url_key',
         'action_text',
         'system_mail_id',
     ];
@@ -20,5 +19,10 @@ class SystemMail extends Model
     public function mstSystemMail()
     {
         return $this->belongsTo(MstSystemMail::class, 'system_mail_id', 'id');
+    }
+
+    public function keys()
+    {
+        return $this->hasMany(SystemMailKey::class, 'system_mails_id');
     }
 }

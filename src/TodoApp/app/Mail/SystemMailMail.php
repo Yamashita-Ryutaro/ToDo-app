@@ -16,7 +16,6 @@ class SystemMailMail extends Mailable
 
     public $body;
     public $action_text;
-    public $url_key;
     public $subject;
     public $url;
 
@@ -25,13 +24,19 @@ class SystemMailMail extends Mailable
      *
      * @return void
      */
-    public function __construct($system_mail_id, $url = null)
+    public function __construct($system_mail_id, $url = null, $replacements = [])
     {
         $mail = SystemMail::find($system_mail_id);
 
-        $this->body = $mail->body;
+        $body = $mail->body;
+        // 差し込みキーごとに本文を置換
+        foreach ($mail->keys as $key) {
+            if (isset($replacements[$key->key])) {
+                $body = str_replace($key->key, $replacements[$key->key], $body);
+            }
+        }
+        $this->body = $body;
         $this->action_text = $mail->action_text;
-        $this->url_key = $mail->url_key;
         $this->subject = $mail->subject;
         $this->url = $url;
     }

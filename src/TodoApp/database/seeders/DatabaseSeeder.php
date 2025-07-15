@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             TasksTableSeeder::class,
             SystemMailsTableSeeder::class,
             NotificationsTableSeeder::class,
+            SystemMailKeySeeder::class,
         ]);
     }
 }
