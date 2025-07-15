@@ -14,9 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('admin_id')->unsigned()->default(2)->after('id');
-            $table->foreign('admin_id')->references('id')->on('mst_admin');
-
+            // ここでは新しいメールアドレスを保存するカラムを追加
+            $table->string('new_email')->nullable()->after('user_token');
         });
     }
 
@@ -28,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('admin_id');
+            $table->dropColumn('new_email');
         });
     }
 };

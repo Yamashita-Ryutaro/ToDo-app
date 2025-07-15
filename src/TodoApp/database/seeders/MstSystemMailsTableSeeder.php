@@ -21,5 +21,8 @@ class MstSystemMailsTableSeeder extends Seeder
         MstSystemMail::create([
             'display_name' => '仮登録メール',       
         ]);
+        MstSystemMail::create([
+            'display_name' => 'メール変更',       
+        ]);
     }
 }

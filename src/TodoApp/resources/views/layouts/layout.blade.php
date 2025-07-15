@@ -17,6 +17,10 @@
                 @if(Auth::check())
                     <span class="my-navbar-item">ようこそ, {{ Auth::user()->name }}さん</span>
                     ｜
+                    <span class="my-navbar-item">
+                        <a href="{{ route('user.profile') }}">プロフィール</a>
+                    </span>
+                    ｜
                     <form action="{{ route('user.logout') }}" method="POST" style="display: inline;">
                         @csrf
                         <button type="submit">

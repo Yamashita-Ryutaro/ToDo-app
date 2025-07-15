@@ -4,13 +4,13 @@ namespace App\Mail\SystemMails;
 
 use App\Mail\SystemMailMail;
 
-class PreRegisterMail extends SystemMailMail
+class UpdateProfileMail extends SystemMailMail
 {
     public function __construct($token)
     {
-        parent::__construct(2);
-        $this->url = route('user.register.complete', [
-            'user_token' => $token,
+        parent::__construct(3);
+        $this->url = route('user.profile.complete', [
+            'user_token' => $token
         ]);
 
         // 差し込みたい値の連想配列

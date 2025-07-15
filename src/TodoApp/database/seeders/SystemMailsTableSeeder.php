@@ -29,5 +29,12 @@ class SystemMailsTableSeeder extends Seeder
             'system_mail_id' => 2,
             'body' => '以下のリンクをクリックして仮登録を完了してください。',
         ]);
+        SystemMail::create([
+            'subject' => 'メール再設定のご案内',
+            'url_key' => '##CHANGE_EMAIL##',
+            'action_text' => 'メールを再設定',
+            'system_mail_id' => 3,
+            'body' => '以下のリンクをクリックしてメールアドレスを再設定してください。',
+        ]);
     }
 }

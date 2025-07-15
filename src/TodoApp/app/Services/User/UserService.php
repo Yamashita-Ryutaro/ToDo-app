@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Mail\SystemMails\PreRegisterMail;
+use App\Mail\SystemMails\UpdateProfileMail;
 
 class UserService
 {
@@ -114,6 +115,7 @@ class UserService
 
             $user->update([
                 'email_verified_at' => now(), // 仮登録から本登録へ
+                'user_token' => null, // トークンをクリア
             ]);
             DB::commit();
             $result = true;
@@ -213,5 +215,104 @@ class UserService
             DB::rollBack();
         }
         return $result;
+    }
+
+    /**
+     * ユーザープロフィール更新
+     * 
+     * @param User $user
+     * @param array $validated_data
+     * @return bool $result
+    */
+    public function updateProfile(User $user, $validated_data)
+    {
+        $result = [
+            'result' => false,
+            'message' => '',
+        ];
+        DB::beginTransaction();
+        try {
+            if ($user->email !== $validated_data['email']) {
+                $token = Str::random(60);
+                $this->sentProfileEmail($token, $validated_data);
+                $user->update([
+                    'new_email' => $validated_data['email'],
+                    'user_token' => $token,
+                    'name' => $validated_data['name'],
+                    'is_get_notification' => $validated_data['is_get_notification'] ?? false, // チェックボックスの値を保存
+                ]);
+                DB::commit();
+                return [
+                    'result' => true,
+                    'message' => 'プロフィール仮更新メールの送信に成功。メールを確認してください。',
+                ];
+            }
+            $user->update([
+                'name' => $validated_data['name'],
+                'is_get_notification' => $validated_data['is_get_notification'] ?? false, // チェックボックスの値を保存
+            ]);
+            DB::commit();
+            $result['result'] = true;
+        } catch (\Exception $e) {
+            Log::error('ユーザープロフィール更新: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return $result;
+    }
+
+    /**
+     * メールアドレスの本更新
+     * 
+     * @param string $token
+     * @param string $new_email
+     * @return array [result, message]
+     */
+    public function updateEmail($user_token)
+    {
+        $result = [
+            'result' => false,
+            'message' => '',
+        ];
+        DB::beginTransaction();
+        try {
+            $user = User::where('user_token', $user_token)->first();
+            // トークンの検証
+            if ($user) {
+                $user->update([
+                    'email' => $user->new_email,
+                    'email_verified_at' => now(), // 本登録完了
+                    'user_token' => null,
+                    'new_email' => null,
+                ]);
+                PasswordReset::where('email', $user->email)->delete(); // 古いトークンを削除
+                DB::commit();
+                $result['result'] = true;
+            } else {
+                $result['message'] = '無効なトークンです。';
+                $result['result'] = false;
+                DB::rollBack();
+                return $result;
+            }
+        } catch (\Exception $e) {
+            Log::error('メールアドレス更新: ' . $e->getMessage());
+            DB::rollBack();
+        }
+        return $result;
+    }
+
+    /**
+     * ユーザープロフィール仮更新メール送信
+     * 
+     * @param string $token
+     * @param array $validated_data
+     */
+    public function sentProfileEmail($token, $validated_data)
+    {
+        try {
+            // 仮登録のメールを送信
+            Mail::to($validated_data['email'])->send(new UpdateProfileMail($token));
+        } catch (\Exception $e) {
+            Log::error('ユーザープロフィール仮更新メール送信: ' . $e->getMessage());
+        }
     }
 }
