@@ -3,7 +3,6 @@
 namespace App\Mail\SystemMails;
 
 use App\Mail\SystemMailMail;
-use Illuminate\Mail\Mailables\Content;
 
 class TodayTodoMail extends SystemMailMail
 {
@@ -15,11 +14,17 @@ class TodayTodoMail extends SystemMailMail
         $this->tasks = $tasks;
 
         // タスクを差し込む
-        // 中間テーブルを作るため今はこのまま
+        // タスク一覧をHTML化
+        $tasksHtml = '<ul>';
+        foreach ($tasks as $task) {
+            $tasksHtml .= '<li>' . e($task->title) . '</li>';
+        }
+        $tasksHtml .= '</ul>';
 
         // 差し込みたい値の連想配列
         $replacements = [
             '{'.$this->url_key.'}' => $this->url,
+            '{##TASK##}' => $tasksHtml,
         ];
 
         // bodyの置換

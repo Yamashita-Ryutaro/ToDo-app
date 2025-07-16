@@ -41,7 +41,7 @@ class SystemMailsTableSeeder extends Seeder
             'url_key' => '##TODAY_TODO##',
             'action_text' => '今日のタスクを確認',
             'system_mail_id' => 4,
-            'body' => '以下のリンクから今日のタスクを確認してください。',
+            'body' => '{##TASK##}以下のリンクから今日のタスクを確認してください。',
         ]);
     }
 }
