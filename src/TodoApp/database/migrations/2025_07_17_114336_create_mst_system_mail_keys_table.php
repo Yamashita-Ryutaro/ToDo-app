@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('system_mails', function (Blueprint $table) {
+        Schema::create('mst_system_mail_keys', function (Blueprint $table) {
             $table->id();
-            $table->string('subject');
-            $table->text('body');
-            $table->string('action_text')->nullable();
-            $table->bigInteger('system_mail_id')->unsigned()->unique();
-            $table->foreign('system_mail_id')->references('id')->on('mst_system_mails');
+            $table->string('display_name')->comment('表示名');
+            $table->string('key')->unique()->comment('メールキー');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('system_mails');
+        Schema::dropIfExists('mst_system_mail_keys');
     }
 };

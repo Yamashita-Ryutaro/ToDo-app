@@ -17,6 +17,7 @@ class SystemMailMail extends Mailable
     public $body;
     public $action_text;
     public $url_key;
+    public $task_key;
     public $subject;
     public $url;
 
@@ -32,6 +33,7 @@ class SystemMailMail extends Mailable
         $this->body = $mail->body;
         $this->action_text = $mail->action_text;
         $this->url_key = $mail->url_key;
+        $this->task_key = $mail->task_key;
         $this->subject = $mail->subject;
         $this->url = $url;
     }

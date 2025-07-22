@@ -7,6 +7,8 @@ use App\Mail\SystemMailMail;
 class TodayTodoMail extends SystemMailMail
 {
     public $tasks;
+    public $task_key;
+
     public function __construct($tasks)
     {
         parent::__construct(4);
@@ -24,7 +26,7 @@ class TodayTodoMail extends SystemMailMail
         // 差し込みたい値の連想配列
         $replacements = [
             '{'.$this->url_key.'}' => $this->url,
-            '{##TASK##}' => $tasksHtml,
+            '{'.$this->task_key.'}' => $tasksHtml,
         ];
 
         // bodyの置換

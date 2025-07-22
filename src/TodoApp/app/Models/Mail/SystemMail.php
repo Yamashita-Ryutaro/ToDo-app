@@ -12,10 +12,36 @@ class SystemMail extends Model
     protected $fillable = [
         'subject',
         'body',
-        'url_key',
         'action_text',
         'system_mail_id',
     ];
+
+
+    public function getUrlKeyAttribute()
+    {
+        $mstSystemMail = $this->mstSystemMail;
+
+        // 中間テーブルからid=1のkeyを取得
+        $key = $mstSystemMail
+            ->mailKeyMailMaps()
+            ->where('mst_system_mail_key_id', 1)
+            ->first()?->mstSystemMailKey;
+
+        return $key?->key;
+    }
+
+    public function getTaskKeyAttribute()
+    {
+        $mstSystemMail = $this->mstSystemMail;
+
+        // 中間テーブルからid=2のkeyを取得
+        $key = $mstSystemMail
+            ->mailKeyMailMaps()
+            ->where('mst_system_mail_key_id', 2)
+            ->first()?->mstSystemMailKey;
+
+        return $key?->key;
+    }
 
     public function mstSystemMail()
     {

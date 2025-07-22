@@ -35,9 +35,18 @@
 
                 <div class="form-group">
                     <label for="url_key">URLキー</label>
-                    <input type="text" class="form-control" id="url_key" name="url_key" value="{{ old('url_key', $mail->url_key) }}">
+                    <input type="text" class="form-control" id="url_key" name="url_key" value="{{ old('url_key', $mail->url_key) }}" disabled>
                 </div>
 
+                <!-- keysのkeyカラム表示 -->
+                <div class="form-group">
+                    <label>キー一覧</label>
+                    <ul>
+                        @foreach($keys as $key)
+                            <li>{{ $key->key }}</li>
+                        @endforeach
+                    </ul>
+                </div>
                 <button type="submit" class="btn btn-primary">更新する</button>
             </form>
         </div>

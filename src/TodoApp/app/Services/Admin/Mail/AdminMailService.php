@@ -33,8 +33,13 @@ class AdminMailService
         $mail = SystemMail::where('system_mail_id', $system_mail_id)
             ->with(['mstSystemMail'])
             ->first();
+
+        $keys = $mail->mstSystemMail->mailKeyMailMaps->map(function ($map) {
+            return $map->mstSystemMailKey;
+        });
         return [
             'mail' => $mail,
+            'keys' => $keys,
         ];
     }
 

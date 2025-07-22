@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder
             MstTaskStatusesTableSeeder::class,
             MstTablesTableSeeder::class,
             MstNotificationsTableSeeder::class,
+            MstSystemMailKeySeeder::class,
+            MstSystemMailKeyMailMapSeeder::class,
             UsersTableSeeder::class,
             FoldersTableSeeder::class,
             TasksTableSeeder::class,
