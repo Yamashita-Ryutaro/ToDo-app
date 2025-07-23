@@ -3,8 +3,9 @@
 namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\Admin\UpdateAdminMstRequest;
 
-class UpdateAdminNotificationMstRequest extends UpdateAdminMstRequest
+class UpdateAdminMailKeyMstRequest extends UpdateAdminMstRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,7 +15,7 @@ class UpdateAdminNotificationMstRequest extends UpdateAdminMstRequest
     public function rules()
     {
         return array_merge(parent::rules(), [
-            'is_mandatorys.*' => 'required|boolean',
+            'keys.*' => 'required|string|max:20',
         ]);
     }
 }

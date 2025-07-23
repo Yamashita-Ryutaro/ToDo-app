@@ -234,13 +234,13 @@ class UserService
         try {
             if ($user->email !== $validated_data['email']) {
                 $token = Str::random(60);
-                $this->sentProfileEmail($token, $validated_data);
                 $user->update([
                     'new_email' => $validated_data['email'],
                     'user_token' => $token,
                     'name' => $validated_data['name'],
                     'is_get_notification' => $validated_data['is_get_notification'] ?? false, // チェックボックスの値を保存
                 ]);
+                $this->sentProfileEmail($token, $user);
                 DB::commit();
                 return [
                     'result' => true,
@@ -304,13 +304,13 @@ class UserService
      * ユーザープロフィール仮更新メール送信
      * 
      * @param string $token
-     * @param array $validated_data
+     * @param User $user
      */
-    public function sentProfileEmail($token, $validated_data)
+    public function sentProfileEmail($token, $user)
     {
         try {
             // 仮登録のメールを送信
-            Mail::to($validated_data['email'])->send(new UpdateProfileMail($token));
+            Mail::to($user->new_email)->send(new UpdateProfileMail($token, $user->new_email));
         } catch (\Exception $e) {
             Log::error('ユーザープロフィール仮更新メール送信: ' . $e->getMessage());
         }

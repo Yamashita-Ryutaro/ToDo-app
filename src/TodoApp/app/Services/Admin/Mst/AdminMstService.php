@@ -9,6 +9,7 @@ use App\Models\Admin\MstAdmin;
 use App\Models\Task\MstTaskStatus;
 use App\Models\Mail\MstSystemMail;
 use App\Models\Notification\MstNotification;
+use App\Models\Mail\MstSystemMailKey;
 
 class AdminMstService
 {
@@ -93,7 +94,7 @@ class AdminMstService
 
             foreach ($notifications as $row) {
                 $row->display_name = $validated_data['display_names'][$row->id];
-                $row->is_mandatory = $validated_data['is_mandatory'][$row->id] ?? false;
+                $row->is_mandatory = $validated_data['is_mandatorys'][$row->id] ?? false;
                 $row->save();
             }
             DB::commit();
@@ -106,6 +107,37 @@ class AdminMstService
         return $result;
     }
 
+    /**
+     * システムメールキーのマスタテーブル詳細を更新
+     *
+     * @param array $validated_data
+     * @return array
+     */
+    public function updateSystemMailKeyMstDetail($validated_data)
+    {
+        $result = [
+            'result' => false,
+            'message' => null,
+        ];
+        try {
+            DB::beginTransaction();
+            $ids = array_keys($validated_data['display_names']);
+            $system_mail_keys = MstSystemMailKey::whereIn('id', $ids)->get();
+
+            foreach ($system_mail_keys as $row) {
+                $row->display_name = $validated_data['display_names'][$row->id];
+                $row->key = $validated_data['keys'][$row->id] ?? false;
+                $row->save();
+            }
+            DB::commit();
+            $result['result'] = true;
+        } catch (\Exception $e) {
+            Log::error('システムメールキーのマスタテーブル更新: ' . $e->getMessage());
+            DB::rollBack();
+            $result['message'] = 'システムメールキーのマスタテーブルの更新に失敗しました';
+        }
+        return $result;
+    }
 
     /**
      * 指定されたテーブルのデータを取得
@@ -128,6 +160,9 @@ class AdminMstService
             case 'mst_notifications':
                 // Assuming there's a model for notifications
                 $contents = MstNotification::all();
+                break;
+            case 'mst_system_mail_keys':
+                $contents = MstSystemMailKey::all();
                 break;
             default:
                 Log::error("Unsupported table name: {$table_name}");
@@ -153,6 +188,8 @@ class AdminMstService
                 return new MstSystemMail();
             case 'mst_notifications':
                 return new MstNotification();
+            case 'mst_system_mail_keys':
+                return new MstSystemMailKey();
             default:
                 Log::error("Unsupported table name: {$table_name}");
                 return null;

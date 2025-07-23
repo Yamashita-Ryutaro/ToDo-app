@@ -55,6 +55,12 @@ class UserController extends Controller
      */
     public function showProfileCompletePage($user_token)
     {
+        // ログインしていない場合はログインページへ
+        if (!auth()->check()) {
+            return redirect()->route('user.login')->with('info', 'メール変更にはログインが必要です。変更前のメールアドレスでログイン
+            後、再度確認メールから開く必要があります。');
+        }
+
         $result = $this->userService->updateEmail($user_token);
 
         if ($result['result']) {

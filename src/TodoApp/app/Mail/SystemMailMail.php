@@ -14,11 +14,7 @@ class SystemMailMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $body;
-    public $action_text;
-    public $url_key;
-    public $task_key;
-    public $subject;
+    public $mail;
     public $url;
 
     /**
@@ -28,13 +24,7 @@ class SystemMailMail extends Mailable
      */
     public function __construct($system_mail_id, $url = null)
     {
-        $mail = SystemMail::find($system_mail_id);
-
-        $this->body = $mail->body;
-        $this->action_text = $mail->action_text;
-        $this->url_key = $mail->url_key;
-        $this->task_key = $mail->task_key;
-        $this->subject = $mail->subject;
+        $this->mail = SystemMail::find($system_mail_id);
         $this->url = $url;
     }
 
@@ -60,8 +50,8 @@ class SystemMailMail extends Mailable
         return new Content(
             view: 'mail.system_mails.system_mail',
             with: [
-                'body' => $this->body,
-                'action_text' => $this->action_text,
+                'body' => $this->mail->body,
+                'action_text' => $this->mail->action_text,
                 'url' => $this->url,
             ]
         );

@@ -16,12 +16,16 @@ class MstSystemMailKeySeeder extends Seeder
     {
         MstSystemMailKey::create([
             'display_name' => 'URLキー',
-            'key' => '##URL##',
+            'key' => '{##URL##}',
         ]);
 
         MstSystemMailKey::create([
             'display_name' => 'TASKキー',
-            'key' => '##TASK##',
+            'key' => '{##TASK##}',
+        ]);
+        MstSystemMailKey::create([
+            'display_name' => '新しいメールキー',
+            'key' => '{##NEW_EMAIL##}',
         ]);
     }
 }

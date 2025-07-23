@@ -18,17 +18,15 @@
             @if (@isset($contents))
                 <p>表示名一覧:</p>
                 <ul>
-                    <form action="{{ route('admin.mst.notification.update') }}" method="post">
+                    <form action="{{ route('admin.mst.system_mail_key.update') }}" method="post">
                         @csrf
                         @method('PUT')
                         @foreach($contents as $content)
                             <div class="form-group">
                                 <label>表示名</label>
                                 <input type="text" name="display_names[{{ $content->id }}]" value="{{ old('display_names.' . $content->id, $content->display_name) }}">
-                                <label>全体通知</label>
-                                <input type="hidden" name="is_mandatorys[{{ $content->id }}]" value="0"> <!-- 追加 -->
-                                <input type="checkbox" name="is_mandatorys[{{ $content->id }}]" value="1"
-                                    {{ old('is_mandatory.' . $content->id, $content->is_mandatory) ? 'checked' : '' }}>
+                                <label>キー</label>
+                                <input type="text" name="keys[{{ $content->id }}]" value={{ old('keys.' . $content->id, $content->key) }}>
                             </div>
                         @endforeach
                         <button @if (!$table->is_active) disabled @endif type="submit" class="btn btn-primary">保存</button>

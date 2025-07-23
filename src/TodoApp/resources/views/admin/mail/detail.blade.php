@@ -33,17 +33,12 @@
                     <input type="text" class="form-control" id="action_text" name="action_text" value="{{ old('action_text', $mail->action_text) }}">
                 </div>
 
-                <div class="form-group">
-                    <label for="url_key">URLキー</label>
-                    <input type="text" class="form-control" id="url_key" name="url_key" value="{{ old('url_key', $mail->url_key) }}" disabled>
-                </div>
-
                 <!-- keysのkeyカラム表示 -->
                 <div class="form-group">
                     <label>キー一覧</label>
                     <ul>
                         @foreach($keys as $key)
-                            <li>{{ $key->key }}</li>
+                            <li>{{ $key->display_name }} {{ $key->key }}</li>
                         @endforeach
                     </ul>
                 </div>

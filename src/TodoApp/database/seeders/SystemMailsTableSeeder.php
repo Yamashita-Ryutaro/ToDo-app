@@ -31,7 +31,7 @@ class SystemMailsTableSeeder extends Seeder
             'subject' => 'メール再設定のご案内',
             'action_text' => 'メールを再設定',
             'system_mail_id' => 3,
-            'body' => '以下のリンクをクリックしてメールアドレスを再設定してください。',
+            'body' => '以下のリンクをクリックしてメールアドレスを再設定してください。{##NEW_EMAIL##}は新しいメールアドレスです。',
         ]);
         SystemMail::create([
             'subject' => '今日のToDoリスト',

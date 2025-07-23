@@ -31,5 +31,9 @@ class MstSystemMailKeyMailMapSeeder extends Seeder
             'mst_system_mail_id' => 4,
             'mst_system_mail_key_id' => 2,
         ]);
+        MstSystemMailKeyMailMap::create([
+            'mst_system_mail_id' => 3,
+            'mst_system_mail_key_id' => 3,
+        ]);
     }
 }

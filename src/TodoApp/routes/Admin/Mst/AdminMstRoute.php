@@ -16,5 +16,6 @@ Route::middleware(['auth', 'admin', 'verified'])->group(function () {
     Route::get('/admin/mst', [AdminMstController::class, 'showMstIndexPage'])->name('admin.mst.index');
     Route::get('/admin/mst/{table_name}', [AdminMstController::class, 'showMstDetailPage'])->name('admin.mst.detail');
     Route::put('/admin/mst/mst_notifications', [AdminMstController::class, 'updateNotificationMstDetail'])->name('admin.mst.notification.update');
+    Route::put('/admin/mst/mst_system_mail_keys', [AdminMstController::class, 'updateSystemMailKeyMstDetail'])->name('admin.mst.system_mail_key.update');
     Route::put('/admin/mst/{table_name}', [AdminMstController::class, 'updateMstDetail'])->name('admin.mst.update');
 });

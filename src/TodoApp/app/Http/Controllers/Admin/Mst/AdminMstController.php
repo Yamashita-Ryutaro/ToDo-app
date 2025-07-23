@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Mst;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\UpdateAdminMailKeyMstRequest;
 use App\Http\Requests\Admin\UpdateAdminMstRequest;
 use App\Http\Requests\Admin\UpdateAdminNotificationMstRequest;
 use Illuminate\Http\Request;
@@ -39,6 +40,8 @@ class AdminMstController extends Controller
         $table = $this->adminMstService->showMstDetailPageData($table_name);
         if ($table_name === 'mst_notifications') {
             return view('admin.mst.notification.detail', $table);
+        } else if ($table_name === 'mst_system_mail_keys') {
+            return view('admin.mst.system_mail_key.detail', $table);
         }
 
         return view('admin.mst.detail', $table);
@@ -74,6 +77,24 @@ class AdminMstController extends Controller
     {
         $validated_data = $request->validated();
         $result = $this->adminMstService->updateNotificationMstDetail($validated_data);
+
+        if ($result['result']) {
+            return redirect()->back()->with('success', '更新しました');
+        } else {
+            return redirect()->back()->with('error', $result['message'] ?? '更新に失敗しました');
+        }
+    }
+
+    /**
+     * システムメールキーのマスタテーブル詳細ページの更新
+     * 
+     * @param UpdateAdminMailKeyMstRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateSystemMailKeyMstDetail(UpdateAdminMailKeyMstRequest $request)
+    {
+        $validated_data = $request->validated();
+        $result = $this->adminMstService->updateSystemMailKeyMstDetail($validated_data);
 
         if ($result['result']) {
             return redirect()->back()->with('success', '更新しました');

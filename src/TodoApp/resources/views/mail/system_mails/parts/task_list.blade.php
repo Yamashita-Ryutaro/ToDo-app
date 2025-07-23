@@ -1,0 +1,1 @@
+@foreach($folders as $folderName => $tasks)<h3 style="margin:0;padding:0;">{{ $folderName }}</h3><ul style="margin:0;padding:0 0 8px 18px;">@foreach($tasks as $task)<li style="margin:0;padding:0;">{{ $task->title }}</li>@endforeach</ul>@endforeach
