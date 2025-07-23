@@ -15,8 +15,6 @@ class NotificationMail extends Mailable
 
     public $body;
     public $subject;
-    public $date_key;
-    public $date;
     public $url_key;
     public $url;
 
@@ -26,8 +24,6 @@ class NotificationMail extends Mailable
 
         $this->body = $mail->body;
         $this->subject = $mail->subject;
-        $this->date_key = $mail->date_key;
-        $this->date = $mail->date;
         $this->url_key = $mail->url_key;
         $this->url = $mail->url;
 
@@ -35,7 +31,6 @@ class NotificationMail extends Mailable
         // 差し込みたい値の連想配列
         $replacements = [
             '{'.$this->url_key.'}' => $this->url,
-            '{'.$this->date_key.'}' => $this->date,
         ];
 
         // bodyの置換
