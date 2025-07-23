@@ -43,15 +43,6 @@
         <input type="text" class="form-control" id="url" name="url" value="{{ old('url', $notification->url) }}">
     </div>
 
-    <div class="form-group">
-        <label for="date_key">日付キー</label>
-        <input type="text" class="form-control" id="date_key" name="date_key" value="{{ old('date_key', $notification->date_key) }}">
-    </div>
-
-    <div class="form-group">
-        <label for="date">日付</label>
-        <input type="date" class="form-control" id="date" name="date" value="{{ old('date', $notification->date) }}">
-    </div>
     <!-- ボタンをflexで左右に配置 -->
     @if($method === 'PUT')
         <div class="d-flex justify-content-between">
