@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('mst_system_mail_key_mail_maps', function (Blueprint $table) {
+        Schema::create('mst_system_mail_key_maps', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('mst_system_mail_id');
             $table->unsignedBigInteger('mst_system_mail_key_id');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mst_system_mail_key_mail_maps');
+        Schema::dropIfExists('mst_system_mail_key_maps');
     }
 };

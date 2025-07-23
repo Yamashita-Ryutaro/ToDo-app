@@ -18,8 +18,8 @@ class MstSystemMail extends Model
         return $this->belongsTo(SystemMail::class, 'id', 'system_mail_id');
     }
 
-    public function mailKeyMailMaps()
+    public function mailKeyMaps()
     {
-        return $this->hasMany(MstSystemMailKeyMailMap::class, 'mst_system_mail_id', 'id');
+        return $this->hasMany(MstSystemMailKeyMap::class, 'mst_system_mail_id', 'id');
     }
 }

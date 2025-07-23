@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             MstTablesTableSeeder::class,
             MstNotificationsTableSeeder::class,
             MstSystemMailKeySeeder::class,
-            MstSystemMailKeyMailMapSeeder::class,
+            MstSystemMailKeyMapSeeder::class,
             UsersTableSeeder::class,
             FoldersTableSeeder::class,
             TasksTableSeeder::class,

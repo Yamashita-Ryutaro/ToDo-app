@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Mail\MstSystemMailKeyMailMap;
+use App\Models\Mail\MstSystemMailKeyMap;
 
-class MstSystemMailKeyMailMapSeeder extends Seeder
+class MstSystemMailKeyMapSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,7 +19,7 @@ class MstSystemMailKeyMailMapSeeder extends Seeder
         $mailIds = DB::table('mst_system_mails')->pluck('id');
 
         foreach ($mailIds as $mailId) {
-            DB::table('mst_system_mail_key_mail_maps')->insert([
+            DB::table('mst_system_mail_key_maps')->insert([
                 'mst_system_mail_id' => $mailId,
                 'mst_system_mail_key_id' => 1,
                 'created_at' => now(),
@@ -27,11 +27,11 @@ class MstSystemMailKeyMailMapSeeder extends Seeder
             ]);
         }
 
-        MstSystemMailKeyMailMap::create([
+        MstSystemMailKeyMap::create([
             'mst_system_mail_id' => 4,
             'mst_system_mail_key_id' => 2,
         ]);
-        MstSystemMailKeyMailMap::create([
+        MstSystemMailKeyMap::create([
             'mst_system_mail_id' => 3,
             'mst_system_mail_key_id' => 3,
         ]);

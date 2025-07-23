@@ -5,11 +5,11 @@ namespace App\Models\Mail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MstSystemMailKeyMailMap extends Model
+class MstSystemMailKeyMap extends Model
 {
     use HasFactory;
 
-    protected $table = 'mst_system_mail_key_mail_maps';
+    protected $table = 'mst_system_mail_key_maps';
 
     protected $fillable = [
         'mst_system_mail_key_id',

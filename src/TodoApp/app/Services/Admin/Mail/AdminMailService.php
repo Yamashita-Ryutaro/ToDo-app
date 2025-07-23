@@ -34,7 +34,7 @@ class AdminMailService
             ->with(['mstSystemMail'])
             ->first();
 
-        $keys = $mail->mstSystemMail->mailKeyMailMaps->map(function ($map) {
+        $keys = $mail->mstSystemMail->mailKeyMaps->map(function ($map) {
             return $map->mstSystemMailKey;
         });
         return [

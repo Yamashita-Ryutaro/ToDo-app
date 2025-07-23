@@ -28,7 +28,7 @@ class SystemMail extends Model
 
         // 中間テーブルからid=1のkeyを取得
         $key = $mstSystemMail
-            ->mailKeyMailMaps()
+            ->mailKeyMaps()
             ->where('mst_system_mail_key_id', 1)
             ->first()?->mstSystemMailKey;
 
@@ -46,7 +46,7 @@ class SystemMail extends Model
 
         // 中間テーブルからid=2のkeyを取得
         $key = $mstSystemMail
-            ->mailKeyMailMaps()
+            ->mailKeyMaps()
             ->where('mst_system_mail_key_id', 2)
             ->first()?->mstSystemMailKey;
 
@@ -64,7 +64,7 @@ class SystemMail extends Model
 
         // 中間テーブルからid=3のkeyを取得
         $key = $mstSystemMail
-            ->mailKeyMailMaps()
+            ->mailKeyMaps()
             ->where('mst_system_mail_key_id', 3)
             ->first()?->mstSystemMailKey;
 
